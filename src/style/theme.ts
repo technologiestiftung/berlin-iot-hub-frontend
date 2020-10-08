@@ -1,8 +1,23 @@
-const theme = {
+interface Theme {
+  space: number[];
+  breakpoints: string[];
+  fonts: any;
+  fontSizes: number[];
+  fontWeights: any;
+  lineHeights: any;
+  colors: any;
+  text: any;
+  layout: any;
+  styles: any;
+  cards: any;
+}
+
+const theme: Theme = {
   space: [0, 4, 8, 16, 32, 64, 128, 256, 512],
+  breakpoints: ["768px", "1024px", "1408px"],
   fonts: {
     body:
-      'system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", sans-serif',
+      '"IBM Plex Sans", system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", sans-serif',
     heading: "inherit",
     monospace: "Menlo, monospace",
   },
@@ -23,11 +38,11 @@ const theme = {
     secondary: "#E60032",
     muted: "#F9F9F9",
   },
-  styles: {
-    root: {
-      fontFamily: "body",
-      lineHeight: "body",
-      fontWeight: "body",
+  text: {
+    heading: {
+      fontFamily: "heading",
+      fontWeight: "heading",
+      lineHeight: "heading",
     },
     h1: {
       color: "text",
@@ -40,15 +55,15 @@ const theme = {
       color: "text",
       fontFamily: "heading",
       lineHeight: "heading",
-      fontWeight: "heading",
+      fontWeight: "body",
       fontSize: 4,
     },
     h3: {
-      color: "text",
+      color: "primary",
       fontFamily: "heading",
       lineHeight: "heading",
       fontWeight: "heading",
-      fontSize: 3,
+      fontSize: 4,
     },
     h4: {
       color: "text",
@@ -70,6 +85,22 @@ const theme = {
       lineHeight: "heading",
       fontWeight: "heading",
       fontSize: 0,
+    },
+  },
+  layout: {
+    container: {
+      maxWidth: "1216px",
+    },
+  },
+  styles: {
+    root: {
+      fontFamily: "body",
+      lineHeight: "body",
+      fontWeight: "body",
+      minWidth: "100vw",
+      minHeight: "100vh",
+      backgroundImage: "url('/images/tsb-background.svg')",
+      backgroundSize: "cover",
     },
     p: {
       color: "text",
@@ -106,6 +137,14 @@ const theme = {
     },
     img: {
       maxWidth: "100%",
+    },
+  },
+  cards: {
+    primary: {
+      padding: 3,
+      borderRadius: 0,
+      backgroundColor: "background",
+      boxShadow: "0 0 8px rgba(0, 0, 0, 0.2)",
     },
   },
 };
