@@ -11,7 +11,12 @@ export const Header: React.FC<any> = () => {
       p={4}
       color="text"
       bg="background"
-      sx={{ boxShadow: "0 2px 4px rgba(0,0,0,0.2)" }}
+      sx={{
+        boxShadow: "0 2px 4px rgba(0,0,0,0.2)",
+        width: "100%",
+        position: "sticky",
+        top: "0",
+      }}
     >
       <Box sx={{ flex: "1 1 auto" }}>
         <Flex>
