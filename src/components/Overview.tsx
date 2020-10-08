@@ -1,6 +1,5 @@
 /** @jsx jsx */
 import React from "react";
-import { Link } from "react-router-dom";
 import {
   jsx,
   Heading,
@@ -9,9 +8,9 @@ import {
   Box,
   Container,
   Text,
-  Card,
   Divider,
 } from "theme-ui";
+import { ProjectPreview } from "./ProjectPreview";
 
 const DatahubLogo = "/images/datahub-logo.svg";
 
@@ -67,22 +66,12 @@ export const Overview: React.FC<any> = () => {
           <Divider mt={4} />
           {mockData.map((item) => {
             return (
-              <Box mt={4}>
-                <Link
-                  to={item.id}
-                  sx={{ textDecoration: "none", color: "text" }}
-                >
-                  <Card>
-                    <Heading as="h3" variant="h3">
-                      {item.title}
-                    </Heading>
-                    <Heading as="h4" variant="h5" mt={1}>
-                      {item.location}
-                    </Heading>
-                    <Text mt={3}>{item.description}</Text>
-                  </Card>
-                </Link>
-              </Box>
+              <ProjectPreview
+                id={item.id}
+                title={item.title}
+                location={item.location}
+                description={item.description}
+              />
             );
           })}
         </Box>
