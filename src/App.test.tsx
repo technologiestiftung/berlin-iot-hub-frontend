@@ -4,6 +4,6 @@ import App from "./App";
 
 test("renders learn react link", () => {
   const { getByText } = render(<App />);
-  const titleElement = getByText(/Data Hub/i);
-  expect(titleElement).toBeInTheDocument();
+  const claimElement = getByText(/Offene Datenplattform für IoT-Projekte/i);
+  expect(claimElement).toBeInTheDocument();
 });
