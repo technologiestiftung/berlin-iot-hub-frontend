@@ -1,5 +1,6 @@
 /** @jsx jsx */
 import React from "react";
+import { Link } from "react-router-dom";
 import { jsx, Flex, Box, Heading, Image, Text } from "theme-ui";
 
 const DatahubLogo = "/images/datahub-logo.svg";
@@ -19,16 +20,18 @@ export const Header: React.FC<any> = () => {
       }}
     >
       <Box sx={{ flex: "1 1 auto" }}>
-        <Flex>
-          <Image
-            src={DatahubLogo}
-            alt={"Logo des Berlin Data Hub"}
-            sx={{ width: "56px" }}
-          />
-          <Heading ml={3} sx={{ lineHeight: "inherit" }}>
-            Berlin <span sx={{ fontWeight: "normal" }}>Data Hub</span>
-          </Heading>
-        </Flex>
+        <Link to="/" sx={{ textDecoration: "none", color: "text" }}>
+          <Flex>
+            <Image
+              src={DatahubLogo}
+              alt={"Logo des Berlin Data Hub"}
+              sx={{ width: "56px" }}
+            />
+            <Heading ml={3} sx={{ lineHeight: "inherit" }}>
+              Berlin <span sx={{ fontWeight: "normal" }}>Data Hub</span>
+            </Heading>
+          </Flex>
+        </Link>
       </Box>
       <Box>
         <Flex>

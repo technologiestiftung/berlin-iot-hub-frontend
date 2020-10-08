@@ -1,5 +1,6 @@
 /** @jsx jsx */
 import React from "react";
+import { Link } from "react-router-dom";
 import {
   jsx,
   Heading,
@@ -16,17 +17,20 @@ const DatahubLogo = "/images/datahub-logo.svg";
 
 const mockData = [
   {
+    id: "1234",
     title: "PAXCounter",
     location: "Berlin, Deutschland",
     description:
       "Zählung von Besucherströmen auf dem Tempelhofer Feld in Berlin.",
   },
   {
+    id: "5678",
     title: "Second project",
     location: "Berlin, Deutschland",
     description: "Description for this project.",
   },
   {
+    id: "9012",
     title: "Third project",
     location: "Berlin, Deutschland",
     description: "Description for this project.",
@@ -64,15 +68,20 @@ export const Overview: React.FC<any> = () => {
           {mockData.map((item) => {
             return (
               <Box mt={4}>
-                <Card>
-                  <Heading as="h3" variant="h3">
-                    {item.title}
-                  </Heading>
-                  <Heading as="h4" variant="h5" mt={1}>
-                    {item.location}
-                  </Heading>
-                  <Text mt={3}>{item.description}</Text>
-                </Card>
+                <Link
+                  to={item.id}
+                  sx={{ textDecoration: "none", color: "text" }}
+                >
+                  <Card>
+                    <Heading as="h3" variant="h3">
+                      {item.title}
+                    </Heading>
+                    <Heading as="h4" variant="h5" mt={1}>
+                      {item.location}
+                    </Heading>
+                    <Text mt={3}>{item.description}</Text>
+                  </Card>
+                </Link>
               </Box>
             );
           })}

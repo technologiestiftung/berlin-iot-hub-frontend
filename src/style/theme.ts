@@ -108,9 +108,6 @@ const theme: Theme = {
       fontWeight: "body",
       lineHeight: "body",
     },
-    a: {
-      color: "primary",
-    },
     pre: {
       fontFamily: "monospace",
       overflowX: "auto",
