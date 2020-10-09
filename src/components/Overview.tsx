@@ -67,6 +67,7 @@ export const Overview: React.FC = () => {
           {mockData.map((item) => {
             return (
               <ProjectPreview
+                key={item.id}
                 id={item.id}
                 title={item.title}
                 location={item.location}
