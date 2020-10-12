@@ -36,7 +36,7 @@ const mockData = [
   },
 ];
 
-export const Overview: React.FC<any> = () => {
+export const Overview: React.FC = () => {
   return (
     <Container mt={5} p={4}>
       <Grid gap={4} columns={[3, "1fr 2fr"]}>
@@ -67,6 +67,7 @@ export const Overview: React.FC<any> = () => {
           {mockData.map((item) => {
             return (
               <ProjectPreview
+                key={item.id}
                 id={item.id}
                 title={item.title}
                 location={item.location}

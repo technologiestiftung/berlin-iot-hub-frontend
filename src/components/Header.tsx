@@ -6,7 +6,7 @@ import { jsx, Flex, Box, Heading, Image, Text } from "theme-ui";
 const DatahubLogo = "/images/datahub-logo.svg";
 const TSBLogo = "/images/tsb-logo.svg";
 
-export const Header: React.FC<any> = () => {
+export const Header: React.FC = () => {
   return (
     <Flex
       p={4}
