@@ -1,10 +1,17 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
+import { useStoreActions } from "./state/hooks";
 import { Header } from "./components/Header";
 import { Overview } from "./components/Overview";
 import { Project } from "./components/Project";
 
 function App() {
+  const loadDevices = useStoreActions((action) => action.projects.load);
+
+  useEffect(() => {
+    loadDevices();
+  }, [loadDevices]);
+
   return (
     <>
       <Router>
