@@ -1,6 +1,7 @@
+/** @jsx jsx */
 import React from "react";
 import { Link } from "react-router-dom";
-import { Box, Card, Heading, Text, Grid } from "theme-ui";
+import { jsx, Box, Card, Heading, Text, Grid } from "theme-ui";
 
 export const ProjectPreview: React.FC<{
   id: string;
