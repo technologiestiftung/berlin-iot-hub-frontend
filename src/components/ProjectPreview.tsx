@@ -3,12 +3,19 @@ import React from "react";
 import { Link } from "react-router-dom";
 import { jsx, Box, Card, Heading, Text, Grid } from "theme-ui";
 
-export const ProjectPreview: React.FC<{
+export interface Project {
   id: string;
   title: string;
   location: string;
   description: string;
-}> = ({ id, title, location, description }) => {
+}
+
+export const ProjectPreview: React.FC<Project> = ({
+  id,
+  title,
+  location,
+  description,
+}) => {
   return (
     <Box mt={4}>
       <Link to={id} sx={{ textDecoration: "none", color: "text" }}>
