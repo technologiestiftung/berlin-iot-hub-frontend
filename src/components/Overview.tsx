@@ -19,15 +19,15 @@ export const Overview: React.FC = () => {
   const projects = useStoreState((state) => state.projects.items);
 
   return (
-    <Container mt={5} p={4}>
-      <Grid gap={4} columns={[3, "1fr 2fr"]}>
+    <Container mt={[0, 5, 5]} p={4}>
+      <Grid gap={[4, 4, 6]} columns={[1, null, "1fr 2fr"]}>
         <Box>
           <Image
             src={DatahubLogo}
             alt={"Logo des Berlin Data Hub"}
             sx={{ minWidth: "240px" }}
           />
-          <Heading as="h1" variant="h1" mt={4}>
+          <Heading as="h1" variant="h1" mt={4} sx={{ color: "text" }}>
             Berlin <span sx={{ fontWeight: "body" }}>Data Hub</span>
           </Heading>
           <Heading as="h2" variant="h2" mt={2} sx={{ color: "primary" }}>
