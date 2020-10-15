@@ -39,7 +39,7 @@ const mockData = [
 export const Overview: React.FC = () => {
   return (
     <Container mt={[0, 5, 5]} p={4}>
-      <Grid gap={6} columns={[1, null, "1fr 2fr"]}>
+      <Grid gap={[4, 4, 6]} columns={[1, null, "1fr 2fr"]}>
         <Box>
           <Image
             src={DatahubLogo}
