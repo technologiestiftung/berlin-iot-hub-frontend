@@ -46,7 +46,7 @@ export const Overview: React.FC = () => {
             alt={"Logo des Berlin Data Hub"}
             sx={{ minWidth: "240px" }}
           />
-          <Heading as="h1" variant="h1" mt={4}>
+          <Heading as="h1" variant="h1" mt={4} sx={{ color: "text" }}>
             Berlin <span sx={{ fontWeight: "body" }}>Data Hub</span>
           </Heading>
           <Heading as="h2" variant="h2" mt={2} sx={{ color: "primary" }}>

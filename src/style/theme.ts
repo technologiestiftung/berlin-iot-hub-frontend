@@ -45,7 +45,7 @@ const theme: Theme = {
       lineHeight: "heading",
     },
     h1: {
-      color: "text",
+      color: "primary",
       fontFamily: "heading",
       lineHeight: "heading",
       fontWeight: "heading",
