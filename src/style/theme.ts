@@ -1,4 +1,4 @@
-interface Theme {
+export interface Theme {
   space: number[];
   breakpoints: string[];
   fonts: any;
@@ -10,6 +10,7 @@ interface Theme {
   layout: any;
   styles: any;
   cards: any;
+  buttons: any;
 }
 
 const theme: Theme = {
@@ -36,6 +37,8 @@ const theme: Theme = {
     background: "#fff",
     primary: "#1E3791",
     secondary: "#E60032",
+    mediumgrey: "#8D8D8D",
+    lightgrey: "#D8D8D8",
     muted: "#F9F9F9",
   },
   text: {
@@ -142,6 +145,27 @@ const theme: Theme = {
       borderRadius: 0,
       backgroundColor: "background",
       boxShadow: "0 0 8px rgba(0, 0, 0, 0.2)",
+    },
+  },
+  buttons: {
+    primary: {
+      color: "background",
+      bg: "primary",
+      "&:hover": {
+        bg: "text",
+      },
+    },
+    secondary: {
+      color: "background",
+      bg: "secondary",
+    },
+    text: {
+      color: "secondary",
+      bg: "background",
+      fontWeight: "bold",
+      "&:hover": {
+        cursor: "pointer",
+      },
     },
   },
 };
