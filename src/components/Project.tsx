@@ -18,7 +18,7 @@ export const Project: React.FC = () => {
   let { id } = useParams<RouteParams>();
   return (
     <Container mt={[0, 5, 5]} p={4}>
-      <Grid gap={6} columns={[1, "1fr 2fr"]}>
+      <Grid gap={[4, 6, 6]} columns={[1, "1fr 2fr"]}>
         <Box>
           <Link to="/" sx={{ textDecoration: "none", color: "text" }}>
             <IconButton
@@ -47,7 +47,9 @@ export const Project: React.FC = () => {
               iconSource={downloadIcon}
             />
           </Box>
-          <Card>Map</Card>
+          <Card mt={5} bg="muted" sx={{ minHeight: "200px" }}>
+            Kartenansicht
+          </Card>
         </Box>
         <Box>
           <Card>Line Graph</Card>
