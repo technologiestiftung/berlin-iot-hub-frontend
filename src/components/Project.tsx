@@ -7,7 +7,7 @@ import { ProjectSummary } from "./project/ProjectSummary";
 import { DataTable } from "./project/DataTable";
 import { IconButton as DownloadButton } from "./IconButton";
 
-import { tableData } from "../assets/mockData";
+import { tableData, projectSummary } from "../assets/mockData";
 
 const downloadIcon = "./images/download.svg";
 
@@ -36,9 +36,9 @@ export const Project: React.FC = () => {
           </Link>
           <Box mt={2}>
             <ProjectSummary
-              title="PAXCounter"
-              description="An allen Eingängen des Tempelhofer Feldes sind sogenannte PAXCounter installiert, die die Besucherströme auf dem Tempelhofer Feld messen und analysierbar machen."
-              noOfDevices={4}
+              title={projectSummary.title}
+              description={projectSummary.description}
+              noOfDevices={projectSummary.noOfDevices}
             />
           </Box>
           <Box sx={{ mt: 2 }}>

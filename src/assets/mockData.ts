@@ -1,4 +1,5 @@
 import { DataRow } from "../components/project/DataTable";
+import { SummaryData } from "../components/project/ProjectSummary";
 
 export const tableData: Array<DataRow> = [
   {
@@ -27,3 +28,10 @@ export const tableData: Array<DataRow> = [
     value: 46,
   },
 ];
+
+export const projectSummary: SummaryData = {
+  title: "PAXCounter",
+  description:
+    "An allen Eingängen des Tempelhofer Feldes sind sogenannte PAXCounter installiert, die die Besucherströme auf dem Tempelhofer Feld messen und analysierbar machen.",
+  noOfDevices: 4,
+};

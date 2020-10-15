@@ -2,11 +2,17 @@
 import React from "react";
 import { jsx, Heading, Text, Box } from "theme-ui";
 
-export const ProjectSummary: React.FC<{
+export interface SummaryData {
   title: string;
   description: string;
   noOfDevices: number;
-}> = ({ title, description, noOfDevices }) => {
+}
+
+export const ProjectSummary: React.FC<SummaryData> = ({
+  title,
+  description,
+  noOfDevices,
+}) => {
   return (
     <Box sx={{ maxWidth: "60ch" }}>
       <Heading as="h1" variant="h1">
