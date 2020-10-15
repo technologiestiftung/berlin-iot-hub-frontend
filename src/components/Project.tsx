@@ -15,7 +15,7 @@ interface RouteParams {
   id: string;
 }
 export const Project: React.FC = () => {
-  let { id } = useParams<RouteParams>();
+  //let { id } = useParams<RouteParams>();
   return (
     <Container mt={[0, 5, 5]} p={4}>
       <Grid gap={[4, 6, 6]} columns={[1, "1fr 2fr"]}>
