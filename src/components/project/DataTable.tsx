@@ -1,7 +1,8 @@
 /** @jsx jsx */
 import React from "react";
-import { jsx, Grid, Card, Box, Button, Image } from "theme-ui";
+import { jsx, Grid, Card, Box } from "theme-ui";
 import { Theme } from "../../style/theme";
+import { IconButton } from "../IconButton";
 
 const downloadIcon = "./images/download.svg";
 
@@ -10,10 +11,6 @@ export interface DataRow {
   time: string;
   value: number;
 }
-
-const handleDownload = () => {
-  console.log("Download");
-};
 
 export const DataTable: React.FC<{
   data: Array<DataRow>;
@@ -29,32 +26,7 @@ export const DataTable: React.FC<{
       >
         <Box color="primary">Sensor A</Box>
         <Box>
-          <Button
-            variant="text"
-            sx={{
-              display: "flex",
-              alignItems: "center",
-            }}
-            onClick={handleDownload}
-          >
-            <Box
-              bg="secondary"
-              mr={2}
-              sx={{
-                display: "inline-block",
-                width: "32px",
-                height: "32px",
-                borderRadius: "50%",
-              }}
-            >
-              <Image
-                src={downloadIcon}
-                alt="Download-Icon"
-                sx={{ width: "100%", height: "100%" }}
-              />
-            </Box>
-            Download
-          </Button>
+          <IconButton value={"Download"} iconSource={downloadIcon} />
         </Box>
       </Grid>
       <Box p={3}>

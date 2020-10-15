@@ -161,7 +161,7 @@ const theme: Theme = {
     },
     text: {
       color: "secondary",
-      bg: "background",
+      bg: "transparent",
       fontWeight: "bold",
       "&:hover": {
         cursor: "pointer",
