@@ -1,6 +1,6 @@
 /** @jsx jsx */
 import React from "react";
-import { useParams, Link } from "react-router-dom";
+import { Link } from "react-router-dom";
 import { jsx, Grid, Container, Box, Card, IconButton } from "theme-ui";
 import ArrowBackIcon from "@material-ui/icons/ArrowBack";
 import { ProjectSummary } from "./project/ProjectSummary";
