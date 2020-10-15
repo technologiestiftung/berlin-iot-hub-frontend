@@ -18,7 +18,7 @@ export const Project: React.FC = () => {
   let { id } = useParams<RouteParams>();
   return (
     <Container mt={[0, 5, 5]} p={4}>
-      <Grid gap={4} columns={[1, "1fr 2fr"]}>
+      <Grid gap={6} columns={[1, "1fr 2fr"]}>
         <Box>
           <Link to="/" sx={{ textDecoration: "none", color: "text" }}>
             <IconButton
