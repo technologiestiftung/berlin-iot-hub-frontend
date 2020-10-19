@@ -22,6 +22,7 @@ export const RadioTabs: React.FC<{
             key={i}
             sx={{
               display: "inline-block",
+              marginLeft: i === 0 ? "0" : (theme) => `${theme.space[3]}px`,
             }}
           >
             <input
@@ -31,8 +32,24 @@ export const RadioTabs: React.FC<{
               value={option}
               checked={checked === i}
               onChange={handleChange}
+              sx={{
+                opacity: 0,
+                position: "absolute",
+              }}
             />
-            <label htmlFor={`${i}`}>{option}</label>
+            <label
+              htmlFor={`${i}`}
+              sx={{
+                color: checked === i ? "primary" : "lightgrey",
+                cursor: "pointer",
+                transition: "all .1s ease-out",
+                "&:hover": {
+                  color: "primary",
+                },
+              }}
+            >
+              {option}
+            </label>
           </div>
         );
       })}
