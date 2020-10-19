@@ -1,29 +1,33 @@
-import { createStore, thunk, action } from "easy-peasy";
+import { createStore, thunk, action, computed } from "easy-peasy";
 import { StoreModel } from "./model";
 import { getDevices } from "../lib/requests";
 import { content } from "../assets/content";
-import { Project } from "../components/ProjectPreview";
+import { ProjectType } from "../state/model";
 
 const store = createStore<StoreModel>({
   projects: {
     items: undefined,
+    selected: computed((state: any) => (id: string) => {
+      if (!state.items) return;
+      return state.items.find((item: ProjectType) => item.id === id);
+    }),
     save: action((state: any, payload: any) => {
       const uniqueProjects = Array.from(
         new Set(payload.map((a: any) => a.ttnAppId))
       );
 
       const projects = uniqueProjects.map((projectId: any) => {
-        //const entries = payload.filter((el: any) => el.ttnAppId === projectId);
+        const devices = payload.filter((el: any) => el.ttnAppId === projectId);
 
-        const project: Project = {
+        const project: ProjectType = {
           id: projectId,
           // @ts-ignore
           title: content.projects[projectId].title,
           // @ts-ignore
-          location: content.projects[projectId].location,
+          city: content.projects[projectId].city,
           // @ts-ignore
           description: content.projects[projectId].description,
-          //entries: entries,
+          devices: devices,
         };
 
         return project;
