@@ -3,9 +3,10 @@ import React, { useState } from "react";
 import { jsx, Box } from "theme-ui";
 
 export const RadioTabs: React.FC<{
+  name: string;
   options: Array<string>;
   changeHandler: (selected: string) => void;
-}> = ({ options, changeHandler }) => {
+}> = ({ name, options, changeHandler }) => {
   const [checked, setChecked] = useState(0);
 
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -17,11 +18,16 @@ export const RadioTabs: React.FC<{
     <Box>
       {options.map((option: string, i: number) => {
         return (
-          <div key={i}>
+          <div
+            key={i}
+            sx={{
+              display: "inline-block",
+            }}
+          >
             <input
               type="radio"
               id={`${i}`}
-              name="options"
+              name={name}
               value={option}
               checked={checked === i}
               onChange={handleChange}
