@@ -1,5 +1,7 @@
 /** @jsx jsx */
 import React from "react";
+import { useStoreState } from "../state/hooks";
+import { ProjectType } from "../state/model";
 import {
   jsx,
   Heading,
@@ -10,7 +12,6 @@ import {
   Text,
   Divider,
 } from "theme-ui";
-import { useStoreState } from "../state/hooks";
 import { ProjectPreview } from "./ProjectPreview";
 
 const DatahubLogo = "/images/datahub-logo.svg";
@@ -46,14 +47,15 @@ export const Overview: React.FC = () => {
           </Text>
           <Divider mt={4} />
           {projects &&
-            projects.map((item) => {
+            projects.map((project: ProjectType) => {
               return (
                 <ProjectPreview
-                  key={item.id}
-                  id={item.id}
-                  title={item.title}
-                  location={item.location}
-                  description={item.description}
+                  key={project.id}
+                  id={project.id}
+                  title={project.title}
+                  city={project.city}
+                  description={project.description}
+                  devices={project.devices}
                 />
               );
             })}

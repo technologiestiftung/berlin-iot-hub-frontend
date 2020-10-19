@@ -6,15 +6,17 @@ import { IconButton } from "../IconButton";
 
 const downloadIcon = "./images/download.svg";
 
-export interface DataRow {
-  date: string;
-  time: string;
+export interface RecordType {
+  id: number;
+  deviceId: number;
+  recordedAt: string;
   value: number;
 }
 
 export const DataTable: React.FC<{
-  data: Array<DataRow>;
-}> = ({ data }) => {
+  data: Array<RecordType> | undefined;
+  title: string | undefined;
+}> = ({ data, title }) => {
   return (
     <Card mt={4} p={0}>
       <Grid
@@ -24,7 +26,7 @@ export const DataTable: React.FC<{
           borderBottom: (theme: Theme) => `1px solid ${theme.colors.lightgrey}`,
         }}
       >
-        <Box color="primary">Sensor A</Box>
+        {title && <Box color="primary">{title}</Box>}
         <Box>
           <IconButton value={"Download"} iconSource={downloadIcon} />
         </Box>
@@ -56,25 +58,26 @@ export const DataTable: React.FC<{
             </tr>
           </thead>
           <tbody>
-            {data.map((el: DataRow, i: number) => {
-              return (
-                <tr
-                  key={i}
-                  sx={{
-                    backgroundColor: () =>
-                      `${i % 2 === 0 ? "muted" : "background"}`,
-                    "& > td": {
-                      p: 2,
-                      border: "none",
-                    },
-                  }}
-                >
-                  <td>{el.date}</td>
-                  <td>{el.time}</td>
-                  <td sx={{ textAlign: "right" }}>{el.value}</td>
-                </tr>
-              );
-            })}
+            {data &&
+              data.map((el: RecordType, i: number) => {
+                return (
+                  <tr
+                    key={i}
+                    sx={{
+                      backgroundColor: () =>
+                        `${i % 2 === 0 ? "muted" : "background"}`,
+                      "& > td": {
+                        p: 2,
+                        border: "none",
+                      },
+                    }}
+                  >
+                    <td>{el.recordedAt}</td>
+                    <td>{el.recordedAt}</td>
+                    <td sx={{ textAlign: "right" }}>{el.value}</td>
+                  </tr>
+                );
+              })}
           </tbody>
         </table>
       </Box>
