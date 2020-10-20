@@ -7,20 +7,10 @@ import { curveBasis } from "@visx/curve";
 import { Group } from "@visx/group";
 import { LinePath } from "@visx/shape";
 import { scaleTime, scaleLinear } from "@visx/scale";
+import { DateValueType, LineGraphType } from "../common/interfaces";
 
-export interface DateValue {
-  date: Date;
-  value: number;
-}
-
-const getX = (d: DateValue) => d.date;
-const getY = (d: DateValue) => d.value;
-
-export interface LineGraphType {
-  width: number;
-  height: number;
-  data: Array<DateValue>;
-}
+const getX = (d: DateValueType) => d.date;
+const getY = (d: DateValueType) => d.value;
 
 export const LineGraph = ({ width, height, data }: LineGraphType) => {
   const context = useThemeUI();
@@ -43,7 +33,7 @@ export const LineGraph = ({ width, height, data }: LineGraphType) => {
     <svg width={width} height={height}>
       <rect sx={{ fill: "background", width: width, height: height }} />
       <Group top={padding} left={padding}>
-        <LinePath<DateValue>
+        <LinePath<DateValueType>
           curve={curveBasis}
           data={data}
           // TODO: [DATAHUB-36] Type this function

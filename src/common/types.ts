@@ -1,2 +1,2 @@
-// TODO: [DATAHUB-38] Migrate all types into this central file
+// No types for this file at the moment
 export type Baz = "Baz" | "Bah";

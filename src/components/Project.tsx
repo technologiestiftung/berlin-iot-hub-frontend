@@ -1,7 +1,6 @@
 /** @jsx jsx */
 import React, { useEffect, useState } from "react";
 import { useStoreState } from "../state/hooks";
-import { ProjectType, DeviceType } from "../state/model";
 import { getRecords } from "../lib/requests";
 import { Link, useParams } from "react-router-dom";
 import { jsx, Grid, Container, Box, Card, IconButton } from "theme-ui";
@@ -9,6 +8,7 @@ import ArrowBackIcon from "@material-ui/icons/ArrowBack";
 import { ProjectSummary } from "./project/ProjectSummary";
 import { DataTable } from "./project/DataTable";
 import { IconButton as DownloadButton } from "./IconButton";
+import { ProjectType, DeviceType } from "../common/interfaces";
 
 const downloadIcon = "./images/download.svg";
 
@@ -91,7 +91,7 @@ export const Project: React.FC = () => {
         </Box>
         <Box>
           <Card>Line Graph</Card>
-          {data && (
+          {data && data.devices && (
             <DataTable
               data={data.devices[0].records}
               title={data.devices[0].description}

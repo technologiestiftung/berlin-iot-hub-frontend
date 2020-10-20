@@ -2,20 +2,11 @@
 import React from "react";
 import { jsx, Grid, Card, Box } from "theme-ui";
 import { IconButton } from "../IconButton";
+import { RecordType, DataTableType } from "../../common/interfaces";
 
 const downloadIcon = "./images/download.svg";
 
-export interface RecordType {
-  id: number;
-  deviceId: number;
-  recordedAt: string;
-  value: number;
-}
-
-export const DataTable: React.FC<{
-  data: Array<RecordType> | undefined;
-  title: string | undefined;
-}> = ({ data, title }) => {
+export const DataTable: React.FC<DataTableType> = ({ data, title }) => {
   return (
     <Card mt={4} p={0}>
       <Grid

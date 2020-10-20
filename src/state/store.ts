@@ -2,7 +2,7 @@ import { createStore, thunk, action, computed } from "easy-peasy";
 import { StoreModel } from "./model";
 import { getDevices } from "../lib/requests";
 import { content } from "../assets/content";
-import { ProjectType } from "../state/model";
+import { ProjectType } from "../common/interfaces";
 
 const store = createStore<StoreModel>({
   projects: {

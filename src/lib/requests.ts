@@ -1,6 +1,6 @@
-import { DeviceType } from "../state/model";
+import { DeviceType, RecordType } from "../common/interfaces";
 
-export interface DeviceResponse {
+interface DeviceResponse {
   data: {
     devices: DeviceType[];
   };
@@ -16,15 +16,9 @@ export async function getDevices(url: string): Promise<DeviceResponse> {
   return json;
 }
 
-export interface Record {
-  id: number;
-  deviceId: number;
-  recordedAt: string;
-  value: number;
-}
-export interface RecordsResponse {
+interface RecordsResponse {
   data: {
-    records: Record[];
+    records: RecordType[];
   };
 }
 

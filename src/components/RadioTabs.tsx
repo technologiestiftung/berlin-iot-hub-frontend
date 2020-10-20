@@ -1,12 +1,13 @@
 /** @jsx jsx */
 import React, { useState } from "react";
 import { jsx, Box } from "theme-ui";
+import { RadioTabsType } from "../common/interfaces";
 
-export const RadioTabs: React.FC<{
-  name: string;
-  options: Array<string>;
-  changeHandler: (selected: string) => void;
-}> = ({ name, options, changeHandler }) => {
+export const RadioTabs: React.FC<RadioTabsType> = ({
+  name,
+  options,
+  changeHandler,
+}) => {
   const [checked, setChecked] = useState(0);
 
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {

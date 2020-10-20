@@ -1,7 +1,6 @@
 /** @jsx jsx */
 import React from "react";
 import { useStoreState } from "../state/hooks";
-import { ProjectType } from "../state/model";
 import {
   jsx,
   Heading,
@@ -13,6 +12,7 @@ import {
   Divider,
 } from "theme-ui";
 import { ProjectPreview } from "./ProjectPreview";
+import { ProjectType } from "../common/interfaces";
 
 const DatahubLogo = "/images/datahub-logo.svg";
 

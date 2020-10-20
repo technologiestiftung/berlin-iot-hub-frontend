@@ -121,3 +121,62 @@ export interface Theme {
     };
   };
 }
+
+export interface ProjectType {
+  id: string;
+  title: string;
+  city: string;
+  description: string;
+  devices?: Array<DeviceType>;
+}
+
+export interface DeviceType {
+  description: string;
+  id: number;
+  latitude: number;
+  longitude: number;
+  ttnAppId: string;
+  ttnDeviceId: string;
+  records?: Array<RecordType>;
+}
+
+export interface RecordType {
+  id: number;
+  deviceId: number;
+  recordedAt: string;
+  value: number;
+}
+
+export interface DataTableType {
+  data: Array<RecordType> | undefined;
+  title: string | undefined;
+}
+
+export interface SummaryType {
+  title: string;
+  description: string;
+  noOfDevices: number;
+}
+
+export interface DateValueType {
+  date: Date;
+  value: number;
+}
+
+export interface LineGraphType {
+  width: number;
+  height: number;
+  data: Array<DateValueType>;
+}
+
+export interface RadioTabsType {
+  name: string;
+  options: Array<string>;
+  changeHandler: (selected: string) => void;
+}
+
+export interface IconButtonType {
+  value: string;
+  iconSource: string;
+  clickHandler?: (event: React.ChangeEvent<any>) => void;
+}
