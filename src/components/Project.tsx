@@ -1,13 +1,8 @@
 /** @jsx jsx */
-<<<<<<< Updated upstream
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { useStoreState } from "../state/hooks";
 import { getRecords } from "../lib/requests";
 import { Link, useParams } from "react-router-dom";
-=======
-import React, { useState, useRef, useEffect } from "react";
-import { Link } from "react-router-dom";
->>>>>>> Stashed changes
 import { jsx, Grid, Container, Box, Card, IconButton } from "theme-ui";
 import ArrowBackIcon from "@material-ui/icons/ArrowBack";
 import generateDateValue, {
@@ -16,14 +11,9 @@ import generateDateValue, {
 import { ProjectSummary } from "./project/ProjectSummary";
 import { DataTable } from "./project/DataTable";
 import { IconButton as DownloadButton } from "./IconButton";
-<<<<<<< Updated upstream
 import { ProjectType, DeviceType } from "../common/interfaces";
-=======
 import { RadioTabs } from "./RadioTabs";
 import { LineGraph } from "./LineGraph";
-
-import { projectSummary } from "../assets/mockData";
->>>>>>> Stashed changes
 
 const downloadIcon = "./images/download.svg";
 
@@ -35,7 +25,6 @@ interface RouteParams {
   id: string;
 }
 export const Project: React.FC = () => {
-<<<<<<< Updated upstream
   const { id } = useParams<RouteParams>();
   const [data, setData] = useState<ProjectType | undefined>(undefined);
 
@@ -71,8 +60,6 @@ export const Project: React.FC = () => {
       })
       .catch((error) => console.error(error));
   }, [selectedProject]);
-=======
-  //let { id } = useParams<RouteParams>();
 
   const testData = ["Sensor A", "Sensor B", "Sensor C"];
 
@@ -97,7 +84,6 @@ export const Project: React.FC = () => {
   }, [parentRef]);
 
   const [selected, setSelected] = useState(testData[0]);
->>>>>>> Stashed changes
 
   return (
     <Container mt={[0, 5, 5]} p={4}>
@@ -118,7 +104,6 @@ export const Project: React.FC = () => {
             </IconButton>
           </Link>
           <Box mt={2}>
-<<<<<<< Updated upstream
             {data && (
               <ProjectSummary
                 title={data.title}
@@ -126,14 +111,6 @@ export const Project: React.FC = () => {
                 noOfDevices={data.devices ? data.devices.length : 0}
               />
             )}
-=======
-            <ProjectSummary
-              title={projectSummary.title}
-              description={projectSummary.description}
-              noOfDevices={projectSummary.noOfDevices}
-            />
-            <span>{selected}</span>
->>>>>>> Stashed changes
           </Box>
           <Box sx={{ mt: 2 }}>
             <DownloadButton
@@ -146,15 +123,6 @@ export const Project: React.FC = () => {
           </Card>
         </Box>
         <Box>
-<<<<<<< Updated upstream
-          <Card>Line Graph</Card>
-          {data && data.devices && (
-            <DataTable
-              data={data.devices[0].records}
-              title={data.devices[0].description}
-            />
-          )}
-=======
           <Card>
             <RadioTabs
               name={"devices"}
@@ -169,8 +137,12 @@ export const Project: React.FC = () => {
               />
             </Box>
           </Card>
-          <DataTable data={testdata} />
->>>>>>> Stashed changes
+          {data && data.devices && (
+            <DataTable
+              data={data.devices[0].records}
+              title={data.devices[0].description}
+            />
+          )}
         </Box>
       </Grid>
     </Container>
