@@ -1,21 +1,41 @@
 /** @jsx jsx */
+<<<<<<< Updated upstream
 import React, { useEffect, useState } from "react";
 import { useStoreState } from "../state/hooks";
 import { getRecords } from "../lib/requests";
 import { Link, useParams } from "react-router-dom";
+=======
+import React, { useState, useRef, useEffect } from "react";
+import { Link } from "react-router-dom";
+>>>>>>> Stashed changes
 import { jsx, Grid, Container, Box, Card, IconButton } from "theme-ui";
 import ArrowBackIcon from "@material-ui/icons/ArrowBack";
+import generateDateValue, {
+  DateValue,
+} from "@visx/mock-data/lib/generators/genDateValue";
 import { ProjectSummary } from "./project/ProjectSummary";
 import { DataTable } from "./project/DataTable";
 import { IconButton as DownloadButton } from "./IconButton";
+<<<<<<< Updated upstream
 import { ProjectType, DeviceType } from "../common/interfaces";
+=======
+import { RadioTabs } from "./RadioTabs";
+import { LineGraph } from "./LineGraph";
+
+import { projectSummary } from "../assets/mockData";
+>>>>>>> Stashed changes
 
 const downloadIcon = "./images/download.svg";
+
+const testdata = generateDateValue(25).sort(
+  (a: DateValue, b: DateValue) => a.date.getTime() - b.date.getTime()
+);
 
 interface RouteParams {
   id: string;
 }
 export const Project: React.FC = () => {
+<<<<<<< Updated upstream
   const { id } = useParams<RouteParams>();
   const [data, setData] = useState<ProjectType | undefined>(undefined);
 
@@ -51,6 +71,33 @@ export const Project: React.FC = () => {
       })
       .catch((error) => console.error(error));
   }, [selectedProject]);
+=======
+  //let { id } = useParams<RouteParams>();
+
+  const testData = ["Sensor A", "Sensor B", "Sensor C"];
+
+  const parentRef = useRef(null);
+  const [svgWrapperWidth, setSvgWrapperWidth] = useState(0);
+  const [svgWrapperHeight, setSvgWrapperHeight] = useState(0);
+
+  const updateWidthAndHeight = () => {
+    // @ts-ignore
+    setSvgWrapperWidth(parentRef.current.offsetWidth);
+    // @ts-ignore
+    setSvgWrapperHeight(parentRef.current.offsetWidth / 2);
+  };
+
+  useEffect(() => {
+    // @ts-ignore
+    setSvgWrapperWidth(parentRef.current.offsetWidth);
+    // @ts-ignore
+    setSvgWrapperHeight(parentRef.current.offsetWidth / 2);
+    window.addEventListener("resize", updateWidthAndHeight);
+    return () => window.removeEventListener("resize", updateWidthAndHeight);
+  }, [parentRef]);
+
+  const [selected, setSelected] = useState(testData[0]);
+>>>>>>> Stashed changes
 
   return (
     <Container mt={[0, 5, 5]} p={4}>
@@ -71,6 +118,7 @@ export const Project: React.FC = () => {
             </IconButton>
           </Link>
           <Box mt={2}>
+<<<<<<< Updated upstream
             {data && (
               <ProjectSummary
                 title={data.title}
@@ -78,6 +126,14 @@ export const Project: React.FC = () => {
                 noOfDevices={data.devices ? data.devices.length : 0}
               />
             )}
+=======
+            <ProjectSummary
+              title={projectSummary.title}
+              description={projectSummary.description}
+              noOfDevices={projectSummary.noOfDevices}
+            />
+            <span>{selected}</span>
+>>>>>>> Stashed changes
           </Box>
           <Box sx={{ mt: 2 }}>
             <DownloadButton
@@ -90,6 +146,7 @@ export const Project: React.FC = () => {
           </Card>
         </Box>
         <Box>
+<<<<<<< Updated upstream
           <Card>Line Graph</Card>
           {data && data.devices && (
             <DataTable
@@ -97,6 +154,23 @@ export const Project: React.FC = () => {
               title={data.devices[0].description}
             />
           )}
+=======
+          <Card>
+            <RadioTabs
+              name={"devices"}
+              options={testData}
+              changeHandler={(selected) => setSelected(selected)}
+            />
+            <Box ref={parentRef} mt={3}>
+              <LineGraph
+                width={svgWrapperWidth}
+                height={svgWrapperHeight}
+                data={testdata}
+              />
+            </Box>
+          </Card>
+          <DataTable data={testdata} />
+>>>>>>> Stashed changes
         </Box>
       </Grid>
     </Container>

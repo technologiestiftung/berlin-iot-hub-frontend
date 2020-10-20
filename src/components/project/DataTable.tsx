@@ -48,6 +48,7 @@ export const DataTable: React.FC<DataTableType> = ({ data, title }) => {
             </tr>
           </thead>
           <tbody>
+<<<<<<< Updated upstream
             {data &&
               data.map((el: RecordType, i: number) => {
                 return (
@@ -68,6 +69,27 @@ export const DataTable: React.FC<DataTableType> = ({ data, title }) => {
                   </tr>
                 );
               })}
+=======
+            {data.map((el: DataRow, i: number) => {
+              return (
+                <tr
+                  key={i}
+                  sx={{
+                    backgroundColor: () =>
+                      `${i % 2 === 0 ? "muted" : "background"}`,
+                    "& > td": {
+                      p: 2,
+                      border: "none",
+                    },
+                  }}
+                >
+                  <td>{el.date.toLocaleDateString()}</td>
+                  <td>{el.date.toLocaleTimeString()}</td>
+                  <td sx={{ textAlign: "right" }}>{el.value}</td>
+                </tr>
+              );
+            })}
+>>>>>>> Stashed changes
           </tbody>
         </table>
       </Box>
