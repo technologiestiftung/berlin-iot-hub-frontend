@@ -1,14 +1,9 @@
 /** @jsx jsx */
 import React from "react";
 import { jsx, Heading, Text, Box } from "theme-ui";
+import { SummaryType } from "../../common/interfaces";
 
-export interface SummaryData {
-  title: string;
-  description: string;
-  noOfDevices: number;
-}
-
-export const ProjectSummary: React.FC<SummaryData> = ({
+export const ProjectSummary: React.FC<SummaryType> = ({
   title,
   description,
   noOfDevices,

@@ -1,17 +1,4 @@
-export interface Theme {
-  space: number[];
-  breakpoints: string[];
-  fonts: any;
-  fontSizes: number[];
-  fontWeights: any;
-  lineHeights: any;
-  colors: any;
-  text: any;
-  layout: any;
-  styles: any;
-  cards: any;
-  buttons: any;
-}
+import { Theme } from "../common/interfaces";
 
 const theme: Theme = {
   space: [0, 4, 8, 16, 32, 64, 128, 256, 512],

@@ -1,30 +1,22 @@
 /** @jsx jsx */
 import React from "react";
 import { jsx, Grid, Card, Box } from "theme-ui";
-import { Theme } from "../../style/theme";
 import { IconButton } from "../IconButton";
+import { RecordType, DataTableType } from "../../common/interfaces";
 
 const downloadIcon = "./images/download.svg";
 
-export interface DataRow {
-  date: string;
-  time: string;
-  value: number;
-}
-
-export const DataTable: React.FC<{
-  data: Array<DataRow>;
-}> = ({ data }) => {
+export const DataTable: React.FC<DataTableType> = ({ data, title }) => {
   return (
     <Card mt={4} p={0}>
       <Grid
         columns={["auto max-content"]}
         p={3}
         sx={{
-          borderBottom: (theme: Theme) => `1px solid ${theme.colors.lightgrey}`,
+          borderBottom: (theme) => `1px solid ${theme.colors.lightgrey}`,
         }}
       >
-        <Box color="primary">Sensor A</Box>
+        {title && <Box color="primary">{title}</Box>}
         <Box>
           <IconButton value={"Download"} iconSource={downloadIcon} />
         </Box>
@@ -45,7 +37,7 @@ export const DataTable: React.FC<{
                   py: 2,
                   px: 1,
                   fontWeight: "body",
-                  borderBottom: (theme: Theme) =>
+                  borderBottom: (theme) =>
                     `1px solid ${theme.colors.lightgrey}`,
                 },
               }}
@@ -56,25 +48,26 @@ export const DataTable: React.FC<{
             </tr>
           </thead>
           <tbody>
-            {data.map((el: DataRow, i: number) => {
-              return (
-                <tr
-                  key={i}
-                  sx={{
-                    backgroundColor: () =>
-                      `${i % 2 === 0 ? "muted" : "background"}`,
-                    "& > td": {
-                      p: 2,
-                      border: "none",
-                    },
-                  }}
-                >
-                  <td>{el.date}</td>
-                  <td>{el.time}</td>
-                  <td sx={{ textAlign: "right" }}>{el.value}</td>
-                </tr>
-              );
-            })}
+            {data &&
+              data.map((el: RecordType, i: number) => {
+                return (
+                  <tr
+                    key={i}
+                    sx={{
+                      backgroundColor: () =>
+                        `${i % 2 === 0 ? "muted" : "background"}`,
+                      "& > td": {
+                        p: 2,
+                        border: "none",
+                      },
+                    }}
+                  >
+                    <td>{el.recordedAt}</td>
+                    <td>{el.recordedAt}</td>
+                    <td sx={{ textAlign: "right" }}>{el.value}</td>
+                  </tr>
+                );
+              })}
           </tbody>
         </table>
       </Box>

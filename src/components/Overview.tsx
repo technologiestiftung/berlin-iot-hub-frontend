@@ -1,5 +1,6 @@
 /** @jsx jsx */
 import React from "react";
+import { useStoreState } from "../state/hooks";
 import {
   jsx,
   Heading,
@@ -11,32 +12,13 @@ import {
   Divider,
 } from "theme-ui";
 import { ProjectPreview } from "./ProjectPreview";
+import { ProjectType } from "../common/interfaces";
 
 const DatahubLogo = "/images/datahub-logo.svg";
 
-const mockData = [
-  {
-    id: "1234",
-    title: "PAXCounter",
-    location: "Berlin, Deutschland",
-    description:
-      "Zählung von Besucherströmen auf dem Tempelhofer Feld in Berlin.",
-  },
-  {
-    id: "5678",
-    title: "Second project",
-    location: "Berlin, Deutschland",
-    description: "Description for this project.",
-  },
-  {
-    id: "9012",
-    title: "Third project",
-    location: "Berlin, Deutschland",
-    description: "Description for this project.",
-  },
-];
-
 export const Overview: React.FC = () => {
+  const projects = useStoreState((state) => state.projects.items);
+
   return (
     <Container mt={[0, 5, 5]} p={4}>
       <Grid gap={[4, 4, 6]} columns={[1, null, "1fr 2fr"]}>
@@ -64,17 +46,19 @@ export const Overview: React.FC = () => {
             CC-BY-SA-Lizenz verfügbar.
           </Text>
           <Divider mt={4} />
-          {mockData.map((item) => {
-            return (
-              <ProjectPreview
-                key={item.id}
-                id={item.id}
-                title={item.title}
-                location={item.location}
-                description={item.description}
-              />
-            );
-          })}
+          {projects &&
+            projects.map((project: ProjectType) => {
+              return (
+                <ProjectPreview
+                  key={project.id}
+                  id={project.id}
+                  title={project.title}
+                  city={project.city}
+                  description={project.description}
+                  devices={project.devices}
+                />
+              );
+            })}
         </Box>
       </Grid>
     </Container>

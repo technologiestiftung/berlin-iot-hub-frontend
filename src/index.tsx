@@ -5,12 +5,16 @@ import * as serviceWorker from "./serviceWorker";
 import { ThemeProvider } from "theme-ui";
 import "./style/fonts.css";
 import theme from "./style/theme";
+import { StoreProvider } from "easy-peasy";
+import store from "./state/store";
 
 ReactDOM.render(
   <React.StrictMode>
-    <ThemeProvider theme={theme}>
-      <App />
-    </ThemeProvider>
+    <StoreProvider store={store}>
+      <ThemeProvider theme={theme}>
+        <App />
+      </ThemeProvider>
+    </StoreProvider>
   </React.StrictMode>,
   document.getElementById("root")
 );

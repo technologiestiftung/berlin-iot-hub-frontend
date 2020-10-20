@@ -21,6 +21,7 @@
     "@visx/scale": "^1.1.0",
     "@visx/shape": "^1.1.0",
     "d3-array": "^2.8.0",
+    "easy-peasy": "^4.0.0",
     "react": "^16.13.1",
     "react-dom": "^16.13.1",
     "react-router-dom": "^5.2.0",

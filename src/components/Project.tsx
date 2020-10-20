@@ -1,13 +1,14 @@
 /** @jsx jsx */
-import React from "react";
-import { Link } from "react-router-dom";
+import React, { useEffect, useState } from "react";
+import { useStoreState } from "../state/hooks";
+import { getRecords } from "../lib/requests";
+import { Link, useParams } from "react-router-dom";
 import { jsx, Grid, Container, Box, Card, IconButton } from "theme-ui";
 import ArrowBackIcon from "@material-ui/icons/ArrowBack";
 import { ProjectSummary } from "./project/ProjectSummary";
 import { DataTable } from "./project/DataTable";
 import { IconButton as DownloadButton } from "./IconButton";
-
-import { tableData, projectSummary } from "../assets/mockData";
+import { ProjectType, DeviceType } from "../common/interfaces";
 
 const downloadIcon = "./images/download.svg";
 
@@ -15,7 +16,42 @@ interface RouteParams {
   id: string;
 }
 export const Project: React.FC = () => {
-  //let { id } = useParams<RouteParams>();
+  const { id } = useParams<RouteParams>();
+  const [data, setData] = useState<ProjectType | undefined>(undefined);
+
+  const selectedProject = useStoreState((state) => state.projects.selected(id));
+
+  useEffect(() => {
+    if (!selectedProject) return;
+
+    Promise.all(
+      selectedProject.devices.map(async (device: DeviceType) => {
+        const {
+          data: { records },
+        } = await getRecords(
+          `${process.env.REACT_APP_API_URL}/api/devices/${device.id}/records`
+        );
+        return records;
+      })
+    )
+      .then((results: Array<any>) => {
+        const devicesWithRecords = selectedProject.devices.map(
+          (device: DeviceType, i: number) => {
+            return {
+              ...device,
+              records: results[i],
+            };
+          }
+        );
+
+        setData({
+          ...selectedProject,
+          devices: devicesWithRecords,
+        });
+      })
+      .catch((error) => console.error(error));
+  }, [selectedProject]);
+
   return (
     <Container mt={[0, 5, 5]} p={4}>
       <Grid gap={[4, 6, 6]} columns={[1, "1fr 2fr"]}>
@@ -35,11 +71,13 @@ export const Project: React.FC = () => {
             </IconButton>
           </Link>
           <Box mt={2}>
-            <ProjectSummary
-              title={projectSummary.title}
-              description={projectSummary.description}
-              noOfDevices={projectSummary.noOfDevices}
-            />
+            {data && (
+              <ProjectSummary
+                title={data.title}
+                description={data.description}
+                noOfDevices={data.devices ? data.devices.length : 0}
+              />
+            )}
           </Box>
           <Box sx={{ mt: 2 }}>
             <DownloadButton
@@ -53,7 +91,12 @@ export const Project: React.FC = () => {
         </Box>
         <Box>
           <Card>Line Graph</Card>
-          <DataTable data={tableData} />
+          {data && data.devices && (
+            <DataTable
+              data={data.devices[0].records}
+              title={data.devices[0].description}
+            />
+          )}
         </Box>
       </Grid>
     </Container>

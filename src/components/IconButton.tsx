@@ -1,16 +1,13 @@
 /** @jsx jsx */
 import React from "react";
 import { jsx, Box, Button, Image } from "theme-ui";
+import { IconButtonType } from "../common/interfaces";
 
 const handleDownload = () => {
   console.log("Download");
 };
 
-export const IconButton: React.FC<{
-  value: string;
-  iconSource: string;
-  clickHandler?: any;
-}> = ({ value, iconSource }) => {
+export const IconButton: React.FC<IconButtonType> = ({ value, iconSource }) => {
   return (
     <Button
       variant="text"

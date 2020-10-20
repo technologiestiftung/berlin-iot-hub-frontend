@@ -2,13 +2,15 @@
 import React from "react";
 import { Link } from "react-router-dom";
 import { jsx, Box, Card, Heading, Text, Grid } from "theme-ui";
+import { ProjectType } from "../common/interfaces";
 
-export const ProjectPreview: React.FC<{
-  id: string;
-  title: string;
-  location: string;
-  description: string;
-}> = ({ id, title, location, description }) => {
+export const ProjectPreview: React.FC<ProjectType> = ({
+  id,
+  title,
+  city,
+  description,
+  devices,
+}) => {
   return (
     <Box mt={4}>
       <Link to={id} sx={{ textDecoration: "none", color: "text" }}>
@@ -26,7 +28,7 @@ export const ProjectPreview: React.FC<{
                 {title}
               </Heading>
               <Heading as="h4" variant="h5" mt={1}>
-                {location}
+                {city}
               </Heading>
               <Text mt={3}>{description}</Text>
             </Box>
