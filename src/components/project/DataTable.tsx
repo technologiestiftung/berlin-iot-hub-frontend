@@ -1,7 +1,6 @@
 /** @jsx jsx */
 import React from "react";
 import { jsx, Grid, Card, Box } from "theme-ui";
-import { Theme } from "../../style/theme";
 import { IconButton } from "../IconButton";
 
 const downloadIcon = "./images/download.svg";
@@ -23,7 +22,7 @@ export const DataTable: React.FC<{
         columns={["auto max-content"]}
         p={3}
         sx={{
-          borderBottom: (theme: Theme) => `1px solid ${theme.colors.lightgrey}`,
+          borderBottom: (theme) => `1px solid ${theme.colors.lightgrey}`,
         }}
       >
         {title && <Box color="primary">{title}</Box>}
@@ -47,7 +46,7 @@ export const DataTable: React.FC<{
                   py: 2,
                   px: 1,
                   fontWeight: "body",
-                  borderBottom: (theme: Theme) =>
+                  borderBottom: (theme) =>
                     `1px solid ${theme.colors.lightgrey}`,
                 },
               }}

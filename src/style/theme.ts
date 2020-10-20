@@ -1,18 +1,4 @@
-// TODO: [DATAHUB-39] Make all "any" disappear
-export interface Theme {
-  space: number[];
-  breakpoints: string[];
-  fonts: { body: string; heading: string; monospace: string };
-  fontSizes: number[];
-  fontWeights: { [key: string]: number };
-  lineHeights: any;
-  colors: any;
-  text: any;
-  layout: any;
-  styles: any;
-  cards: any;
-  buttons: any;
-}
+import { Theme } from "../common/interfaces";
 
 const theme: Theme = {
   space: [0, 4, 8, 16, 32, 64, 128, 256, 512],
