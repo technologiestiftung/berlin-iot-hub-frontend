@@ -2,7 +2,7 @@ import { DeviceType } from "../state/model";
 
 export interface DeviceResponse {
   data: {
-    devices: Array<DeviceType>;
+    devices: DeviceType[];
   };
 }
 
@@ -16,14 +16,15 @@ export async function getDevices(url: string): Promise<DeviceResponse> {
   return json;
 }
 
+export interface Record {
+  id: number;
+  deviceId: number;
+  recordedAt: string;
+  value: number;
+}
 export interface RecordsResponse {
   data: {
-    records: Array<{
-      id: number;
-      deviceId: number;
-      recordedAt: string;
-      value: number;
-    }>;
+    records: Record[];
   };
 }
 

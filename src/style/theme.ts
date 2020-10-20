@@ -1,9 +1,10 @@
+// TODO: [DATAHUB-39] Make all "any" disappear
 export interface Theme {
   space: number[];
   breakpoints: string[];
-  fonts: any;
+  fonts: { body: string; heading: string; monospace: string };
   fontSizes: number[];
-  fontWeights: any;
+  fontWeights: { [key: string]: number };
   lineHeights: any;
   colors: any;
   text: any;

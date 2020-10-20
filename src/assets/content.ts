@@ -1,7 +1,12 @@
+interface Project {
+  title: string;
+  city: string;
+  description: string;
+}
+// type ProjectNameTypes = "temp_grunewald" | "testabc";
 interface Content {
   projects: {
-    temp_grunewald: any;
-    testabc: any;
+    [key: string]: Project;
   };
 }
 

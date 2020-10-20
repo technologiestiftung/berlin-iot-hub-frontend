@@ -31,6 +31,7 @@ export const LineGraph = ({ width, height, data }: LineGraphType) => {
   const xScale = scaleTime<number>({
     domain: extent(data, getX) as [Date, Date],
   });
+
   const yScale = scaleLinear<number>({
     domain: [0, max(data, getY) as number],
   });
@@ -45,6 +46,7 @@ export const LineGraph = ({ width, height, data }: LineGraphType) => {
         <LinePath<DateValue>
           curve={curveBasis}
           data={data}
+          // TODO: [DATAHUB-36] Type this function
           // @ts-ignore
           x={(d) => xScale(getX(d))}
           // @ts-ignore

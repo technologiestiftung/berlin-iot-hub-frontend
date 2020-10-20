@@ -9,7 +9,7 @@ const handleDownload = () => {
 export const IconButton: React.FC<{
   value: string;
   iconSource: string;
-  clickHandler?: any;
+  clickHandler?: (event: React.ChangeEvent<any>) => void;
 }> = ({ value, iconSource }) => {
   return (
     <Button

@@ -21,7 +21,7 @@ export interface ProjectType {
 export interface ProjectsModel {
   items: Array<ProjectType> | undefined;
   selected: Computed<ProjectsModel, ProjectType | any>;
-  save: Action<ProjectsModel>;
+  save: Action<ProjectsModel, DeviceType[]>;
   load: Thunk<ProjectsModel>;
 }
 
