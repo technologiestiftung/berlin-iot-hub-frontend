@@ -3,7 +3,7 @@ import React, { useEffect, useRef, useState } from "react";
 import { useStoreState } from "../state/hooks";
 import { getRecords } from "../lib/requests";
 import { Link, useParams } from "react-router-dom";
-import { jsx, Grid, Container, Box, Card, IconButton, Flex } from "theme-ui";
+import { jsx, Grid, Container, Box, Card, IconButton, Text } from "theme-ui";
 import ArrowBackIcon from "@material-ui/icons/ArrowBack";
 import { ProjectSummary } from "./project/ProjectSummary";
 import { DataTable } from "./project/DataTable";
@@ -139,18 +139,39 @@ export const Project: React.FC = () => {
           </Card>
         </Box>
         <Box>
-          <Card>
-            <Flex>
-              {completeProjectData && completeProjectData.devices && (
-                <RadioTabs
-                  name={"devices"}
-                  options={completeProjectData.devices.map(
-                    (device: DeviceType) => device.ttnDeviceId
-                  )}
-                  changeHandler={(selected) => setSelectedDeviceId(selected)}
-                />
+          <Card p={0}>
+            {completeProjectData &&
+              completeProjectData.devices &&
+              selectedDevice && (
+                <Grid
+                  columns={["auto max-content"]}
+                  p={3}
+                  sx={{
+                    borderBottom: (theme) =>
+                      `1px solid ${theme.colors.lightgrey}`,
+                  }}
+                >
+                  <RadioTabs
+                    name={"devices"}
+                    options={completeProjectData.devices.map(
+                      (device: DeviceType) => device.ttnDeviceId
+                    )}
+                    changeHandler={(selected) => setSelectedDeviceId(selected)}
+                  />
+                  <Text>
+                    {selectedDevice.records.length &&
+                    selectedDevice.records[0].hasOwnProperty("recordedAt")
+                      ? new Date(
+                          Math.max(
+                            ...selectedDevice.records.map((e) =>
+                              Date.parse(e.recordedAt)
+                            )
+                          )
+                        ).toLocaleDateString()
+                      : ""}
+                  </Text>
+                </Grid>
               )}
-            </Flex>
             <Box ref={parentRef} mt={4}>
               {selectedDevice && selectedDevice.records && (
                 <LineGraph
