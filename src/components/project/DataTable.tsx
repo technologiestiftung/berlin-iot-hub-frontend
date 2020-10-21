@@ -49,25 +49,29 @@ export const DataTable: React.FC<DataTableType> = ({ data, title }) => {
           </thead>
           <tbody>
             {data &&
-              data.map((el: RecordType, i: number) => {
-                return (
-                  <tr
-                    key={i}
-                    sx={{
-                      backgroundColor: () =>
-                        `${i % 2 === 0 ? "muted" : "background"}`,
-                      "& > td": {
-                        p: 2,
-                        border: "none",
-                      },
-                    }}
-                  >
-                    <td>{el.recordedAt}</td>
-                    <td>{el.recordedAt}</td>
-                    <td sx={{ textAlign: "right" }}>{el.value}</td>
-                  </tr>
-                );
-              })}
+              data
+                .sort(
+                  (a, b) => Date.parse(b.recordedAt) - Date.parse(a.recordedAt)
+                )
+                .map((el: RecordType, i: number) => {
+                  return (
+                    <tr
+                      key={i}
+                      sx={{
+                        backgroundColor: () =>
+                          `${i % 2 === 0 ? "muted" : "background"}`,
+                        "& > td": {
+                          p: 2,
+                          border: "none",
+                        },
+                      }}
+                    >
+                      <td>{new Date(el.recordedAt).toLocaleDateString()}</td>
+                      <td>{new Date(el.recordedAt).toLocaleTimeString()}</td>
+                      <td sx={{ textAlign: "right" }}>{el.value}</td>
+                    </tr>
+                  );
+                })}
           </tbody>
         </table>
       </Box>

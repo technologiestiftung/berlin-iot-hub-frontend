@@ -14,6 +14,7 @@ export const content: Content = {
       city: "Berlin, Deutschland",
       description:
         "Hier steht eine Beschreibung des Projekts. Hier steht eine Beschreibung.",
+      devices: [],
     },
     testabc: {
       id: "testabc",
@@ -21,6 +22,7 @@ export const content: Content = {
       city: "Berlin, Deutschland",
       description:
         "Hier steht eine Beschreibung des Projekts. Hier steht eine Beschreibung.",
+      devices: [],
     },
   },
 };

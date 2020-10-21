@@ -127,7 +127,7 @@ export interface ProjectType {
   title: string;
   city: string;
   description: string;
-  devices?: Array<DeviceType>;
+  devices: Array<DeviceType>;
 }
 
 export interface DeviceType {
@@ -137,7 +137,7 @@ export interface DeviceType {
   longitude: number;
   ttnAppId: string;
   ttnDeviceId: string;
-  records?: Array<RecordType>;
+  records: Array<RecordType>;
 }
 
 export interface RecordType {
