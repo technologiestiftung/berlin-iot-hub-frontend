@@ -1,14 +1,16 @@
 /** @jsx jsx */
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { useStoreState } from "../state/hooks";
 import { getRecords } from "../lib/requests";
 import { Link, useParams } from "react-router-dom";
-import { jsx, Grid, Container, Box, Card, IconButton } from "theme-ui";
+import { jsx, Grid, Container, Box, Card, IconButton, Text } from "theme-ui";
 import ArrowBackIcon from "@material-ui/icons/ArrowBack";
 import { ProjectSummary } from "./project/ProjectSummary";
 import { DataTable } from "./project/DataTable";
 import { IconButton as DownloadButton } from "./IconButton";
-import { ProjectType, DeviceType } from "../common/interfaces";
+import { ProjectType, DeviceType, RecordType } from "../common/interfaces";
+import { RadioTabs } from "./RadioTabs";
+import { LineGraph } from "./LineGraph";
 
 const downloadIcon = "./images/download.svg";
 
@@ -17,15 +19,27 @@ interface RouteParams {
 }
 export const Project: React.FC = () => {
   const { id } = useParams<RouteParams>();
-  const [data, setData] = useState<ProjectType | undefined>(undefined);
+  const projectWithoutRecords: ProjectType = useStoreState((state) =>
+    state.projects.selected(id)
+  );
 
-  const selectedProject = useStoreState((state) => state.projects.selected(id));
+  const [completeProjectData, setCompleteProjectData] = useState<ProjectType>(
+    projectWithoutRecords
+  );
+
+  const [selectedDeviceId, setSelectedDeviceId] = useState<string | undefined>(
+    undefined
+  );
+
+  const [selectedDevice, setSelectedDevice] = useState<DeviceType | undefined>(
+    undefined
+  );
 
   useEffect(() => {
-    if (!selectedProject) return;
+    if (!projectWithoutRecords) return;
 
     Promise.all(
-      selectedProject.devices.map(async (device: DeviceType) => {
+      projectWithoutRecords.devices.map(async (device: DeviceType) => {
         const {
           data: { records },
         } = await getRecords(
@@ -35,7 +49,7 @@ export const Project: React.FC = () => {
       })
     )
       .then((results: Array<any>) => {
-        const devicesWithRecords = selectedProject.devices.map(
+        const devicesWithRecords: Array<DeviceType> = projectWithoutRecords.devices.map(
           (device: DeviceType, i: number) => {
             return {
               ...device,
@@ -44,13 +58,44 @@ export const Project: React.FC = () => {
           }
         );
 
-        setData({
-          ...selectedProject,
+        setCompleteProjectData({
+          ...projectWithoutRecords,
           devices: devicesWithRecords,
         });
+        setSelectedDeviceId(devicesWithRecords[0].ttnDeviceId);
+        setSelectedDevice(devicesWithRecords[0]);
       })
       .catch((error) => console.error(error));
-  }, [selectedProject]);
+  }, [projectWithoutRecords]);
+
+  useEffect(() => {
+    if (!completeProjectData) return;
+    setSelectedDevice(
+      completeProjectData.devices.find(
+        (device) => device.ttnDeviceId === selectedDeviceId
+      )
+    );
+  }, [selectedDeviceId, completeProjectData]);
+
+  const parentRef = useRef<HTMLDivElement>(null);
+  const [svgWrapperWidth, setSvgWrapperWidth] = useState(0);
+  const [svgWrapperHeight, setSvgWrapperHeight] = useState(0);
+
+  const updateWidthAndHeight = () => {
+    if (parentRef.current === null) return;
+    setSvgWrapperWidth(parentRef.current.offsetWidth);
+    setSvgWrapperHeight(parentRef.current.offsetWidth / 2);
+  };
+
+  useEffect(() => {
+    if (parentRef.current === null) return;
+    setSvgWrapperWidth(parentRef.current.offsetWidth);
+    setSvgWrapperHeight(parentRef.current.offsetWidth / 2);
+
+    window.addEventListener("resize", updateWidthAndHeight);
+
+    return () => window.removeEventListener("resize", updateWidthAndHeight);
+  }, [parentRef]);
 
   return (
     <Container mt={[0, 5, 5]} p={4}>
@@ -71,11 +116,15 @@ export const Project: React.FC = () => {
             </IconButton>
           </Link>
           <Box mt={2}>
-            {data && (
+            {completeProjectData && (
               <ProjectSummary
-                title={data.title}
-                description={data.description}
-                noOfDevices={data.devices ? data.devices.length : 0}
+                title={completeProjectData.title}
+                description={completeProjectData.description}
+                noOfDevices={
+                  completeProjectData.devices
+                    ? completeProjectData.devices.length
+                    : 0
+                }
               />
             )}
           </Box>
@@ -90,11 +139,58 @@ export const Project: React.FC = () => {
           </Card>
         </Box>
         <Box>
-          <Card>Line Graph</Card>
-          {data && data.devices && (
+          <Card p={0}>
+            {completeProjectData &&
+              completeProjectData.devices &&
+              selectedDevice && (
+                <Grid
+                  columns={["auto max-content"]}
+                  p={3}
+                  sx={{
+                    borderBottom: (theme) =>
+                      `1px solid ${theme.colors.lightgrey}`,
+                  }}
+                >
+                  <RadioTabs
+                    name={"devices"}
+                    options={completeProjectData.devices.map(
+                      (device: DeviceType) => device.ttnDeviceId
+                    )}
+                    changeHandler={(selected) => setSelectedDeviceId(selected)}
+                  />
+                  <Text>
+                    {selectedDevice.records.length &&
+                    selectedDevice.records[0].hasOwnProperty("recordedAt")
+                      ? new Date(
+                          Math.max(
+                            ...selectedDevice.records.map((e) =>
+                              Date.parse(e.recordedAt)
+                            )
+                          )
+                        ).toLocaleDateString()
+                      : ""}
+                  </Text>
+                </Grid>
+              )}
+            <Box ref={parentRef} mt={4}>
+              {selectedDevice && selectedDevice.records && (
+                <LineGraph
+                  width={svgWrapperWidth}
+                  height={svgWrapperHeight}
+                  data={selectedDevice.records.map((record: RecordType) => {
+                    return {
+                      date: new Date(record.recordedAt),
+                      value: record.value,
+                    };
+                  })}
+                />
+              )}
+            </Box>
+          </Card>
+          {selectedDevice && selectedDevice.records && (
             <DataTable
-              data={data.devices[0].records}
-              title={data.devices[0].description}
+              data={selectedDevice.records}
+              title={selectedDevice.description}
             />
           )}
         </Box>
