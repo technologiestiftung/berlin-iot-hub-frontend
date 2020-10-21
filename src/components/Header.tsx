@@ -15,8 +15,10 @@ export const Header: React.FC = () => {
       sx={{
         boxShadow: "0 2px 4px rgba(0,0,0,0.2)",
         width: "100%",
-        position: "sticky",
+        position: ["relative", "sticky", "sticky"],
         top: "0",
+        flex: "1 1 auto",
+        flexWrap: "wrap",
       }}
     >
       <Box sx={{ flex: "1 1 auto" }}>
@@ -33,9 +35,11 @@ export const Header: React.FC = () => {
           </Flex>
         </Link>
       </Box>
-      <Box>
+      <Box mt={[4, 0, 0]}>
         <Flex>
-          <Text>Ein Projekt der:</Text>
+          <Flex sx={{ alignItems: "center" }}>
+            <Text>Ein Projekt der:</Text>
+          </Flex>
           <Image
             src={TSBLogo}
             alt={"Logo der Technologiestiftung Berlin"}

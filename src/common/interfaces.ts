@@ -115,8 +115,13 @@ export interface Theme {
       color: string;
       bg: string;
       fontWeight: string;
+      p: number;
       "&:hover": {
         cursor: string;
+      };
+      "&:focus": {
+        bg: string;
+        outline: string;
       };
     };
   };

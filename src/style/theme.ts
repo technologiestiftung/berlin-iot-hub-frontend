@@ -150,8 +150,13 @@ const theme: Theme = {
       color: "secondary",
       bg: "transparent",
       fontWeight: "bold",
+      p: 0,
       "&:hover": {
         cursor: "pointer",
+      },
+      "&:focus": {
+        bg: "lightgrey",
+        outline: "none",
       },
     },
   },
