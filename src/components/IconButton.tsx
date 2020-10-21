@@ -14,6 +14,7 @@ export const IconButton: React.FC<IconButtonType> = ({ value, iconSource }) => {
       sx={{
         display: "flex",
         alignItems: "center",
+        textAlign: "left",
       }}
       onClick={handleDownload}
     >
@@ -30,7 +31,7 @@ export const IconButton: React.FC<IconButtonType> = ({ value, iconSource }) => {
         <Image
           src={iconSource}
           alt="Download-Icon"
-          sx={{ width: "100%", height: "100%" }}
+          sx={{ width: "100%", height: "100%", flex: "1 0 0" }}
         />
       </Box>
       {value}
