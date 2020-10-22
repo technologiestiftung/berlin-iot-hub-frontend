@@ -35,7 +35,7 @@ export const Overview: React.FC = () => {
             Offene Datenplattform für IoT-Projekte
           </Heading>
         </Box>
-        <Box>
+        <Box sx={{ maxWidth: "60ch" }}>
           <Text>
             Das Berlin Data Hub ist eine prototypische Offene Datenplattform,
             die Sensordaten aus Forschungsprojekten der Technologiestiftung
