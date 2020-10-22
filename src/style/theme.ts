@@ -56,7 +56,7 @@ const theme: Theme = {
       fontSize: 4,
     },
     h4: {
-      color: "text",
+      color: "secondary",
       fontFamily: "heading",
       lineHeight: "heading",
       fontWeight: "heading",
@@ -124,6 +124,19 @@ const theme: Theme = {
     },
     img: {
       maxWidth: "100%",
+    },
+    a: {
+      color: "secondary",
+      textDecoration: "none",
+      "&:hover": {
+        color: "primary",
+      },
+      "&:focus": {
+        bg: "muted",
+      },
+      "&:active": {
+        bg: "mediumgrey",
+      },
     },
   },
   cards: {

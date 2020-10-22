@@ -26,7 +26,7 @@ export async function getRecords(url: string): Promise<RecordsResponse> {
   const response = await fetch(url);
   if (!response.ok) {
     console.error(await response.text());
-    throw new Error("Failed to fetch device");
+    throw new Error("Failed to fetch records");
   }
   const json = (await response.json()) as RecordsResponse;
   return json;

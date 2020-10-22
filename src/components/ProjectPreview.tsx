@@ -56,7 +56,7 @@ export const ProjectPreview: React.FC<ProjectType> = ({
 
   return (
     <Box mt={4}>
-      <Link to={id} sx={{ textDecoration: "none", color: "text" }}>
+      <Link to={`${id}`} sx={{ textDecoration: "none", color: "text" }}>
         <Card
           sx={{
             transition: "all .2s ease-out",

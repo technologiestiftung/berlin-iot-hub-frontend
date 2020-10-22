@@ -12,6 +12,7 @@ import { ProjectType, DeviceType } from "../common/interfaces";
 import { RadioTabs } from "./RadioTabs";
 import { LineChart } from "./visualization/LineChart";
 import { createDateValueArray } from "../lib/utils";
+import { ApiInfo } from "./ApiInfo";
 
 const downloadIcon = "./images/download.svg";
 
@@ -21,7 +22,7 @@ interface RouteParams {
 export const Project: React.FC = () => {
   const { id } = useParams<RouteParams>();
   const projectWithoutRecords: ProjectType = useStoreState((state) =>
-    state.projects.selected(id)
+    state.projects.selected(Number(id))
   );
 
   const [completeProjectData, setCompleteProjectData] = useState<ProjectType>(
@@ -129,7 +130,21 @@ export const Project: React.FC = () => {
               />
             )}
           </Box>
-          <Box sx={{ mt: 2 }}>
+          <Box mt={4}>
+            {completeProjectData && (
+              <ApiInfo
+                entries={completeProjectData.devices.map(
+                  (device: DeviceType) => {
+                    return {
+                      name: device.description,
+                      id: device.id,
+                    };
+                  }
+                )}
+              />
+            )}
+          </Box>
+          <Box mt={4}>
             <DownloadButton
               value={"Alle Daten downloaden"}
               iconSource={downloadIcon}
