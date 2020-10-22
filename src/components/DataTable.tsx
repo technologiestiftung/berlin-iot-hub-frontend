@@ -1,8 +1,8 @@
 /** @jsx jsx */
 import React from "react";
 import { jsx, Grid, Card, Box } from "theme-ui";
-import { IconButton } from "../IconButton";
-import { RecordType, DataTableType } from "../../common/interfaces";
+import { IconButton } from "./IconButton";
+import { RecordType, DataTableType } from "../common/interfaces";
 
 const downloadIcon = "./images/download.svg";
 

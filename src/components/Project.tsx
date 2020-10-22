@@ -5,12 +5,13 @@ import { getRecords } from "../lib/requests";
 import { Link, useParams } from "react-router-dom";
 import { jsx, Grid, Container, Box, Card, IconButton, Text } from "theme-ui";
 import ArrowBackIcon from "@material-ui/icons/ArrowBack";
-import { ProjectSummary } from "./project/ProjectSummary";
-import { DataTable } from "./project/DataTable";
+import { ProjectSummary } from "./ProjectSummary";
+import { DataTable } from "./DataTable";
 import { IconButton as DownloadButton } from "./IconButton";
-import { ProjectType, DeviceType, RecordType } from "../common/interfaces";
+import { ProjectType, DeviceType } from "../common/interfaces";
 import { RadioTabs } from "./RadioTabs";
-import { LineGraph } from "./LineGraph";
+import { LineChart } from "./visualization/LineChart";
+import { createDateValueArray } from "../lib/utils";
 
 const downloadIcon = "./images/download.svg";
 
@@ -174,15 +175,10 @@ export const Project: React.FC = () => {
               )}
             <Box ref={parentRef} mt={4}>
               {selectedDevice && selectedDevice.records && (
-                <LineGraph
+                <LineChart
                   width={svgWrapperWidth}
                   height={svgWrapperHeight}
-                  data={selectedDevice.records.map((record: RecordType) => {
-                    return {
-                      date: new Date(record.recordedAt),
-                      value: record.value,
-                    };
-                  })}
+                  data={createDateValueArray(selectedDevice.records)}
                 />
               )}
             </Box>

@@ -1,25 +1,17 @@
 /** @jsx jsx */
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
-import React from "react";
 import { jsx, useThemeUI } from "theme-ui";
 import { extent, max } from "d3-array";
-import { curveLinear } from "@visx/curve";
 import { Group } from "@visx/group";
-import { LinePath } from "@visx/shape";
-import { scaleTime, scaleLinear, scaleUtc, coerceNumber } from "@visx/scale";
+import { scaleLinear, scaleUtc } from "@visx/scale";
 import { AxisBottom, AxisLeft } from "@visx/axis";
 import { timeFormat } from "d3-time-format";
-import { DateValueType, LineGraphType } from "../common/interfaces";
+import { DateValueType, LineGraphType } from "../../common/interfaces";
+import { LinePath } from "./LinePath";
 
 const getX = (d: DateValueType) => d.date;
 const getY = (d: DateValueType) => d.value;
 
-const getMinMax = (vals: (number | { valueOf(): number })[]) => {
-  const numericVals = vals.map(coerceNumber);
-  return [Math.min(...numericVals), Math.max(...numericVals)];
-};
-
-export const LineGraph = ({ width, height, data }: LineGraphType) => {
+export const LineChart = ({ width, height, data }: LineGraphType) => {
   const context = useThemeUI();
   const { theme } = context;
 
@@ -29,31 +21,24 @@ export const LineGraph = ({ width, height, data }: LineGraphType) => {
   const graphWidth: number = width - paddingLeft - padding;
   const graphHeight: number = height - padding;
 
-  const xScale = scaleTime<number>({
+  const xScale = scaleUtc<number>({
     domain: extent(data, getX) as [Date, Date],
+    range: [0, graphWidth],
   });
 
   const yScale = scaleLinear<number>({
     domain: [0, max(data, getY) as number],
+    range: [graphHeight, 0],
   });
 
-  xScale.range([0, graphWidth]);
-  yScale.range([graphHeight, 0]);
-
   const xAxis = {
-    scale: scaleUtc({
-      domain: getMinMax(data.map((el) => el.date)),
-      range: [0, graphWidth],
-    }),
+    scale: xScale,
     values: data.map((el) => el.date),
     tickFormat: (v: Date) => timeFormat("%H:%M:%S"),
   };
 
   const yAxis = {
-    scale: scaleLinear({
-      domain: getMinMax(data.map((el) => el.value)),
-      range: [graphHeight, 0],
-    }),
+    scale: yScale,
     values: data.map((el) => el.value),
   };
 
@@ -88,21 +73,7 @@ export const LineGraph = ({ width, height, data }: LineGraphType) => {
         }
       />
       <Group left={paddingLeft}>
-        <LinePath<DateValueType>
-          curve={curveLinear}
-          data={data}
-          // TODO: [DATAHUB-36] Type this function
-          // @ts-ignore
-          x={(d) => xScale(getX(d))}
-          // @ts-ignore
-          y={(d) => yScale(getY(d))}
-          sx={{
-            stroke: "primary",
-            strokeWidth: 2,
-            strokeOpacity: 1,
-            shapeRendering: "geometricPrecision",
-          }}
-        />
+        <LinePath width={graphWidth} height={graphHeight} data={data} />
       </Group>
     </svg>
   );
