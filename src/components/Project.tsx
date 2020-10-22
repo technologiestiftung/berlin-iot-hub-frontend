@@ -183,9 +183,17 @@ export const Project: React.FC = () => {
                   <RadioTabs
                     name={"devices"}
                     options={completeProjectData.devices.map(
-                      (device: DeviceType) => device.ttnDeviceId
+                      (device: DeviceType) => device.description
                     )}
-                    changeHandler={(selected) => setSelectedDeviceId(selected)}
+                    changeHandler={(selected) =>
+                      setSelectedDeviceId(
+                        completeProjectData.devices.find(
+                          (device: DeviceType) => {
+                            return device.description === selected;
+                          }
+                        )?.ttnDeviceId
+                      )
+                    }
                   />
                   <Text>
                     {selectedDevice.records.length &&
