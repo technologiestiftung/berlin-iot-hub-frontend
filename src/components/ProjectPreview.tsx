@@ -1,8 +1,11 @@
 /** @jsx jsx */
-import React from "react";
+import React, { useEffect, useState, useRef } from "react";
 import { Link } from "react-router-dom";
 import { jsx, Box, Card, Heading, Text, Grid } from "theme-ui";
-import { ProjectType } from "../common/interfaces";
+import { ProjectType, DateValueType } from "../common/interfaces";
+import { LinePath } from "./visualization/LinePath";
+import { getRecords } from "../lib/requests";
+import { createDateValueArray } from "../lib/utils";
 
 export const ProjectPreview: React.FC<ProjectType> = ({
   id,
@@ -11,6 +14,46 @@ export const ProjectPreview: React.FC<ProjectType> = ({
   description,
   devices,
 }) => {
+  const [dateValueArray, setDateValueArray] = useState<
+    DateValueType[] | undefined
+  >(undefined);
+  useEffect(() => {
+    const fetchFirstDeviceRecords = async () => {
+      const {
+        data: { records },
+      } = await getRecords(
+        `${process.env.REACT_APP_API_URL}/api/devices/${devices[0].id}/records`
+      );
+      return records;
+    };
+
+    fetchFirstDeviceRecords()
+      .then((result) => {
+        setDateValueArray(createDateValueArray(result));
+      })
+      .catch((error) => console.error(error));
+  }, [devices]);
+
+  const parentRef = useRef<HTMLDivElement>(null);
+  const [svgWrapperWidth, setSvgWrapperWidth] = useState(0);
+  const [svgWrapperHeight, setSvgWrapperHeight] = useState(0);
+
+  const updateWidthAndHeight = () => {
+    if (parentRef.current === null) return;
+    setSvgWrapperWidth(parentRef.current.offsetWidth);
+    setSvgWrapperHeight(parentRef.current.offsetWidth / 2);
+  };
+
+  useEffect(() => {
+    if (parentRef.current === null) return;
+    setSvgWrapperWidth(parentRef.current.offsetWidth);
+    setSvgWrapperHeight(parentRef.current.offsetWidth / 2);
+
+    window.addEventListener("resize", updateWidthAndHeight);
+
+    return () => window.removeEventListener("resize", updateWidthAndHeight);
+  }, [parentRef]);
+
   return (
     <Box mt={4}>
       <Link to={id} sx={{ textDecoration: "none", color: "text" }}>
@@ -32,15 +75,22 @@ export const ProjectPreview: React.FC<ProjectType> = ({
               </Heading>
               <Text mt={3}>{description}</Text>
             </Box>
-            <Box>
-              <svg width="100%" height="100%">
-                <path
-                  d="M 10 80 Q 52.5 10, 95 80 T 180 80"
-                  strokeWidth={3}
-                  sx={{ stroke: "primary" }}
-                  fill="transparent"
-                />
-              </svg>
+            <Box ref={parentRef}>
+              {dateValueArray && (
+                <svg
+                  viewBox={`0 0 ${svgWrapperWidth} ${svgWrapperHeight}`}
+                  xmlns="http://www.w3.org/2000/svg"
+                  width={svgWrapperWidth}
+                  height={svgWrapperHeight}
+                  sx={{ overflow: "visible" }}
+                >
+                  <LinePath
+                    width={svgWrapperWidth}
+                    height={svgWrapperHeight}
+                    data={dateValueArray}
+                  />
+                </svg>
+              )}
             </Box>
           </Grid>
         </Card>
