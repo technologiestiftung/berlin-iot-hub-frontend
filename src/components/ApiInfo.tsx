@@ -15,7 +15,7 @@ export const ApiInfo: React.FC<ApiTableType> = ({ entries }) => {
         <tbody>
           {entries.map((entry) => {
             return (
-              <tr sx={{ "& > td": { fontSize: 0, py: 2 } }}>
+              <tr key={entry.name} sx={{ "& > td": { fontSize: 0, py: 2 } }}>
                 <td>{entry.name}</td>
                 <td sx={{ px: 1, bg: "muted", fontFamily: "monospace" }}>
                   <Link
