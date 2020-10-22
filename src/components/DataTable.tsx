@@ -15,12 +15,15 @@ export const DataTable: React.FC<DataTableType> = ({ data, title }) => {
   };
 
   return (
-    <Card mt={4} p={0}>
+    <Card mt={4} p={0} sx={{ height: "500px", overflowY: "scroll" }}>
       <Grid
         columns={["auto max-content"]}
         p={3}
+        bg="background"
         sx={{
           borderBottom: (theme) => `1px solid ${theme.colors.lightgrey}`,
+          position: "sticky",
+          top: 0,
         }}
       >
         {title && <Box color="primary">{title}</Box>}
