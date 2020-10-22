@@ -34,7 +34,8 @@ export const LineChart = ({ width, height, data }: LineGraphType) => {
   const xAxis = {
     scale: xScale,
     values: data.map((el) => el.date),
-    tickFormat: (v: Date) => timeFormat("%H:%M:%S"),
+    // TODO: review how to switch to a 24 hour display
+    tickFormat: (v: Date) => timeFormat("%H:%M")(v),
   };
 
   const yAxis = {
