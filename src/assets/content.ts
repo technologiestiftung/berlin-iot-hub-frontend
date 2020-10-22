@@ -24,5 +24,13 @@ export const content: Content = {
         "Hier steht eine Beschreibung des Projekts. Hier steht eine Beschreibung.",
       devices: [],
     },
+    4: {
+      id: 2,
+      title: "Noch ein Test-Projekt",
+      city: "Berlin, Deutschland",
+      description:
+        "Hier steht eine Beschreibung des Projekts. Hier steht eine Beschreibung.",
+      devices: [],
+    },
   },
 };
