@@ -7,17 +7,17 @@ import { ProjectType } from "../common/interfaces";
 const store = createStore<StoreModel>({
   projects: {
     items: undefined,
-    selected: computed((state) => (id: string) => {
+    selected: computed((state) => (id: number) => {
       if (!state.items) return;
       return state.items.find((item: ProjectType) => item.id === id);
     }),
     save: action((state, payload) => {
       const uniqueProjects = Array.from(
-        new Set(payload.map((a) => a.ttnAppId))
+        new Set(payload.map((a) => a.projectId))
       );
 
-      const projects = uniqueProjects.map((projectId: string) => {
-        const devices = payload.filter((el) => el.ttnAppId === projectId);
+      const projects = uniqueProjects.map((projectId: number) => {
+        const devices = payload.filter((el) => el.projectId === projectId);
 
         const project: ProjectType = {
           id: projectId,

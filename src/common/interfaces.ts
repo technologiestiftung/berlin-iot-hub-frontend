@@ -128,7 +128,7 @@ export interface Theme {
 }
 
 export interface ProjectType {
-  id: string;
+  id: number;
   title: string;
   city: string;
   description: string;
@@ -140,7 +140,7 @@ export interface DeviceType {
   id: number;
   latitude: number;
   longitude: number;
-  ttnAppId: string;
+  projectId: number;
   ttnDeviceId: string;
   records: Array<RecordType>;
 }
@@ -184,4 +184,11 @@ export interface IconButtonType {
   value: string;
   iconSource: string;
   clickHandler?: (event: React.ChangeEvent<any>) => void;
+}
+
+export interface ApiTableType {
+  entries: Array<{
+    name: string;
+    id: number;
+  }>;
 }
