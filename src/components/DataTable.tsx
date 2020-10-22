@@ -3,6 +3,7 @@ import React from "react";
 import { jsx, Grid, Card, Box } from "theme-ui";
 import { IconButton } from "./IconButton";
 import { RecordType, DataTableType } from "../common/interfaces";
+import { createTimeOutput } from "../lib/utils";
 
 const downloadIcon = "./images/download.svg";
 
@@ -67,7 +68,7 @@ export const DataTable: React.FC<DataTableType> = ({ data, title }) => {
                       }}
                     >
                       <td>{new Date(el.recordedAt).toLocaleDateString()}</td>
-                      <td>{new Date(el.recordedAt).toLocaleTimeString()}</td>
+                      <td>{createTimeOutput(new Date(el.recordedAt))}</td>
                       <td sx={{ textAlign: "right" }}>{el.value}</td>
                     </tr>
                   );
