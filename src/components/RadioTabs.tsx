@@ -23,7 +23,7 @@ export const RadioTabs: React.FC<RadioTabsType> = ({
             key={i}
             sx={{
               display: "inline-block",
-              marginLeft: i === 0 ? "0" : (theme) => `${theme.space[3]}px`,
+              marginRight: (theme) => `${theme.space[3]}px`,
             }}
           >
             <input
