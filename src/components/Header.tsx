@@ -19,9 +19,10 @@ export const Header: React.FC = () => {
         top: "0",
         flex: "1 1 auto",
         flexWrap: "wrap",
+        justifyContent: "space-between",
       }}
     >
-      <Box sx={{ flex: "1 1 auto" }}>
+      <Box>
         <Link to="/" sx={{ textDecoration: "none", color: "text" }}>
           <Flex>
             <Image
