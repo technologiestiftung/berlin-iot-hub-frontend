@@ -24,3 +24,10 @@ export const downloadCSV = (input: string, title: string | undefined): void => {
   hiddenElement.click();
   hiddenElement.remove();
 };
+
+export const downloadMultiple = (input: RecordType[][], titles: string[]) => {
+  input.forEach((records: RecordType[], i: number) => {
+    const CSVData = createCSVStructure(records);
+    downloadCSV(CSVData, titles[i]);
+  });
+};
