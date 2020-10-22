@@ -4,10 +4,16 @@ import { jsx, Grid, Card, Box } from "theme-ui";
 import { IconButton } from "./IconButton";
 import { RecordType, DataTableType } from "../common/interfaces";
 import { createTimeOutput } from "../lib/utils";
+import { createCSVStructure, downloadCSV } from "../lib/download-handlers";
 
 const downloadIcon = "./images/download.svg";
 
 export const DataTable: React.FC<DataTableType> = ({ data, title }) => {
+  const handleDownload = (): void => {
+    const CSVData = createCSVStructure(data);
+    downloadCSV(CSVData, title);
+  };
+
   return (
     <Card mt={4} p={0}>
       <Grid
@@ -19,7 +25,11 @@ export const DataTable: React.FC<DataTableType> = ({ data, title }) => {
       >
         {title && <Box color="primary">{title}</Box>}
         <Box>
-          <IconButton value={"Download"} iconSource={downloadIcon} />
+          <IconButton
+            value={"Download"}
+            iconSource={downloadIcon}
+            clickHandler={handleDownload}
+          />
         </Box>
       </Grid>
       <Box p={3}>
