@@ -3,11 +3,11 @@ import React from "react";
 import { jsx, Box, Button, Image } from "theme-ui";
 import { IconButtonType } from "../common/interfaces";
 
-const handleDownload = () => {
-  console.log("Download");
-};
-
-export const IconButton: React.FC<IconButtonType> = ({ value, iconSource }) => {
+export const IconButton: React.FC<IconButtonType> = ({
+  value,
+  iconSource,
+  clickHandler,
+}) => {
   return (
     <Button
       variant="text"
@@ -16,7 +16,7 @@ export const IconButton: React.FC<IconButtonType> = ({ value, iconSource }) => {
         alignItems: "center",
         textAlign: "left",
       }}
-      onClick={handleDownload}
+      onClick={clickHandler}
     >
       <Box
         bg="secondary"

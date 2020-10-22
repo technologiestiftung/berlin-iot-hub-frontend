@@ -4,6 +4,7 @@ import { useStoreState } from "../state/hooks";
 import { getRecords } from "../lib/requests";
 import { Link, useParams } from "react-router-dom";
 import { jsx, Grid, Container, Box, Card, IconButton, Text } from "theme-ui";
+import { downloadMultiple } from "../lib/download-handlers";
 import ArrowBackIcon from "@material-ui/icons/ArrowBack";
 import { ProjectSummary } from "./ProjectSummary";
 import { DataTable } from "./DataTable";
@@ -99,6 +100,15 @@ export const Project: React.FC = () => {
     return () => window.removeEventListener("resize", updateWidthAndHeight);
   }, [parentRef]);
 
+  const handleDownload = () => {
+    downloadMultiple(
+      completeProjectData.devices.map((device: DeviceType) => device.records),
+      completeProjectData.devices.map(
+        (device: DeviceType) => device.description
+      )
+    );
+  };
+
   return (
     <Container mt={[0, 5, 5]} p={4}>
       <Grid gap={[4, 6, 6]} columns={[1, "1fr 2fr"]}>
@@ -145,10 +155,13 @@ export const Project: React.FC = () => {
             )}
           </Box>
           <Box mt={4}>
-            <DownloadButton
-              value={"Alle Daten downloaden"}
-              iconSource={downloadIcon}
-            />
+            {completeProjectData && (
+              <DownloadButton
+                value={"Alle Daten downloaden"}
+                iconSource={downloadIcon}
+                clickHandler={handleDownload}
+              />
+            )}
           </Box>
           <Card mt={5} bg="muted" sx={{ minHeight: "200px" }}>
             Kartenansicht
