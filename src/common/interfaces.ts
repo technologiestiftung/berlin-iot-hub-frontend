@@ -146,6 +146,7 @@ export interface ProjectType {
   city: string;
   description: string;
   devices: Array<DeviceType>;
+  userId?: number;
 }
 
 export interface DeviceType {

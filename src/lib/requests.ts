@@ -1,4 +1,20 @@
-import { DeviceType, RecordType } from "../common/interfaces";
+import { DeviceType, RecordType, ProjectType } from "../common/interfaces";
+
+interface ProjectResponse {
+  data: {
+    projects: ProjectType[];
+  };
+}
+
+export async function getProjects(url: string): Promise<ProjectResponse> {
+  const response = await fetch(url);
+  if (!response.ok) {
+    console.error(await response.text());
+    throw new Error("Failed to fetch device");
+  }
+  const json = (await response.json()) as ProjectResponse;
+  return json;
+}
 
 interface DeviceResponse {
   data: {
