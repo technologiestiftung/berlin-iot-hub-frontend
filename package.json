@@ -1,5 +1,5 @@
 {
-  "name": "berlin-datahub-frontend",
+  "name": "berlin-iot-hub-frontend",
   "version": "0.1.0",
   "private": true,
   "dependencies": {
@@ -8,6 +8,7 @@
     "@testing-library/jest-dom": "^4.2.4",
     "@testing-library/react": "^9.5.0",
     "@testing-library/user-event": "^7.2.1",
+    "@turf/turf": "^5.1.6",
     "@types/d3-array": "^2.2.0",
     "@types/d3-time-format": "^3.0.0",
     "@types/jest": "^24.9.1",

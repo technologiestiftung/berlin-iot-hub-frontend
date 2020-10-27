@@ -206,3 +206,9 @@ export interface ApiTableType {
     id: number;
   }>;
 }
+
+export interface MarkerType {
+  latitude: number;
+  longitude: number;
+  id: number;
+}
