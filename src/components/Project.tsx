@@ -150,6 +150,14 @@ export const Project: React.FC = () => {
     );
   };
 
+  const handleMarkerSelect = (deviceId: number) => {
+    setSelectedDeviceId(
+      completeProjectData.devices.find((device: DeviceType) => {
+        return device.id === deviceId;
+      })?.ttnDeviceId
+    );
+  };
+
   return (
     <Container mt={[0, 5, 5]} p={4}>
       <Grid gap={[4, 6, 6]} columns={[1, "1fr 2fr"]}>
@@ -212,7 +220,7 @@ export const Project: React.FC = () => {
               {markerData && markerData.length >= 1 && (
                 <MarkerMap
                   markers={markerData}
-                  clickHandler={() => console.log("Oi")}
+                  clickHandler={handleMarkerSelect}
                   mapWidth={mapWidth}
                   mapHeight={mapHeight}
                 />
