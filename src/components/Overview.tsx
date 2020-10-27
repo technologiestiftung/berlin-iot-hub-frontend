@@ -25,11 +25,11 @@ export const Overview: React.FC = () => {
         <Box>
           <Image
             src={DatahubLogo}
-            alt={"Logo des Berlin Data Hub"}
+            alt={"Logo des Berlin IoT Hub"}
             sx={{ minWidth: "240px" }}
           />
           <Heading as="h1" variant="h1" mt={4} sx={{ color: "text" }}>
-            Berlin <span sx={{ fontWeight: "body" }}>Data Hub</span>
+            Berlin <span sx={{ fontWeight: "body" }}>IoT Hub</span>
           </Heading>
           <Heading as="h2" variant="h2" mt={2} sx={{ color: "primary" }}>
             Offene Datenplattform für IoT-Projekte
@@ -37,13 +37,13 @@ export const Overview: React.FC = () => {
         </Box>
         <Box sx={{ maxWidth: "60ch" }}>
           <Text>
-            Das Berlin Data Hub ist eine prototypische Offene Datenplattform,
-            die Sensordaten aus Forschungsprojekten der Technologiestiftung
-            Berlin speichert und als Download, sowie über eine REST-API frei
-            verfügbar macht. Basierend auf diesen Daten können weiterführende
-            Analysen und Visualisierungen zu den jeweiligen Projekten erstellt
-            werden. Alle hier erfassten Daten sind unter der freien
-            CC-BY-SA-Lizenz verfügbar.
+            Das Berlin IoT Hub ist eine prototypische Offene Datenplattform, die
+            Sensordaten aus Forschungsprojekten der Technologiestiftung Berlin
+            speichert und als Download, sowie über eine REST-API frei verfügbar
+            macht. Basierend auf diesen Daten können weiterführende Analysen und
+            Visualisierungen zu den jeweiligen Projekten erstellt werden. Alle
+            hier erfassten Daten sind unter der freien CC-BY-SA-Lizenz
+            verfügbar.
           </Text>
           <Divider mt={4} />
           {projects &&

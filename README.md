@@ -1,6 +1,6 @@
-# Berlin Data Hub (Frontend)
+# Berlin IoT Hub (Frontend)
 
-This repository contains the frontend of the Berlin Data Hub of Technologiestiftung Berlin.
+This repository contains the frontend of the Berlin IoT Hub of Technologiestiftung Berlin.
 
 WORK IN PROGRESS
 
