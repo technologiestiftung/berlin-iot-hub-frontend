@@ -27,11 +27,11 @@ export const Header: React.FC = () => {
           <Flex>
             <Image
               src={DatahubLogo}
-              alt={"Logo des Berlin Data Hub"}
+              alt={"Logo des Berlin IoT Hub"}
               sx={{ width: "56px" }}
             />
             <Heading ml={3} sx={{ lineHeight: "inherit" }}>
-              Berlin <span sx={{ fontWeight: "normal" }}>Data Hub</span>
+              Berlin <span sx={{ fontWeight: "normal" }}>IoT Hub</span>
             </Heading>
           </Flex>
         </Link>
