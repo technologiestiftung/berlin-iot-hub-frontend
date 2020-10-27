@@ -58,8 +58,8 @@ export const MarkerMap: React.FC<{
     }
 
     setViewport(newViewport);
-  // eslint-disable-next-line
-  }, [])
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [markers, mapWidth, mapHeight])
 
   const handleClick: ClickHandlerType = (markerId: number) => {
     clickHandler(markerId);
@@ -68,6 +68,8 @@ export const MarkerMap: React.FC<{
   return (
     <ReactMapGL
       {...viewport}
+      width={mapWidth}
+      height={mapHeight}
       mapStyle="mapbox://styles/mapbox/light-v10"
       onViewportChange={(nextViewport) => setViewport(nextViewport)}
       mapboxApiAccessToken={MAPBOX_TOKEN}
