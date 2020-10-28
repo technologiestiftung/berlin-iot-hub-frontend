@@ -20,6 +20,7 @@ export const Header: React.FC = () => {
         flex: "1 1 auto",
         flexWrap: "wrap",
         justifyContent: "space-between",
+        zIndex: 3,
       }}
     >
       <Box>
