@@ -31,7 +31,7 @@ export const Project: React.FC = () => {
     projectWithoutRecords
   );
 
-  const [selectedDeviceId, setSelectedDeviceId] = useState<string | undefined>(
+  const [selectedDeviceId, setSelectedDeviceId] = useState<number | undefined>(
     undefined
   );
 
@@ -70,7 +70,7 @@ export const Project: React.FC = () => {
           ...projectWithoutRecords,
           devices: devicesWithRecords,
         });
-        setSelectedDeviceId(devicesWithRecords[0].ttnDeviceId);
+        setSelectedDeviceId(devicesWithRecords[0].id);
         setSelectedDevice(devicesWithRecords[0]);
         setMarkerData(
           devicesWithRecords
@@ -82,7 +82,7 @@ export const Project: React.FC = () => {
                 latitude: device.latitude,
                 longitude: device.longitude,
                 id: device.id,
-                active: i === 0,
+                isActive: device.id === devicesWithRecords[0].id,
               };
             })
         );
@@ -95,7 +95,7 @@ export const Project: React.FC = () => {
     if (!completeProjectData) return;
     setSelectedDevice(
       completeProjectData.devices.find(
-        (device) => device.ttnDeviceId === selectedDeviceId
+        (device) => device.id === selectedDeviceId
       )
     );
   }, [selectedDeviceId, completeProjectData]);
@@ -113,7 +113,7 @@ export const Project: React.FC = () => {
             latitude: device.latitude,
             longitude: device.longitude,
             id: device.id,
-            active: device.ttnDeviceId === selectedDeviceId,
+            isActive: device.id === selectedDeviceId,
           };
         })
     );
@@ -172,11 +172,7 @@ export const Project: React.FC = () => {
   };
 
   const handleMarkerSelect = (deviceId: number) => {
-    setSelectedDeviceId(
-      completeProjectData.devices.find((device: DeviceType) => {
-        return device.id === deviceId;
-      })?.ttnDeviceId
-    );
+    setSelectedDeviceId(deviceId);
   };
 
   return (
@@ -268,17 +264,15 @@ export const Project: React.FC = () => {
                   <RadioTabs
                     name={"devices"}
                     options={completeProjectData.devices.map(
-                      (device: DeviceType) => device.description
+                      (device: DeviceType) => {
+                        return {
+                          title: device.description,
+                          id: device.id,
+                          isActive: device.id === selectedDeviceId,
+                        };
+                      }
                     )}
-                    changeHandler={(selected) =>
-                      setSelectedDeviceId(
-                        completeProjectData.devices.find(
-                          (device: DeviceType) => {
-                            return device.description === selected;
-                          }
-                        )?.ttnDeviceId
-                      )
-                    }
+                    changeHandler={(selected) => setSelectedDeviceId(selected)}
                   />
                   <Text>
                     {selectedDevice.records.length &&
