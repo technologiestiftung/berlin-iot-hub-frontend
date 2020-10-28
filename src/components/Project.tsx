@@ -70,23 +70,25 @@ export const Project: React.FC = () => {
           ...projectWithoutRecords,
           devices: devicesWithRecords,
         });
+        setSelectedDeviceId(devicesWithRecords[0].ttnDeviceId);
+        setSelectedDevice(devicesWithRecords[0]);
         setMarkerData(
           devicesWithRecords
             .filter((device: DeviceType) => {
               return device.latitude != null && device.longitude != null;
             })
-            .map((device: DeviceType) => {
+            .map((device: DeviceType, i: number) => {
               return {
                 latitude: device.latitude,
                 longitude: device.longitude,
                 id: device.id,
+                active: i === 0,
               };
             })
         );
-        setSelectedDeviceId(devicesWithRecords[0].ttnDeviceId);
-        setSelectedDevice(devicesWithRecords[0]);
       })
       .catch((error) => console.error(error));
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [projectWithoutRecords]);
 
   useEffect(() => {
@@ -97,6 +99,25 @@ export const Project: React.FC = () => {
       )
     );
   }, [selectedDeviceId, completeProjectData]);
+
+  useEffect(() => {
+    if (!completeProjectData) return;
+
+    setMarkerData(
+      completeProjectData.devices
+        .filter((device: DeviceType) => {
+          return device.latitude != null && device.longitude != null;
+        })
+        .map((device: DeviceType) => {
+          return {
+            latitude: device.latitude,
+            longitude: device.longitude,
+            id: device.id,
+            active: device.ttnDeviceId === selectedDeviceId,
+          };
+        })
+    );
+  }, [completeProjectData, selectedDeviceId]);
 
   const chartParentRef = useRef<HTMLDivElement>(null);
   const [chartWidth, setChartWidth] = useState(0);

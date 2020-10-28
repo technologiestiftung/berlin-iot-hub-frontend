@@ -42,24 +42,36 @@ export const MarkerMap: React.FC<{
   useEffect(() => {
     if (markers.length === 1) return;
 
-    const features = featureCollection(markers.filter((marker: MarkerType) => marker.latitude != null && marker.longitude != null).map((marker: MarkerType) => {
-      return point([marker.longitude, marker.latitude]);
-    }))
+    const features = featureCollection(
+      markers.map((marker: MarkerType) => {
+        return point([marker.longitude, marker.latitude]);
+      })
+    );
 
     const [minX, minY, maxX, maxY] = bbox(features);
 
-    const { latitude, longitude, zoom } = new WebMercatorViewport({ ...viewport, width: mapWidth, height: mapHeight }).fitBounds([[minX, minY], [maxX, maxY]], { padding: 24 });
+    const { latitude, longitude, zoom } = new WebMercatorViewport({
+      ...viewport,
+      width: mapWidth,
+      height: mapHeight,
+    }).fitBounds(
+      [
+        [minX, minY],
+        [maxX, maxY],
+      ],
+      { padding: 24 }
+    );
 
     const newViewport: ViewportType = {
       ...viewport,
       longitude,
       latitude,
       zoom,
-    }
+    };
 
     setViewport(newViewport);
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [markers, mapWidth, mapHeight])
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [markers, mapWidth, mapHeight]);
 
   const handleClick: ClickHandlerType = (markerId: number) => {
     clickHandler(markerId);
@@ -86,12 +98,12 @@ export const MarkerMap: React.FC<{
                 width: "24px",
                 height: "24px",
                 borderRadius: "50%",
-                bg: "primary",
+                bg: marker.active ? "primary" : "mediumgrey",
                 cursor: "pointer",
                 transform: "translate(-12px, -12px)",
               }}
-              onClick={() => handleClick(marker.id)}>
-              ></div>
+              onClick={() => handleClick(marker.id)}
+            ></div>
           </Marker>
         );
       })}

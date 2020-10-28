@@ -211,4 +211,5 @@ export interface MarkerType {
   latitude: number;
   longitude: number;
   id: number;
+  active?: boolean;
 }
