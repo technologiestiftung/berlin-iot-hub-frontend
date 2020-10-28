@@ -1,7 +1,7 @@
 /** @jsx jsx */
 import React, { useEffect, useState, useRef } from "react";
 import { Link } from "react-router-dom";
-import { jsx, Box, Card, Heading, Text, Grid } from "theme-ui";
+import { jsx, Box, Card, Heading, Text, Grid, Flex } from "theme-ui";
 import { ProjectType, DateValueType } from "../common/interfaces";
 import { LinePath } from "./visualization/LinePath";
 import { getRecords } from "../lib/requests";
@@ -65,7 +65,7 @@ export const ProjectPreview: React.FC<ProjectType> = ({
             },
           }}
         >
-          <Grid gap={2} columns={[1, null, 2]}>
+          <Grid gap={2} columns={[1, 2, 2]}>
             <Box>
               <Heading as="h3" variant="h3">
                 {title}
@@ -75,7 +75,7 @@ export const ProjectPreview: React.FC<ProjectType> = ({
               </Heading>
               <Text mt={3}>{description}</Text>
             </Box>
-            <Box ref={parentRef}>
+            <Flex ref={parentRef} mt={[4, 0, 0]} sx={{ alignItems: "center" }}>
               {dateValueArray && (
                 <svg
                   viewBox={`0 0 ${svgWrapperWidth} ${svgWrapperHeight}`}
@@ -91,7 +91,7 @@ export const ProjectPreview: React.FC<ProjectType> = ({
                   />
                 </svg>
               )}
-            </Box>
+            </Flex>
           </Grid>
         </Card>
       </Link>

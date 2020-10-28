@@ -177,7 +177,7 @@ export const Project: React.FC = () => {
 
   return (
     <Container mt={[0, 5, 5]} p={4}>
-      <Grid gap={[4, 6, 6]} columns={[1, "1fr 2fr"]}>
+      <Grid gap={[4, null, 6]} columns={[1, "1fr 2fr"]}>
         <Box>
           <Link to="/" sx={{ textDecoration: "none", color: "text" }}>
             <IconButton
