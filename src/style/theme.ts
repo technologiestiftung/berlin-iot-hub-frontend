@@ -173,6 +173,21 @@ const theme: Theme = {
       },
     },
   },
+  links: {
+    footer: {
+      color: "mediumgrey",
+      textDecoration: "none",
+      "&:hover": {
+        color: "text",
+      },
+      "&:focus": {
+        bg: "muted",
+      },
+      "&:active": {
+        bg: "mediumgrey",
+      },
+    },
+  },
 };
 
 export default theme;
