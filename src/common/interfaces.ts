@@ -138,6 +138,21 @@ export interface Theme {
       };
     };
   };
+  links: {
+    footer: {
+      color: string;
+      textDecoration: string;
+      "&:hover": {
+        color: string;
+      };
+      "&:focus": {
+        bg: string;
+      };
+      "&:active": {
+        bg: string;
+      };
+    };
+  };
 }
 
 export interface ProjectType {
