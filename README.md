@@ -1,12 +1,48 @@
 # Berlin IoT Hub (Frontend)
 
-This repository contains the frontend of the Berlin IoT Hub of Technologiestiftung Berlin.
+This repository contains the frontend of the Berlin IoT Hub of Technologiestiftung Berlin. It is built using [Create React App](https://github.com/facebook/create-react-app) (CRA), TypeScript, [visx](https://airbnb.io/visx/), and [a wrapper for Mapbox GL](https://visgl.github.io/react-map-gl/).
 
-WORK IN PROGRESS
+The API for retrieving data can found in a [different repository](https://github.com/technologiestiftung/berlin-datahub-api).
+
+## Getting started
+
+Clone this repository, then on the root level create a file named `.env` and fill in the required values (see `.env.example` for a reference).
+
+Run `npm install` to install all required dependencies and then `npm start` to start developing locally. All available script can be found further down.
+
+## Structure
+
+The folder structure follows CRA's recommendations.
+
+### Views and components
+
+`App.tsx` contains the routes/views that are currently available. The views themselves are simply React components that can be found in `src/components`. All other components can be found there as well.
+
+### Requests
+
+Requests to the API are defined in `lib/requests.ts`. The returned projects are stored in `state/store.ts`. The `Project.tsx` view currently does not communicate with the store, as the records data for each device is not needed anywhere else. Records data is requested from the API right in this file and forwarded to the relevant components.
+
+### Styling
+
+This project uses [Theme UI](https://theme-ui.com/home) for styling. Main style definitions can be found in `style/theme.ts`. The theme can be referenced in every component. For visual consistency, definitions from the theme should be used whenever possible. Information about using the theme can be found in Theme UI's docs.
+
+## Workflow
+
+New features, fixes, etc. should always be developed on a separate branch:
+
+1. In your local repository, checkout the `main` branch.
+2. Run `git checkout -b <name-of-your-branch>` to create a new branch (ideally following [Conventional Commits](https://www.conventionalcommits.org/en/v1.0.0/) and with a reference ID).
+3. Make your changes
+4. Push your changes to the remote: `git push -U origin HEAD`
+5. Open a pull request.
+
+## Deployment
+
+The frontend is currently deployed to [netlify](https://www.netlify.com/). Pushing to the `main` branch will automatically trigger a new deploy (this should be avoided, if possible).
 
 ---
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app) (CRA), the following section originates from CRA's docs, but still applies to this repository.
 
 ## Available Scripts
 
