@@ -28,7 +28,7 @@ export const Footer: React.FC = () => {
             src={TSBLogo}
             alt={"Logo der Technologiestiftung Berlin"}
             ml={3}
-            sx={{ width: "148px" }}
+            sx={{ width: "148px", height: "100%" }}
           />
         </Flex>
         <Flex>
@@ -41,7 +41,7 @@ export const Footer: React.FC = () => {
               "Logo der Senatsverwaltung für Wirtschaft, Energie und Betriebe"
             }
             ml={3}
-            sx={{ width: "250px" }}
+            sx={{ width: "250px", height: "100%" }}
           />
         </Flex>
       </Grid>
