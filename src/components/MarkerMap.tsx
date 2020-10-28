@@ -98,7 +98,7 @@ export const MarkerMap: React.FC<{
                 width: "24px",
                 height: "24px",
                 borderRadius: "50%",
-                bg: marker.active ? "primary" : "mediumgrey",
+                bg: marker.isActive ? "primary" : "mediumgrey",
                 cursor: "pointer",
                 transform: "translate(-12px, -12px)",
               }}

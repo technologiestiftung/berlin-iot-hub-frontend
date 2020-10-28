@@ -188,10 +188,16 @@ export interface LineGraphType {
   data: Array<DateValueType>;
 }
 
+export interface RadioTabOptionType {
+  title: string;
+  id: number;
+  isActive: boolean;
+}
+
 export interface RadioTabsType {
   name: string;
-  options: Array<string>;
-  changeHandler: (selected: string) => void;
+  options: RadioTabOptionType[];
+  changeHandler: (selected: number) => void;
 }
 
 export interface IconButtonType {
@@ -211,5 +217,5 @@ export interface MarkerType {
   latitude: number;
   longitude: number;
   id: number;
-  active?: boolean;
+  isActive: boolean;
 }

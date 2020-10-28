@@ -1,26 +1,23 @@
 /** @jsx jsx */
-import React, { useState } from "react";
+import React from "react";
 import { jsx, Box } from "theme-ui";
-import { RadioTabsType } from "../common/interfaces";
+import { RadioTabsType, RadioTabOptionType } from "../common/interfaces";
 
 export const RadioTabs: React.FC<RadioTabsType> = ({
   name,
   options,
   changeHandler,
 }) => {
-  const [checked, setChecked] = useState(0);
-
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setChecked(options.indexOf(event.target.value));
-    changeHandler(event.target.value);
+    changeHandler(Number(event.target.value));
   };
 
   return (
     <Box>
-      {options.map((option: string, i: number) => {
+      {options.map((option: RadioTabOptionType) => {
         return (
           <div
-            key={i}
+            key={`device-${option.id}-tab`}
             sx={{
               display: "inline-block",
               marginRight: (theme) => `${theme.space[3]}px`,
@@ -28,10 +25,10 @@ export const RadioTabs: React.FC<RadioTabsType> = ({
           >
             <input
               type="radio"
-              id={`${i}`}
+              id={`device-${option.id}`}
               name={name}
-              value={option}
-              checked={checked === i}
+              value={option.id}
+              checked={option.isActive}
               onChange={handleChange}
               sx={{
                 opacity: 0,
@@ -39,9 +36,9 @@ export const RadioTabs: React.FC<RadioTabsType> = ({
               }}
             />
             <label
-              htmlFor={`${i}`}
+              htmlFor={`device-${option.id}`}
               sx={{
-                color: checked === i ? "primary" : "lightgrey",
+                color: option.isActive ? "primary" : "lightgrey",
                 cursor: "pointer",
                 transition: "all .1s ease-out",
                 "&:hover": {
@@ -49,7 +46,7 @@ export const RadioTabs: React.FC<RadioTabsType> = ({
                 },
               }}
             >
-              {option}
+              {option.title}
             </label>
           </div>
         );
