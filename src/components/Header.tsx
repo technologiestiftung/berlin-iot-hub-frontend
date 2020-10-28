@@ -8,18 +8,20 @@ const TSBLogo = "/images/tsb-logo.svg";
 
 export const Header: React.FC = () => {
   return (
-    <Flex
-      p={4}
-      color="text"
-      bg="background"
+    <header
       sx={{
+        color: "text",
+        bg: "background",
         boxShadow: "0 2px 4px rgba(0,0,0,0.2)",
         width: "100%",
+        p: 4,
         position: ["relative", "sticky", "sticky"],
         top: "0",
+        display: "flex",
         flex: "1 1 auto",
         flexWrap: "wrap",
         justifyContent: "space-between",
+        zIndex: 3,
       }}
     >
       <Box>
@@ -49,6 +51,6 @@ export const Header: React.FC = () => {
           />
         </Flex>
       </Box>
-    </Flex>
+    </header>
   );
 };

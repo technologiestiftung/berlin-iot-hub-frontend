@@ -1,14 +1,8 @@
 import React, { useEffect } from "react";
 import { useStoreActions } from "./state/hooks";
-import {
-  BrowserRouter as Router,
-  Switch,
-  Route,
-  useLocation,
-} from "react-router-dom";
+import { BrowserRouter as Router, useLocation } from "react-router-dom";
 import { Header } from "./components/Header";
-import { Overview } from "./components/Overview";
-import { Project } from "./components/Project";
+import { MainArea } from "./components/MainArea";
 import { Footer } from "./components/Footer";
 
 const ScrollToTop: React.FC = () => {
@@ -32,12 +26,7 @@ const App: React.FC = () => {
     <Router>
       <ScrollToTop />
       <Header />
-      <Switch>
-        <Route exact path="/">
-          <Overview />
-        </Route>
-        <Route path="/:id" children={<Project />}></Route>
-      </Switch>
+      <MainArea />
       <Footer />
     </Router>
   );
