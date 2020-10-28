@@ -9,11 +9,12 @@ import ArrowBackIcon from "@material-ui/icons/ArrowBack";
 import { ProjectSummary } from "./ProjectSummary";
 import { DataTable } from "./DataTable";
 import { IconButton as DownloadButton } from "./IconButton";
-import { ProjectType, DeviceType } from "../common/interfaces";
+import { ProjectType, DeviceType, MarkerType } from "../common/interfaces";
 import { RadioTabs } from "./RadioTabs";
 import { LineChart } from "./visualization/LineChart";
 import { createDateValueArray } from "../lib/utils";
 import { ApiInfo } from "./ApiInfo";
+import { MarkerMap } from "./MarkerMap";
 
 const downloadIcon = "./images/download.svg";
 
@@ -35,6 +36,10 @@ export const Project: React.FC = () => {
   );
 
   const [selectedDevice, setSelectedDevice] = useState<DeviceType | undefined>(
+    undefined
+  );
+
+  const [markerData, setMarkerData] = useState<MarkerType[] | undefined>(
     undefined
   );
 
@@ -67,8 +72,23 @@ export const Project: React.FC = () => {
         });
         setSelectedDeviceId(devicesWithRecords[0].ttnDeviceId);
         setSelectedDevice(devicesWithRecords[0]);
+        setMarkerData(
+          devicesWithRecords
+            .filter((device: DeviceType) => {
+              return device.latitude != null && device.longitude != null;
+            })
+            .map((device: DeviceType, i: number) => {
+              return {
+                latitude: device.latitude,
+                longitude: device.longitude,
+                id: device.id,
+                active: i === 0,
+              };
+            })
+        );
       })
       .catch((error) => console.error(error));
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [projectWithoutRecords]);
 
   useEffect(() => {
@@ -80,25 +100,67 @@ export const Project: React.FC = () => {
     );
   }, [selectedDeviceId, completeProjectData]);
 
-  const parentRef = useRef<HTMLDivElement>(null);
-  const [svgWrapperWidth, setSvgWrapperWidth] = useState(0);
-  const [svgWrapperHeight, setSvgWrapperHeight] = useState(0);
+  useEffect(() => {
+    if (!completeProjectData) return;
 
-  const updateWidthAndHeight = () => {
-    if (parentRef.current === null) return;
-    setSvgWrapperWidth(parentRef.current.offsetWidth);
-    setSvgWrapperHeight(parentRef.current.offsetWidth / 2);
+    setMarkerData(
+      completeProjectData.devices
+        .filter((device: DeviceType) => {
+          return device.latitude != null && device.longitude != null;
+        })
+        .map((device: DeviceType) => {
+          return {
+            latitude: device.latitude,
+            longitude: device.longitude,
+            id: device.id,
+            active: device.ttnDeviceId === selectedDeviceId,
+          };
+        })
+    );
+  }, [completeProjectData, selectedDeviceId]);
+
+  const chartParentRef = useRef<HTMLDivElement>(null);
+  const [chartWidth, setChartWidth] = useState(0);
+  const [chartHeight, setChartHeight] = useState(0);
+  const mapParentRef = useRef<HTMLDivElement>(null);
+  const [mapWidth, setMapWidth] = useState(0);
+  const [mapHeight, setMapHeight] = useState(0);
+
+  const updateChartDimensions = () => {
+    if (chartParentRef.current === null) return;
+
+    setChartWidth(chartParentRef.current.offsetWidth);
+    setChartHeight(chartParentRef.current.offsetWidth / 2);
   };
 
   useEffect(() => {
-    if (parentRef.current === null) return;
-    setSvgWrapperWidth(parentRef.current.offsetWidth);
-    setSvgWrapperHeight(parentRef.current.offsetWidth / 2);
+    if (chartParentRef.current === null) return;
 
-    window.addEventListener("resize", updateWidthAndHeight);
+    setChartWidth(chartParentRef.current.offsetWidth);
+    setChartHeight(chartParentRef.current.offsetWidth / 2);
 
-    return () => window.removeEventListener("resize", updateWidthAndHeight);
-  }, [parentRef]);
+    window.addEventListener("resize", updateChartDimensions);
+
+    return () => window.removeEventListener("resize", updateChartDimensions);
+  }, [chartParentRef, mapParentRef]);
+
+  const updateMapDimensions = () => {
+    if (mapParentRef.current === null) return;
+
+    setMapWidth(mapParentRef.current.offsetWidth);
+    setMapHeight(mapParentRef.current.offsetHeight);
+  };
+
+  useEffect(() => {
+    if (mapParentRef.current === null) return;
+
+    setMapWidth(mapParentRef.current.offsetWidth);
+    setMapHeight(mapParentRef.current.offsetHeight);
+
+    window.addEventListener("resize", updateMapDimensions);
+
+    return () => window.removeEventListener("resize", updateMapDimensions);
+  }, [mapParentRef]);
 
   const handleDownload = () => {
     downloadMultiple(
@@ -106,6 +168,14 @@ export const Project: React.FC = () => {
       completeProjectData.devices.map(
         (device: DeviceType) => device.description
       )
+    );
+  };
+
+  const handleMarkerSelect = (deviceId: number) => {
+    setSelectedDeviceId(
+      completeProjectData.devices.find((device: DeviceType) => {
+        return device.id === deviceId;
+      })?.ttnDeviceId
     );
   };
 
@@ -163,9 +233,24 @@ export const Project: React.FC = () => {
               />
             )}
           </Box>
-          <Card mt={5} bg="muted" sx={{ minHeight: "200px" }}>
-            Kartenansicht
+          <Card mt={5} bg="muted">
+            <div ref={mapParentRef} sx={{ width: "100%", height: "200px" }}>
+              {markerData && markerData.length === 0 && (
+                <Text>Keine Geoinformationen verfügbar.</Text>
+              )}
+              {markerData && markerData.length >= 1 && (
+                <MarkerMap
+                  markers={markerData}
+                  clickHandler={handleMarkerSelect}
+                  mapWidth={mapWidth}
+                  mapHeight={mapHeight}
+                />
+              )}
+            </div>
           </Card>
+          {completeProjectData && (
+            <Text mt={2}>Standpunkt(e): {completeProjectData.city}</Text>
+          )}
         </Box>
         <Box>
           <Card p={0}>
@@ -209,11 +294,11 @@ export const Project: React.FC = () => {
                   </Text>
                 </Grid>
               )}
-            <Box ref={parentRef} mt={4}>
+            <Box ref={chartParentRef} mt={4}>
               {selectedDevice && selectedDevice.records && (
                 <LineChart
-                  width={svgWrapperWidth}
-                  height={svgWrapperHeight}
+                  width={chartWidth}
+                  height={chartHeight}
                   data={createDateValueArray(selectedDevice.records)}
                 />
               )}
