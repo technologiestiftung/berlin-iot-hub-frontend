@@ -16,15 +16,27 @@ The folder structure follows CRA's recommendations.
 
 ### Views and components
 
-`App.tsx` contains the routes/views that are currently available. The views themselves are simply React components that can be found in `src/components`. All other components can be found there as well.
+`src/App.tsx` contains the routes/views that are currently available. The views themselves are simply React components that can be found in `src/components`. All other components can be found there as well.
 
 ### Requests
 
-Requests to the API are defined in `lib/requests.ts`. The returned projects are stored in `state/store.ts`. The `Project.tsx` view currently does not communicate with the store, as the records data for each device is not needed anywhere else. Records data is requested from the API right in this file and forwarded to the relevant components.
+Requests to the API are defined in `src/lib/requests.ts` and called in currently three places:
+
+- `src/state/store.ts` (for fetching all projects to be displayed on the homepage)
+- `src/components/Project.tsx` (for fetching records of all devices associated with the project)
+- `src/components/ProjectPreview.tsx` (for fetching the records of one project device, to be displayed in the project preview)
+
+The requests are constructed following this pattern:
+
+```
+{API_URL}/api/{API_VERSION}/route/to/endpoint
+```
+
+The API version can be defined in `src/lib/requests.ts`.
 
 ### Styling
 
-This project uses [Theme UI](https://theme-ui.com/home) for styling. Main style definitions can be found in `style/theme.ts`. The theme can be referenced in every component. For visual consistency, definitions from the theme should be used whenever possible. Information about using the theme can be found in Theme UI's docs.
+This project uses [Theme UI](https://theme-ui.com/home) for styling. Main style definitions can be found in `src/style/theme.ts`. The theme can be referenced in every component. For visual consistency, definitions from the theme should be used whenever possible. Information about using the theme can be found in Theme UI's docs.
 
 ## Workflow
 
