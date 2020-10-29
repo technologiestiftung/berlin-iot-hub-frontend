@@ -21,20 +21,37 @@ export const Overview: React.FC = () => {
 
   return (
     <Container mt={[0, 5, 5]} p={4}>
-      <Grid gap={[4, 4, 6]} columns={[1, null, "1fr 2fr"]}>
-        <Box>
+      <Grid gap={[4, null, null]} columns={[1, null, "1fr 2fr"]}>
+        <Grid
+          gap={[0, 4, 0]}
+          columns={[1, "max-content auto", 1]}
+          sx={{
+            maxWidth: ["60ch", null, "none"],
+            gridTemplateRows: "max-content auto",
+          }}
+        >
           <Image
             src={DatahubLogo}
             alt={"Logo des Berlin IoT Hub"}
-            sx={{ minWidth: "240px" }}
+            sx={{
+              minWidth: "240px",
+              display: ["none", "block", null],
+            }}
           />
-          <Heading as="h1" variant="h1" mt={4} sx={{ color: "text" }}>
-            Berlin <span sx={{ fontWeight: "body" }}>IoT Hub</span>
-          </Heading>
-          <Heading as="h2" variant="h2" mt={2} sx={{ color: "primary" }}>
-            Offene Datenplattform für IoT-Projekte
-          </Heading>
-        </Box>
+          <Box>
+            <Heading
+              as="h1"
+              variant="h1"
+              mt={[0, null, 4]}
+              sx={{ color: "text" }}
+            >
+              Berlin <span sx={{ fontWeight: "body" }}>IoT Hub</span>
+            </Heading>
+            <Heading as="h2" variant="h2" mt={2} sx={{ color: "primary" }}>
+              Offene Datenplattform für IoT-Projekte
+            </Heading>
+          </Box>
+        </Grid>
         <Box sx={{ maxWidth: "60ch" }}>
           <Text>
             Das Berlin IoT Hub ist eine prototypische Offene Datenplattform, die
