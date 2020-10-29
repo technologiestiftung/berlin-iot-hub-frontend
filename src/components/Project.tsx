@@ -1,7 +1,7 @@
 /** @jsx jsx */
 import React, { useEffect, useRef, useState } from "react";
 import { useStoreState } from "../state/hooks";
-import { getRecords } from "../lib/requests";
+import { getRecords, API_VERSION } from "../lib/requests";
 import { Link, useParams } from "react-router-dom";
 import { jsx, Grid, Container, Box, Card, IconButton, Text } from "theme-ui";
 import { downloadMultiple } from "../lib/download-handlers";
@@ -51,7 +51,7 @@ export const Project: React.FC = () => {
         const {
           data: { records },
         } = await getRecords(
-          `${process.env.REACT_APP_API_URL}/api/devices/${device.id}/records`
+          `${process.env.REACT_APP_API_URL}/api/${API_VERSION}/devices/${device.id}/records`
         );
         return records;
       })

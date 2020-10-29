@@ -4,7 +4,7 @@ import { Link } from "react-router-dom";
 import { jsx, Box, Card, Heading, Text, Grid, Flex } from "theme-ui";
 import { ProjectType, DateValueType } from "../common/interfaces";
 import { LinePath } from "./visualization/LinePath";
-import { getRecords } from "../lib/requests";
+import { getRecords, API_VERSION } from "../lib/requests";
 import { createDateValueArray } from "../lib/utils";
 
 export const ProjectPreview: React.FC<ProjectType> = ({
@@ -22,7 +22,7 @@ export const ProjectPreview: React.FC<ProjectType> = ({
       const {
         data: { records },
       } = await getRecords(
-        `${process.env.REACT_APP_API_URL}/api/devices/${devices[0].id}/records`
+        `${process.env.REACT_APP_API_URL}/api/${API_VERSION}/devices/${devices[0].id}/records`
       );
       return records;
     };

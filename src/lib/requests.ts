@@ -1,5 +1,7 @@
 import { DeviceType, RecordType, ProjectType } from "../common/interfaces";
 
+export const API_VERSION: string = "v1";
+
 interface ProjectResponse {
   data: {
     projects: ProjectType[];

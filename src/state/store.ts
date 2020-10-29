@@ -1,6 +1,6 @@
 import { createStore, thunk, action, computed } from "easy-peasy";
 import { StoreModel } from "./model";
-import { getDevices, getProjects } from "../lib/requests";
+import { getDevices, getProjects, API_VERSION } from "../lib/requests";
 import { ProjectType } from "../common/interfaces";
 
 const store = createStore<StoreModel>({
@@ -16,14 +16,16 @@ const store = createStore<StoreModel>({
     load: thunk(async (actions) => {
       const {
         data: { projects },
-      } = await getProjects(`${process.env.REACT_APP_API_URL}/api/projects`);
+      } = await getProjects(
+        `${process.env.REACT_APP_API_URL}/api/${API_VERSION}/projects`
+      );
 
       Promise.all(
         projects.map(async (project: ProjectType) => {
           const {
             data: { devices },
           } = await getDevices(
-            `${process.env.REACT_APP_API_URL}/api/projects/${project.id}/devices`
+            `${process.env.REACT_APP_API_URL}/api/${API_VERSION}/projects/${project.id}/devices`
           );
           return {
             ...project,
