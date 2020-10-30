@@ -1,7 +1,7 @@
 /** @jsx jsx */
 import React, { useEffect, useRef, useState } from "react";
 import { useStoreState } from "../state/hooks";
-import { getRecords } from "../lib/requests";
+import { getRecords, getDevices } from "../lib/requests";
 import { Link, useParams } from "react-router-dom";
 import { jsx, Grid, Container, Box, Card, IconButton, Text } from "theme-ui";
 import { downloadMultiple } from "../lib/download-handlers";
@@ -9,7 +9,12 @@ import ArrowBackIcon from "@material-ui/icons/ArrowBack";
 import { ProjectSummary } from "./ProjectSummary";
 import { DataTable } from "./DataTable";
 import { IconButton as DownloadButton } from "./IconButton";
-import { ProjectType, DeviceType, MarkerType } from "../common/interfaces";
+import {
+  ProjectType,
+  DeviceType,
+  MarkerType,
+  CompleteProjectType,
+} from "../common/interfaces";
 import { RadioTabs } from "./RadioTabs";
 import { LineChart } from "./visualization/LineChart";
 import { createDateValueArray } from "../lib/utils";
@@ -23,13 +28,13 @@ interface RouteParams {
 }
 export const Project: React.FC = () => {
   const { id } = useParams<RouteParams>();
-  const projectWithoutRecords: ProjectType = useStoreState((state) =>
+  const selectedProject: ProjectType = useStoreState((state) =>
     state.projects.selected(Number(id))
   );
 
-  const [completeProjectData, setCompleteProjectData] = useState<ProjectType>(
-    projectWithoutRecords
-  );
+  const [completeProjectData, setCompleteProjectData] = useState<
+    CompleteProjectType | undefined
+  >(undefined);
 
   const [selectedDeviceId, setSelectedDeviceId] = useState<number | undefined>(
     undefined
@@ -44,52 +49,39 @@ export const Project: React.FC = () => {
   );
 
   useEffect(() => {
-    if (!projectWithoutRecords) return;
+    const fetchData = async () => {
+      const {
+        data: { devices },
+      } = await getDevices(
+        `${process.env.REACT_APP_API_URL}/api/projects/${id}/devices`
+      );
+      Promise.all(
+        devices.map(async (device: DeviceType) => {
+          const {
+            data: { records },
+          } = await getRecords(
+            `${process.env.REACT_APP_API_URL}/api/devices/${device.id}/records`
+          );
+          return {
+            ...device,
+            records: records,
+          };
+        })
+      )
+        .then((results: DeviceType[]) => {
+          const completeData = {
+            ...selectedProject,
+            devices: results,
+          };
+          setCompleteProjectData(completeData);
+          setSelectedDeviceId(completeData.devices[0].id);
+        })
+        .catch((error) => console.error(error));
+    };
 
-    Promise.all(
-      projectWithoutRecords.devices.map(async (device: DeviceType) => {
-        const {
-          data: { records },
-        } = await getRecords(
-          `${process.env.REACT_APP_API_URL}/api/devices/${device.id}/records`
-        );
-        return records;
-      })
-    )
-      .then((results: Array<any>) => {
-        const devicesWithRecords: Array<DeviceType> = projectWithoutRecords.devices.map(
-          (device: DeviceType, i: number) => {
-            return {
-              ...device,
-              records: results[i],
-            };
-          }
-        );
-
-        setCompleteProjectData({
-          ...projectWithoutRecords,
-          devices: devicesWithRecords,
-        });
-        setSelectedDeviceId(devicesWithRecords[0].id);
-        setSelectedDevice(devicesWithRecords[0]);
-        setMarkerData(
-          devicesWithRecords
-            .filter((device: DeviceType) => {
-              return device.latitude != null && device.longitude != null;
-            })
-            .map((device: DeviceType, i: number) => {
-              return {
-                latitude: device.latitude,
-                longitude: device.longitude,
-                id: device.id,
-                isActive: device.id === devicesWithRecords[0].id,
-              };
-            })
-        );
-      })
-      .catch((error) => console.error(error));
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [projectWithoutRecords]);
+    if (!selectedProject) return;
+    fetchData();
+  }, [selectedProject, id]);
 
   useEffect(() => {
     if (!completeProjectData) return;
@@ -103,19 +95,27 @@ export const Project: React.FC = () => {
   useEffect(() => {
     if (!completeProjectData) return;
 
+    const devicesWithCoordinates = completeProjectData.devices.filter(
+      (device: DeviceType) => {
+        const latLonFieldsExist = device.latitude && device.longitude;
+        return (
+          latLonFieldsExist &&
+          device.latitude !== null &&
+          device.longitude !== null
+        );
+      }
+    );
+
     setMarkerData(
-      completeProjectData.devices
-        .filter((device: DeviceType) => {
-          return device.latitude != null && device.longitude != null;
-        })
-        .map((device: DeviceType) => {
-          return {
-            latitude: device.latitude,
-            longitude: device.longitude,
-            id: device.id,
-            isActive: device.id === selectedDeviceId,
-          };
-        })
+      // @ts-ignore TODO: type this properly
+      devicesWithCoordinates.map((device) => {
+        return {
+          latitude: device.latitude,
+          longitude: device.longitude,
+          id: device.id,
+          isActive: device.id === selectedDeviceId,
+        };
+      })
     );
   }, [completeProjectData, selectedDeviceId]);
 
@@ -163,10 +163,11 @@ export const Project: React.FC = () => {
   }, [mapParentRef]);
 
   const handleDownload = () => {
+    if (!completeProjectData) return;
     downloadMultiple(
       completeProjectData.devices.map((device: DeviceType) => device.records),
-      completeProjectData.devices.map(
-        (device: DeviceType) => device.description
+      completeProjectData.devices.map((device: DeviceType) =>
+        device.description ? device.description : "Kein Titel"
       )
     );
   };
@@ -212,7 +213,9 @@ export const Project: React.FC = () => {
                 entries={completeProjectData.devices.map(
                   (device: DeviceType) => {
                     return {
-                      name: device.description,
+                      name: device.description
+                        ? device.description
+                        : "Kein Titel",
                       id: device.id,
                     };
                   }
@@ -266,7 +269,9 @@ export const Project: React.FC = () => {
                     options={completeProjectData.devices.map(
                       (device: DeviceType) => {
                         return {
-                          title: device.description,
+                          title: device.description
+                            ? device.description
+                            : "Kein Titel",
                           id: device.id,
                           isActive: device.id === selectedDeviceId,
                         };
