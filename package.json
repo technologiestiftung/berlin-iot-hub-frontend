@@ -36,8 +36,8 @@
     "typescript": "^3.7.5"
   },
   "devDependencies": {
-    "jest-environment-jsdom-sixteen": "^1.0.3",
-    "msw": "^0.21.3"
+    "msw": "^0.21.3",
+    "whatwg-fetch": "3.4.1"
   },
   "scripts": {
     "start": "react-scripts start",
@@ -45,6 +45,7 @@
     "test": "react-scripts test",
     "eject": "react-scripts eject"
   },
+  "jest": {},
   "eslintConfig": {
     "extends": "react-app"
   },

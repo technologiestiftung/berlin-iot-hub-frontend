@@ -18,67 +18,46 @@ const { data: device3RecordsData } = device3Records;
 const { data: device4RecordsData } = device4Records;
 
 export const handlers = [
-  rest.get(
-    `${process.env.REACT_APP_API_URL}/api/projects`,
-    (_req, res, ctx) => {
-      return res(
-        ctx.status(201, "Mocked status"),
-        ctx.json({ data: projectsData, meta: "mocked" })
-      );
-    }
-  ),
-  rest.get(
-    `${process.env.REACT_APP_API_URL}/api/projects/1/devices`,
-    (req, res, ctx) => {
-      return res(
-        ctx.status(201, "Mocked status"),
-        ctx.json({ data: project1DevicesData, meta: "mocked" })
-      );
-    }
-  ),
-  rest.get(
-    `${process.env.REACT_APP_API_URL}/api/projects/2/devices`,
-    (req, res, ctx) => {
-      return res(
-        ctx.status(201, "Mocked status"),
-        ctx.json({ data: project2DevicesData, meta: "mocked" })
-      );
-    }
-  ),
-  rest.get(
-    `${process.env.REACT_APP_API_URL}/api/devices/1/records`,
-    (req, res, ctx) => {
-      return res(
-        ctx.status(201, "Mocked status"),
-        ctx.json({ data: device1RecordsData, meta: "mocked" })
-      );
-    }
-  ),
-  rest.get(
-    `${process.env.REACT_APP_API_URL}/api/devices/2/records`,
-    (req, res, ctx) => {
-      return res(
-        ctx.status(201, "Mocked status"),
-        ctx.json({ data: device2RecordsData, meta: "mocked" })
-      );
-    }
-  ),
-  rest.get(
-    `${process.env.REACT_APP_API_URL}/api/devices/3/records`,
-    (req, res, ctx) => {
-      return res(
-        ctx.status(201, "Mocked status"),
-        ctx.json({ data: device3RecordsData, meta: "mocked" })
-      );
-    }
-  ),
-  rest.get(
-    `${process.env.REACT_APP_API_URL}/api/devices/4/records`,
-    (req, res, ctx) => {
-      return res(
-        ctx.status(201, "Mocked status"),
-        ctx.json({ data: device4RecordsData, meta: "mocked" })
-      );
-    }
-  ),
+  rest.get(`/api/projects`, (_req, res, ctx) => {
+    return res(
+      ctx.status(201, "Mocked status"),
+      ctx.json({ data: projectsData, meta: "mocked" })
+    );
+  }),
+  rest.get(`/api/projects/1/devices`, (req, res, ctx) => {
+    return res(
+      ctx.status(201, "Mocked status"),
+      ctx.json({ data: project1DevicesData, meta: "mocked" })
+    );
+  }),
+  rest.get(`/api/projects/2/devices`, (req, res, ctx) => {
+    return res(
+      ctx.status(201, "Mocked status"),
+      ctx.json({ data: project2DevicesData, meta: "mocked" })
+    );
+  }),
+  rest.get(`/api/devices/1/records`, (req, res, ctx) => {
+    return res(
+      ctx.status(201, "Mocked status"),
+      ctx.json({ data: device1RecordsData, meta: "mocked" })
+    );
+  }),
+  rest.get(`/api/devices/2/records`, (req, res, ctx) => {
+    return res(
+      ctx.status(201, "Mocked status"),
+      ctx.json({ data: device2RecordsData, meta: "mocked" })
+    );
+  }),
+  rest.get(`/api/devices/3/records`, (req, res, ctx) => {
+    return res(
+      ctx.status(201, "Mocked status"),
+      ctx.json({ data: device3RecordsData, meta: "mocked" })
+    );
+  }),
+  rest.get(`/api/devices/4/records`, (req, res, ctx) => {
+    return res(
+      ctx.status(201, "Mocked status"),
+      ctx.json({ data: device4RecordsData, meta: "mocked" })
+    );
+  }),
 ];

@@ -3,6 +3,10 @@ import { render, screen, waitForElement } from "@testing-library/react";
 import App from "./App";
 import { StoreProvider } from "easy-peasy";
 import store from "./state/store";
+// The window scrollTo errors seems to be a jsdom problem that
+// logs an error instead of throwing it
+// by just moking it we can prevent the ugly logs
+window.scrollTo = jest.fn();
 
 describe("Home page", () => {
   test("renders claim element", async () => {
