@@ -1,6 +1,6 @@
 import { DeviceType, RecordType, ProjectType } from "../common/interfaces";
 
-interface ProjectResponse {
+export interface ProjectResponse {
   data: {
     projects: ProjectType[];
   };
@@ -16,7 +16,7 @@ export async function getProjects(url: string): Promise<ProjectResponse> {
   return json;
 }
 
-interface DeviceResponse {
+export interface DeviceResponse {
   data: {
     devices: DeviceType[];
   };
@@ -32,7 +32,7 @@ export async function getDevices(url: string): Promise<DeviceResponse> {
   return json;
 }
 
-interface RecordsResponse {
+export interface RecordsResponse {
   data: {
     records: RecordType[];
   };
