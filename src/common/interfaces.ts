@@ -158,27 +158,31 @@ export interface Theme {
 export interface ProjectType {
   id: number;
   title: string;
-  city: string;
+  city?: string;
   description: string;
-  devices: Array<DeviceType>;
+  ttnAppId?: string;
   userId?: number;
 }
 
 export interface DeviceType {
-  description: string;
+  description?: string;
   id: number;
-  latitude: number;
-  longitude: number;
-  projectId: number;
+  latitude?: number;
+  longitude?: number;
+  projectId?: number;
   ttnDeviceId: string;
-  records: Array<RecordType>;
+  records: RecordType[];
 }
 
 export interface RecordType {
   id: number;
-  deviceId: number;
+  deviceId?: number;
   recordedAt: string;
   value: number;
+}
+
+export interface CompleteProjectType extends ProjectType {
+  devices: DeviceType[];
 }
 
 export interface DataTableType {
