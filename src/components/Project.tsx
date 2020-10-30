@@ -95,12 +95,6 @@ export const Project: React.FC = () => {
   useEffect(() => {
     if (!completeProjectData) return;
 
-    interface TestType {
-      latitude: number;
-      longitude: number;
-      id: number;
-    }
-
     const devicesWithCoordinates = completeProjectData.devices.filter(
       (device: DeviceType) => {
         const latLonFieldsExist = device.latitude && device.longitude;
