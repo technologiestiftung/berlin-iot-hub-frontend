@@ -4,6 +4,7 @@ import { BrowserRouter as Router, useLocation } from "react-router-dom";
 import { Header } from "./components/Header";
 import { MainArea } from "./components/MainArea";
 import { Footer } from "./components/Footer";
+import { CookieBanner } from "./components/CookieBanner";
 
 const ScrollToTop: React.FC = () => {
   const { pathname } = useLocation();
@@ -28,6 +29,7 @@ const App: React.FC = () => {
       <Header />
       <MainArea />
       <Footer />
+      <CookieBanner />
     </Router>
   );
 };
