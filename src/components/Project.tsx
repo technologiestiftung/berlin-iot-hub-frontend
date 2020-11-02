@@ -123,10 +123,18 @@ export const Project: React.FC = () => {
     );
   }, [completeProjectData, selectedDeviceId]);
 
+  // =================================================================
+  // CHART DIMENSIONS
+  // =================================================================
   const [chartWidth, setChartWidth] = useState<number | undefined>(undefined);
   const [chartHeight, setChartHeight] = useState<number | undefined>(undefined);
-  const [mapWidth, setMapWidth] = useState<number | undefined>(undefined);
-  const [mapHeight, setMapHeight] = useState<number | undefined>(undefined);
+
+  useEffect(() => {
+    window.addEventListener("resize", updateChartDimensions);
+    return () => {
+      window.removeEventListener("resize", updateChartDimensions);
+    };
+  }, []);
 
   const chartWrapper = useCallback((node) => {
     if (!node) return;
@@ -135,19 +143,24 @@ export const Project: React.FC = () => {
   }, []);
 
   const updateChartDimensions = () => {
-    const width = document
-      .querySelector("#chart-wrapper")
-      ?.getBoundingClientRect().width;
-    if (!width) return;
-    setChartWidth(width);
-    setChartHeight(width / 2);
+    const boundingRect: HTMLDivElement | null = document.querySelector(
+      "#chart-wrapper"
+    );
+    if (!boundingRect) return;
+
+    setChartWidth(boundingRect.offsetWidth);
+    setChartHeight(boundingRect.offsetWidth / 2);
   };
 
+  // =================================================================
+  // MAP DIMENSIONS
+  // =================================================================
+  const [mapWidth, setMapWidth] = useState<number | undefined>(undefined);
+  const [mapHeight, setMapHeight] = useState<number | undefined>(undefined);
+
   useEffect(() => {
-    window.addEventListener("resize", updateChartDimensions);
     window.addEventListener("resize", updateMapDimensions);
     return () => {
-      window.removeEventListener("resize", updateChartDimensions);
       window.removeEventListener("resize", updateMapDimensions);
     };
   }, []);
@@ -159,15 +172,18 @@ export const Project: React.FC = () => {
   }, []);
 
   const updateMapDimensions = () => {
-    const boundingRect = document
-      .querySelector("#map-wrapper")
-      ?.getBoundingClientRect();
+    const boundingRect: HTMLDivElement | null = document.querySelector(
+      "#map-wrapper"
+    );
 
     if (!boundingRect) return;
-    setChartWidth(boundingRect.width);
-    setChartHeight(boundingRect.height);
+    setMapWidth(boundingRect.offsetWidth);
+    setMapHeight(boundingRect.offsetHeight);
   };
 
+  // =================================================================
+  // DOWNLOAD HANLDERS
+  // =================================================================
   const handleDownload = () => {
     if (!completeProjectData) return;
     downloadMultiple(
