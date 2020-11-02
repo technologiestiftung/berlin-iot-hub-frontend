@@ -52,7 +52,6 @@ export interface Theme {
       fontFamily: string;
       lineHeight: string;
       fontWeight: string;
-      minWidth: string;
       minHeight: string;
       backgroundImage: string;
       backgroundSize: string;

@@ -87,7 +87,6 @@ const theme: Theme = {
       fontFamily: "body",
       lineHeight: "body",
       fontWeight: "body",
-      minWidth: "100vw",
       minHeight: "100vh",
       backgroundImage: "url('/images/tsb-background.svg')",
       backgroundSize: "cover",
