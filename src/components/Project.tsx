@@ -181,7 +181,7 @@ export const Project: React.FC = () => {
     <React.Fragment>
       {!selectedProject && <NotFoundPage />}
       {selectedProject && (
-        <Container mt={[0, 5, 5]} p={5}>
+        <Container mt={[0, 5, 5]} p={4}>
           <Grid gap={[4, null, 6]} columns={[1, "1fr 2fr"]}>
             <Box>
               <Link to="/" sx={{ textDecoration: "none", color: "text" }}>
