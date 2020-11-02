@@ -72,7 +72,6 @@ export const Overview: React.FC = () => {
                   title={project.title}
                   city={project.city}
                   description={project.description}
-                  devices={project.devices}
                 />
               );
             })}

@@ -1,10 +1,12 @@
 import React from "react";
-import { render } from "@testing-library/react";
+import { render, screen, waitForElement } from "@testing-library/react";
 import App from "./App";
 import { StoreProvider } from "easy-peasy";
 import store from "./state/store";
 import { ThemeProvider } from "theme-ui";
 import theme from "./style/theme";
+
+window.scrollTo = jest.fn();
 
 test("renders claim element", () => {
   const { getByText } = render(
