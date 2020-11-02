@@ -1,5 +1,5 @@
 /** @jsx jsx */
-import React, { useEffect, useRef, useState } from "react";
+import React, { useEffect, useState, useCallback } from "react";
 import { useStoreState } from "../state/hooks";
 import { getDevices, getRecords, API_VERSION } from "../lib/requests";
 import { Link, useParams } from "react-router-dom";
@@ -123,48 +123,50 @@ export const Project: React.FC = () => {
     );
   }, [completeProjectData, selectedDeviceId]);
 
-  const chartParentRef = useRef<HTMLDivElement>(null);
-  const [chartWidth, setChartWidth] = useState(0);
-  const [chartHeight, setChartHeight] = useState(0);
-  const mapParentRef = useRef<HTMLDivElement>(null);
-  const [mapWidth, setMapWidth] = useState(0);
-  const [mapHeight, setMapHeight] = useState(0);
+  const [chartWidth, setChartWidth] = useState<number | undefined>(undefined);
+  const [chartHeight, setChartHeight] = useState<number | undefined>(undefined);
+  const [mapWidth, setMapWidth] = useState<number | undefined>(undefined);
+  const [mapHeight, setMapHeight] = useState<number | undefined>(undefined);
+
+  const chartWrapper = useCallback((node) => {
+    if (!node) return;
+    setChartWidth(node.getBoundingClientRect().width);
+    setChartHeight(node.getBoundingClientRect().width / 2);
+  }, []);
 
   const updateChartDimensions = () => {
-    if (chartParentRef.current === null) return;
-
-    setChartWidth(chartParentRef.current.offsetWidth);
-    setChartHeight(chartParentRef.current.offsetWidth / 2);
+    const width = document
+      .querySelector("#chart-wrapper")
+      ?.getBoundingClientRect().width;
+    if (!width) return;
+    setChartWidth(width);
+    setChartHeight(width / 2);
   };
 
   useEffect(() => {
-    if (chartParentRef.current === null) return;
-
-    setChartWidth(chartParentRef.current.offsetWidth);
-    setChartHeight(chartParentRef.current.offsetWidth / 2);
-
     window.addEventListener("resize", updateChartDimensions);
+    window.addEventListener("resize", updateMapDimensions);
+    return () => {
+      window.removeEventListener("resize", updateChartDimensions);
+      window.removeEventListener("resize", updateMapDimensions);
+    };
+  }, []);
 
-    return () => window.removeEventListener("resize", updateChartDimensions);
-  }, [chartParentRef, mapParentRef]);
+  const mapWrapper = useCallback((node) => {
+    if (!node) return;
+    setMapWidth(node.getBoundingClientRect().width);
+    setMapHeight(node.getBoundingClientRect().height);
+  }, []);
 
   const updateMapDimensions = () => {
-    if (mapParentRef.current === null) return;
+    const boundingRect = document
+      .querySelector("#map-wrapper")
+      ?.getBoundingClientRect();
 
-    setMapWidth(mapParentRef.current.offsetWidth);
-    setMapHeight(mapParentRef.current.offsetHeight);
+    if (!boundingRect) return;
+    setChartWidth(boundingRect.width);
+    setChartHeight(boundingRect.height);
   };
-
-  useEffect(() => {
-    if (mapParentRef.current === null) return;
-
-    setMapWidth(mapParentRef.current.offsetWidth);
-    setMapHeight(mapParentRef.current.offsetHeight);
-
-    window.addEventListener("resize", updateMapDimensions);
-
-    return () => window.removeEventListener("resize", updateMapDimensions);
-  }, [mapParentRef]);
 
   const handleDownload = () => {
     if (!completeProjectData) return;
@@ -240,18 +242,25 @@ export const Project: React.FC = () => {
                 )}
               </Box>
               <Card mt={5} bg="muted">
-                <div ref={mapParentRef} sx={{ width: "100%", height: "200px" }}>
+                <div
+                  id="map-wrapper"
+                  ref={mapWrapper}
+                  sx={{ width: "100%", height: "200px" }}
+                >
                   {markerData && markerData.length === 0 && (
                     <Text>Keine Geoinformationen verfügbar.</Text>
                   )}
-                  {markerData && markerData.length >= 1 && (
-                    <MarkerMap
-                      markers={markerData}
-                      clickHandler={handleMarkerSelect}
-                      mapWidth={mapWidth}
-                      mapHeight={mapHeight}
-                    />
-                  )}
+                  {mapWidth &&
+                    mapHeight &&
+                    markerData &&
+                    markerData.length >= 1 && (
+                      <MarkerMap
+                        markers={markerData}
+                        clickHandler={handleMarkerSelect}
+                        mapWidth={mapWidth}
+                        mapHeight={mapHeight}
+                      />
+                    )}
                 </div>
               </Card>
               {completeProjectData && (
@@ -302,14 +311,17 @@ export const Project: React.FC = () => {
                       </Text>
                     </Grid>
                   )}
-                <Box ref={chartParentRef} mt={4}>
-                  {selectedDevice && selectedDevice.records && (
-                    <LineChart
-                      width={chartWidth}
-                      height={chartHeight}
-                      data={createDateValueArray(selectedDevice.records)}
-                    />
-                  )}
+                <Box id="chart-wrapper" ref={chartWrapper} mt={4}>
+                  {chartWidth &&
+                    chartHeight &&
+                    selectedDevice &&
+                    selectedDevice.records && (
+                      <LineChart
+                        width={chartWidth}
+                        height={chartHeight}
+                        data={createDateValueArray(selectedDevice.records)}
+                      />
+                    )}
                 </Box>
               </Card>
               {selectedDevice && selectedDevice.records && (
