@@ -48,7 +48,7 @@ export const CookieBanner: React.FC = () => {
             <Text>
               Diese Webseite verwendet Cookies, um bestimmte Funktionen zu
               ermöglichen und das Angebot zu verbessern. Indem Sie hier
-              fortfahrens stimmen Sie der Nutzung von Cookies zu.
+              fortfahren, stimmen Sie der Nutzung von Cookies zu.
             </Text>
             &nbsp;
             <Link
