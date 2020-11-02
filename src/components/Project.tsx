@@ -1,7 +1,7 @@
 /** @jsx jsx */
 import React, { useEffect, useRef, useState } from "react";
 import { useStoreState } from "../state/hooks";
-import { getRecords, getDevices } from "../lib/requests";
+import { getDevices, getRecords, API_VERSION } from "../lib/requests";
 import { Link, useParams } from "react-router-dom";
 import { jsx, Grid, Container, Box, Card, IconButton, Text } from "theme-ui";
 import { downloadMultiple } from "../lib/download-handlers";
@@ -54,14 +54,14 @@ export const Project: React.FC = () => {
       const {
         data: { devices },
       } = await getDevices(
-        `${process.env.REACT_APP_API_URL}/api/projects/${id}/devices`
+        `${process.env.REACT_APP_API_URL}/api/${API_VERSION}/projects/${id}/devices`
       );
       Promise.all(
         devices.map(async (device: DeviceType) => {
           const {
             data: { records },
           } = await getRecords(
-            `${process.env.REACT_APP_API_URL}/api/devices/${device.id}/records`
+            `${process.env.REACT_APP_API_URL}/api/${API_VERSION}/devices/${device.id}/records`
           );
           return {
             ...device,
