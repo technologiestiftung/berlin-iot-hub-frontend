@@ -49,6 +49,8 @@ export const Project: React.FC = () => {
     undefined
   );
 
+  const [loading, setLoading] = useState<Boolean>(true);
+
   useEffect(() => {
     const fetchData = async () => {
       const {
@@ -74,6 +76,7 @@ export const Project: React.FC = () => {
             ...selectedProject,
             devices: results,
           };
+          setLoading(false);
           setCompleteProjectData(completeData);
           setSelectedDeviceId(completeData.devices[0].id);
         })
@@ -179,7 +182,7 @@ export const Project: React.FC = () => {
 
   return (
     <React.Fragment>
-      {!selectedProject && <NotFoundPage />}
+      {!loading && !selectedProject && <NotFoundPage />}
       {selectedProject && (
         <Container mt={[0, 5, 5]} p={4}>
           <Grid gap={[4, null, 6]} columns={[1, "1fr 2fr"]}>
