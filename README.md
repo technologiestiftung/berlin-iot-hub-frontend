@@ -8,6 +8,8 @@ The API for retrieving data can found in a [different repository](https://github
 
 Clone this repository, then on the root level create a file named `.env` and fill in the required values (see `.env.example` for a reference).
 
+Currently we are not calling the actual API in dev mode, so the `.env.development` file (that comes with the repository) redirects API calls to our mock service worker.
+
 Run `npm install` to install all required dependencies and then `npm start` to start developing locally. All available script can be found further down.
 
 ## Structure
