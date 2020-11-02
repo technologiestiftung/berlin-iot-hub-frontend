@@ -4,7 +4,7 @@ import { Link } from "react-router-dom";
 import { jsx, Box, Card, Heading, Text, Grid, Flex } from "theme-ui";
 import { ProjectType, DateValueType } from "../common/interfaces";
 import { LinePath } from "./visualization/LinePath";
-import { getRecords, API_VERSION } from "../lib/requests";
+import { getDevices, getRecords, API_VERSION } from "../lib/requests";
 import { createDateValueArray } from "../lib/utils";
 
 export const ProjectPreview: React.FC<ProjectType> = ({
@@ -12,13 +12,20 @@ export const ProjectPreview: React.FC<ProjectType> = ({
   title,
   city,
   description,
-  devices,
 }) => {
   const [dateValueArray, setDateValueArray] = useState<
     DateValueType[] | undefined
   >(undefined);
   useEffect(() => {
     const fetchFirstDeviceRecords = async () => {
+      const {
+        data: { devices },
+      } = await getDevices(
+        `${process.env.REACT_APP_API_URL}/api/projects/${id}/devices`
+      );
+
+      if (devices.length < 1) return;
+
       const {
         data: { records },
       } = await getRecords(
@@ -29,10 +36,11 @@ export const ProjectPreview: React.FC<ProjectType> = ({
 
     fetchFirstDeviceRecords()
       .then((result) => {
+        if (!result) return;
         setDateValueArray(createDateValueArray(result));
       })
       .catch((error) => console.error(error));
-  }, [devices]);
+  }, [id]);
 
   const parentRef = useRef<HTMLDivElement>(null);
   const [svgWrapperWidth, setSvgWrapperWidth] = useState(0);
