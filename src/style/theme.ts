@@ -79,7 +79,7 @@ const theme: Theme = {
   },
   layout: {
     container: {
-      maxWidth: "1024px",
+      maxWidth: "1216px",
     },
   },
   styles: {
