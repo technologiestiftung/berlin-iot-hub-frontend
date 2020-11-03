@@ -52,8 +52,8 @@ export const Overview: React.FC = () => {
             </Heading>
           </Box>
         </Grid>
-        <Box sx={{ maxWidth: "60ch" }}>
-          <Text>
+        <Box>
+          <Text sx={{ maxWidth: "60ch" }}>
             Das Berlin IoT Hub ist eine prototypische Offene Datenplattform, die
             Sensordaten aus Forschungsprojekten der Technologiestiftung Berlin
             speichert und als Download, sowie über eine REST-API frei verfügbar

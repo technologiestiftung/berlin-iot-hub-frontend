@@ -2,7 +2,7 @@ interface Heading {
   fontFamily: string;
   lineHeight: string;
   fontWeight?: string;
-  fontSize?: number;
+  fontSize?: number | number[];
   color?: string;
 }
 
