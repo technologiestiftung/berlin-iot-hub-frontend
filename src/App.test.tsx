@@ -1,15 +1,17 @@
 import React from "react";
 import { render, screen } from "@testing-library/react";
+import userEvent from "@testing-library/user-event";
 import App from "./App";
 import { StoreProvider } from "easy-peasy";
 import store from "./state/store";
 import { ThemeProvider } from "theme-ui";
 import theme from "./style/theme";
+import { act } from "react-dom/test-utils";
 
 window.scrollTo = jest.fn();
 
-describe("Home page / project overview", () => {
-  test("renders claim element", () => {
+describe("App", () => {
+  test("initially renders claim element", () => {
     render(
       <StoreProvider store={store}>
         <ThemeProvider theme={theme}>
@@ -24,7 +26,7 @@ describe("Home page / project overview", () => {
     expect(claimElement).toBeInTheDocument();
   });
 
-  test("displays headings of projects", async () => {
+  test("displays headings of projects from API", async () => {
     render(
       <StoreProvider store={store}>
         <ThemeProvider theme={theme}>
@@ -50,5 +52,29 @@ describe("Home page / project overview", () => {
 
     const cookieBanner = screen.getByText(/Diese Webseite verwendet Cookies/i);
     expect(cookieBanner).toBeInTheDocument();
+  });
+
+  test("allows navigating to project page", async () => {
+    await act(async () => {
+      render(
+        <StoreProvider store={store}>
+          <ThemeProvider theme={theme}>
+            <App />
+          </ThemeProvider>
+        </StoreProvider>
+      );
+
+      await act(async () => {
+        userEvent.click(await screen.findByText(/Test project A/i));
+      });
+
+      const sensorCount = await screen.findByText(/Anzahl der Sensoren/i);
+      expect(sensorCount).toBeInTheDocument();
+
+      const radioInputItems = await screen.findAllByLabelText(
+        /device description/i
+      );
+      expect(radioInputItems).toHaveLength(3);
+    });
   });
 });
