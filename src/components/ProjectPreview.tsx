@@ -16,7 +16,10 @@ export const ProjectPreview: React.FC<ProjectType> = ({
   const [dateValueArray, setDateValueArray] = useState<
     DateValueType[] | undefined
   >(undefined);
+
   useEffect(() => {
+    let isMounted = true;
+
     const fetchFirstDeviceRecords = async () => {
       const {
         data: { devices },
@@ -36,10 +39,14 @@ export const ProjectPreview: React.FC<ProjectType> = ({
 
     fetchFirstDeviceRecords()
       .then((result) => {
-        if (!result) return;
+        if (!result || !isMounted) return;
         setDateValueArray(createDateValueArray(result));
       })
       .catch((error) => console.error(error));
+
+    return () => {
+      isMounted = false;
+    };
   }, [id]);
 
   const parentRef = useRef<HTMLDivElement>(null);
@@ -60,7 +67,7 @@ export const ProjectPreview: React.FC<ProjectType> = ({
     window.addEventListener("resize", updateWidthAndHeight);
 
     return () => window.removeEventListener("resize", updateWidthAndHeight);
-  }, [parentRef]);
+  }, []);
 
   return (
     <Box mt={4}>

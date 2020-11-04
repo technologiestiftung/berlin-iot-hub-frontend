@@ -12,7 +12,7 @@ export const projectsResponse: ProjectResponse = {
         title: "Test project A",
         city: "Berlin",
         description:
-          "This is a description. This is a description. This is a description. This is a description.",
+          "This is a description for project A. This is a description. This is a description. This is a description.",
         ttnAppId: "aaa",
         userId: 1,
       },
@@ -21,7 +21,7 @@ export const projectsResponse: ProjectResponse = {
         title: "Test project B",
         city: "Berlin",
         description:
-          "This is a description. This is a description. This is a description. This is a description.",
+          "This is a description for project B. This is a description. This is a description. This is a description.",
         ttnAppId: "bbb",
         userId: 2,
       },
