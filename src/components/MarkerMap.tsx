@@ -29,8 +29,8 @@ export const MarkerMap: React.FC<{
   mapHeight: number;
 }> = ({ markers, clickHandler, mapWidth, mapHeight }) => {
   const [viewport, setViewport] = useState<ViewportType>({
-    latitude: markers.length === 1 ? markers[0].latitude : 52.520952,
-    longitude: markers.length === 1 ? markers[0].longitude : 13.400033,
+    latitude: 52.520952,
+    longitude: 13.400033,
     zoom: 12,
     bearing: 0,
     pitch: 0,
@@ -40,7 +40,30 @@ export const MarkerMap: React.FC<{
   });
 
   useEffect(() => {
-    if (markers.length === 1) return;
+    const latLonItems: { latitude: number; longitude: number }[] = markers.map(
+      (marker: MarkerType) => {
+        return {
+          latitude: marker.latitude,
+          longitude: marker.longitude,
+        };
+      }
+    );
+
+    const allDevicesHaveSameLocation: boolean = latLonItems.every((item) => {
+      return (
+        item.latitude === latLonItems[0].latitude &&
+        item.longitude === latLonItems[0].longitude
+      );
+    });
+
+    if (markers.length === 1 || allDevicesHaveSameLocation) {
+      setViewport({
+        ...viewport,
+        latitude: markers[0].latitude,
+        longitude: markers[0].longitude,
+      });
+      return;
+    }
 
     const features = featureCollection(
       markers.map((marker: MarkerType) => {
