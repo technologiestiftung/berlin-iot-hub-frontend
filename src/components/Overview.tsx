@@ -69,10 +69,10 @@ export const Overview: React.FC = () => {
             hier erfassten Daten sind unter der freien CC-BY-SA-Lizenz
             verfügbar.
           </Text>
-          <Heading as="h2" variant="h5" paddingTop="3">
+          <Heading as="h2" variant="h5" mt={3}>
             Anzahl der IoT-Projekte: 3
           </Heading>
-          <Text pt={3}>
+          <Text mt={3}>
             <i>
               Mit Klick auf ein IoT-Projekt werden Detailinformationen sichtbar.
             </i>
