@@ -4,6 +4,7 @@ import ReactMapGL, { Marker, WebMercatorViewport } from "react-map-gl";
 import { bbox, featureCollection, point } from "@turf/turf";
 import { jsx } from "theme-ui";
 import { MarkerType } from "../common/interfaces";
+import { MarkerCircle } from "./MarkerCircle";
 
 import "mapbox-gl/dist/mapbox-gl.css";
 
@@ -29,8 +30,8 @@ export const MarkerMap: React.FC<{
   mapHeight: number;
 }> = ({ markers, clickHandler, mapWidth, mapHeight }) => {
   const [viewport, setViewport] = useState<ViewportType>({
-    latitude: markers.length === 1 ? markers[0].latitude : 52.520952,
-    longitude: markers.length === 1 ? markers[0].longitude : 13.400033,
+    latitude: 52.520952,
+    longitude: 13.400033,
     zoom: 12,
     bearing: 0,
     pitch: 0,
@@ -39,8 +40,31 @@ export const MarkerMap: React.FC<{
     height: mapHeight,
   });
 
+  const latLonItems: { latitude: number; longitude: number }[] = markers.map(
+    (marker: MarkerType) => {
+      return {
+        latitude: marker.latitude,
+        longitude: marker.longitude,
+      };
+    }
+  );
+
+  const allDevicesHaveSameLocation: boolean = latLonItems.every((item) => {
+    return (
+      item.latitude === latLonItems[0].latitude &&
+      item.longitude === latLonItems[0].longitude
+    );
+  });
+
   useEffect(() => {
-    if (markers.length === 1) return;
+    if (markers.length === 1 || allDevicesHaveSameLocation) {
+      setViewport({
+        ...viewport,
+        latitude: markers[0].latitude,
+        longitude: markers[0].longitude,
+      });
+      return;
+    }
 
     const features = featureCollection(
       markers.map((marker: MarkerType) => {
@@ -86,27 +110,28 @@ export const MarkerMap: React.FC<{
       onViewportChange={(nextViewport) => setViewport(nextViewport)}
       mapboxApiAccessToken={MAPBOX_TOKEN}
     >
-      {markers.map((marker: MarkerType) => {
-        return (
-          <Marker
-            key={marker.id}
-            latitude={marker.latitude}
-            longitude={marker.longitude}
-          >
-            <div
-              sx={{
-                width: "24px",
-                height: "24px",
-                borderRadius: "50%",
-                bg: marker.isActive ? "primary" : "mediumgrey",
-                cursor: "pointer",
-                transform: "translate(-12px, -12px)",
-              }}
-              onClick={() => handleClick(marker.id)}
-            ></div>
-          </Marker>
-        );
-      })}
+      {!allDevicesHaveSameLocation &&
+        markers.map((marker: MarkerType) => {
+          return (
+            <Marker
+              key={marker.id}
+              latitude={marker.latitude}
+              longitude={marker.longitude}
+            >
+              <MarkerCircle
+                isActive={marker.isActive}
+                clickHandler={() => handleClick(marker.id)}
+              ></MarkerCircle>
+            </Marker>
+          );
+        })}
+      {allDevicesHaveSameLocation && (
+        <Marker latitude={markers[0].latitude} longitude={markers[0].longitude}>
+          <MarkerCircle isActive>
+            {markers.length === 1 ? "" : markers.length}
+          </MarkerCircle>
+        </Marker>
+      )}
     </ReactMapGL>
   );
 };
