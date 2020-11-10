@@ -47,20 +47,35 @@ export const Overview: React.FC = () => {
             >
               Berlin <span sx={{ fontWeight: "body" }}>IoT Hub</span>
             </Heading>
-            <Heading as="h2" variant="h2" mt={2} sx={{ color: "primary" }}>
+            <Heading
+              as="h2"
+              variant="h2"
+              mt={2}
+              mr={2}
+              sx={{ color: "primary" }}
+            >
               Offene Datenplattform für IoT-Projekte
             </Heading>
           </Box>
         </Grid>
         <Box>
-          <Text sx={{ maxWidth: "60ch" }}>
+          <Text sx={{ maxWidth: "80ch" }}>
             Das Berlin IoT Hub ist eine prototypische Offene Datenplattform, die
             Sensordaten aus Forschungsprojekten der Technologiestiftung Berlin
-            speichert und als Download, sowie über eine REST-API frei verfügbar
-            macht. Basierend auf diesen Daten können weiterführende Analysen und
+            in einr PostgreSQL-Datenbank speichert. Alle Datensätze werden als
+            Download, sowie über eine REST-API frei zur Verfügung gestellt.
+            Basierend auf diesen Daten können weiterführende Analysen und
             Visualisierungen zu den jeweiligen Projekten erstellt werden. Alle
             hier erfassten Daten sind unter der freien CC-BY-SA-Lizenz
             verfügbar.
+          </Text>
+          <Heading as="h2" variant="h5" mt={3}>
+            Anzahl der IoT-Projekte: 3
+          </Heading>
+          <Text mt={3}>
+            <i>
+              Mit Klick auf ein IoT-Projekt werden Detailinformationen sichtbar.
+            </i>
           </Text>
           <Divider mt={4} />
           {projects &&
