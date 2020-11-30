@@ -22,6 +22,9 @@ const store = createStore<StoreModel>({
       actions.save(projects);
     }),
   },
+  records: {
+    segmentSize: 50,
+  },
 });
 
 export default store;

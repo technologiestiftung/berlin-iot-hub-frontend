@@ -10,4 +10,7 @@ export interface ProjectsModel {
 
 export interface StoreModel {
   projects: ProjectsModel;
+  records: {
+    segmentSize: number;
+  };
 }
