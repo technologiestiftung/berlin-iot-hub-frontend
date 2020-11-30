@@ -5,14 +5,13 @@ import { IconButton } from "./IconButton";
 import { RecordType, DataTableType } from "../common/interfaces";
 import { createTimeOutput } from "../lib/utils";
 import { createCSVStructure, downloadCSV } from "../lib/download-handlers";
-import { useStoreState } from "easy-peasy";
-import { StoreModel } from "../state/model";
+import { useStoreState } from "../state/hooks";
 
 const downloadIcon = "./images/download.svg";
 
 export const DataTable: React.FC<DataTableType> = ({ data, title }) => {
   const recordsSegmentSize = useStoreState(
-    (state: StoreModel) => state.records.segmentSize
+    (state) => state.records.segmentSize
   );
 
   const [displayedData, setDisplayedData] = useState<undefined | RecordType[]>(
