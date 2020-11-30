@@ -2,10 +2,11 @@
 import React, { useEffect, useState, useRef } from "react";
 import { Link } from "react-router-dom";
 import { jsx, Box, Card, Heading, Text, Grid, Flex } from "theme-ui";
-import { ProjectType, DateValueType } from "../common/interfaces";
+import { ProjectType, DateValueType, RecordType } from "../common/interfaces";
 import { LinePath } from "./visualization/LinePath";
 import { getDevices, getRecords, API_VERSION } from "../lib/requests";
 import { createDateValueArray } from "../lib/utils";
+import { useStoreState } from "../state/hooks";
 
 export const ProjectPreview: React.FC<ProjectType> = ({
   id,
@@ -16,6 +17,10 @@ export const ProjectPreview: React.FC<ProjectType> = ({
   const [dateValueArray, setDateValueArray] = useState<
     DateValueType[] | undefined
   >(undefined);
+
+  const numberOfRecordsToDisplay = useStoreState(
+    (state) => state.records.segmentSize
+  );
 
   useEffect(() => {
     let isMounted = true;
@@ -38,9 +43,19 @@ export const ProjectPreview: React.FC<ProjectType> = ({
     };
 
     fetchFirstDeviceRecords()
-      .then((result) => {
+      .then((result: undefined | RecordType[]) => {
         if (!result || !isMounted) return;
-        setDateValueArray(createDateValueArray(result));
+
+        const dataToDisplay =
+          result.length > numberOfRecordsToDisplay
+            ? result
+                .sort(
+                  (a, b) => Date.parse(b.recordedAt) - Date.parse(a.recordedAt)
+                )
+                .filter((_record, i: Number) => i < numberOfRecordsToDisplay)
+            : result;
+
+        setDateValueArray(createDateValueArray(dataToDisplay));
       })
       .catch((error) => console.error(error));
 
