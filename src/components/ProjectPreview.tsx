@@ -62,7 +62,7 @@ export const ProjectPreview: React.FC<ProjectType> = ({
     return () => {
       isMounted = false;
     };
-  }, [id]);
+  }, [id, numberOfRecordsToDisplay]);
 
   const parentRef = useRef<HTMLDivElement>(null);
   const [svgWrapperWidth, setSvgWrapperWidth] = useState(0);
