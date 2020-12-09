@@ -116,7 +116,7 @@ export const DataTable: React.FC<DataTableType> = ({ data, title }) => {
         </table>
         {data && data.length > numberOfRecordsToDisplay && (
           <Button variant="text" mt={3} onClick={handleLoadMore}>
-            Mehr laden
+            Mehr anzeigen
           </Button>
         )}
       </Box>
