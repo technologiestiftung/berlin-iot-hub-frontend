@@ -131,10 +131,6 @@ export interface Theme {
       "&:hover": {
         cursor: string;
       };
-      "&:focus": {
-        bg: string;
-        outline: string;
-      };
     };
   };
   links: {
@@ -150,6 +146,14 @@ export interface Theme {
       "&:active": {
         bg: string;
       };
+    };
+  };
+  forms: {
+    input: {
+      border: string;
+      borderRadius: string;
+      padding: number;
+      bg: string;
     };
   };
 }
