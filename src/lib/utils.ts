@@ -7,7 +7,10 @@ export const createDateValueArray = (input: RecordType[]) => {
       date: new Date(record.recordedAt),
     };
   });
-  return dateValueArray as DateValueType[];
+  const sortedDateValueArray = dateValueArray.sort((a, b) => {
+    return a.date.getTime() - b.date.getTime();
+  });
+  return sortedDateValueArray as DateValueType[];
 };
 
 export const createTimeOutput = (input: Date): string => {
