@@ -58,7 +58,7 @@ export const LineChart = ({ width, height, data }: LineGraphType) => {
         top={graphHeight}
         left={paddingLeft}
         hideAxisLine={true}
-        numTicks={6}
+        numTicks={8}
         tickStroke={
           theme.colors?.mediumgrey ? `${theme.colors.mediumgrey}` : "inherit"
         }
