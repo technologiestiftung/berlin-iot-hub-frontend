@@ -166,10 +166,6 @@ const theme: Theme = {
       "&:hover": {
         cursor: "pointer",
       },
-      "&:focus": {
-        bg: "lightgrey",
-        outline: "none",
-      },
     },
   },
   links: {
@@ -185,6 +181,14 @@ const theme: Theme = {
       "&:active": {
         bg: "mediumgrey",
       },
+    },
+  },
+  forms: {
+    input: {
+      border: "1px solid #D8D8D8",
+      borderRadius: "0",
+      padding: 1,
+      bg: "transparent",
     },
   },
 };

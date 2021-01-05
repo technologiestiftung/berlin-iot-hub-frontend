@@ -1,17 +1,44 @@
 /** @jsx jsx */
-import React from "react";
-import { jsx, Grid, Card, Box } from "theme-ui";
+import React, { useState, useEffect } from "react";
+import { jsx, Grid, Card, Box, Button } from "theme-ui";
 import { IconButton } from "./IconButton";
 import { RecordType, DataTableType } from "../common/interfaces";
 import { createTimeOutput } from "../lib/utils";
 import { createCSVStructure, downloadCSV } from "../lib/download-handlers";
+import { useStoreState } from "../state/hooks";
 
 const downloadIcon = "./images/download.svg";
 
 export const DataTable: React.FC<DataTableType> = ({ data, title }) => {
+  const recordsSegmentSize = useStoreState(
+    (state) => state.records.segmentSize
+  );
+
+  const [displayedData, setDisplayedData] = useState<undefined | RecordType[]>(
+    undefined
+  );
+
+  const [numberOfRecordsToDisplay, setNumberOfRecordsToDisplay] = useState<
+    number
+  >(recordsSegmentSize);
+
+  useEffect(() => {
+    if (!data) return;
+
+    setDisplayedData(
+      data
+        .sort((a, b) => Date.parse(b.recordedAt) - Date.parse(a.recordedAt))
+        .filter((_record, i: number) => i < numberOfRecordsToDisplay)
+    );
+  }, [data, numberOfRecordsToDisplay]);
+
   const handleDownload = (): void => {
     const CSVData = createCSVStructure(data);
     downloadCSV(CSVData, title);
+  };
+
+  const handleLoadMore = (): void => {
+    setNumberOfRecordsToDisplay(numberOfRecordsToDisplay + recordsSegmentSize);
   };
 
   return (
@@ -35,7 +62,10 @@ export const DataTable: React.FC<DataTableType> = ({ data, title }) => {
           />
         </Box>
       </Grid>
-      <Box p={3}>
+      <Box
+        p={3}
+        sx={{ display: "flex", flexWrap: "wrap", justifyContent: "center" }}
+      >
         <table
           sx={{
             width: "100%",
@@ -62,32 +92,33 @@ export const DataTable: React.FC<DataTableType> = ({ data, title }) => {
             </tr>
           </thead>
           <tbody>
-            {data &&
-              data
-                .sort(
-                  (a, b) => Date.parse(b.recordedAt) - Date.parse(a.recordedAt)
-                )
-                .map((el: RecordType, i: number) => {
-                  return (
-                    <tr
-                      key={i}
-                      sx={{
-                        backgroundColor: () =>
-                          `${i % 2 === 0 ? "muted" : "background"}`,
-                        "& > td": {
-                          p: 2,
-                          border: "none",
-                        },
-                      }}
-                    >
-                      <td>{new Date(el.recordedAt).toLocaleDateString()}</td>
-                      <td>{createTimeOutput(new Date(el.recordedAt))}</td>
-                      <td sx={{ textAlign: "right" }}>{el.value}</td>
-                    </tr>
-                  );
-                })}
+            {displayedData &&
+              displayedData.map((record: RecordType, i: number) => {
+                return (
+                  <tr
+                    key={record.id}
+                    sx={{
+                      backgroundColor: () =>
+                        `${i % 2 === 0 ? "muted" : "background"}`,
+                      "& > td": {
+                        p: 2,
+                        border: "none",
+                      },
+                    }}
+                  >
+                    <td>{new Date(record.recordedAt).toLocaleDateString()}</td>
+                    <td>{createTimeOutput(new Date(record.recordedAt))}</td>
+                    <td sx={{ textAlign: "right" }}>{record.value}</td>
+                  </tr>
+                );
+              })}
           </tbody>
         </table>
+        {data && data.length > numberOfRecordsToDisplay && (
+          <Button variant="text" mt={3} onClick={handleLoadMore}>
+            Mehr anzeigen
+          </Button>
+        )}
       </Box>
     </Card>
   );

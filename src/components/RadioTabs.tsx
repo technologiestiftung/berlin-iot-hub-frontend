@@ -17,7 +17,7 @@ export const RadioTabs: React.FC<RadioTabsType> = ({
       {options.map((option: RadioTabOptionType) => {
         return (
           <div
-            key={`device-${option.id}-tab`}
+            key={`${name}-${option.id}-tab`}
             sx={{
               display: "inline-block",
               marginRight: (theme) => `${theme.space[3]}px`,
@@ -25,7 +25,7 @@ export const RadioTabs: React.FC<RadioTabsType> = ({
           >
             <input
               type="radio"
-              id={`device-${option.id}`}
+              id={`${name}-${option.id}`}
               name={name}
               value={option.id}
               checked={option.isActive}
@@ -33,14 +33,15 @@ export const RadioTabs: React.FC<RadioTabsType> = ({
               sx={{
                 opacity: 0,
                 position: "absolute",
+                pointerEvents: "none",
               }}
             />
             <label
-              htmlFor={`device-${option.id}`}
+              htmlFor={`${name}-${option.id}`}
               sx={{
                 color: option.isActive ? "primary" : "lightgrey",
                 cursor: "pointer",
-                transition: "all .1s ease-out",
+                transition: "all .1s ease-in-out",
                 "&:hover": {
                   color: "primary",
                 },

@@ -3,9 +3,21 @@ import React, { useEffect, useState, useCallback } from "react";
 import { useStoreState } from "../state/hooks";
 import { getDevices, getRecords, API_VERSION } from "../lib/requests";
 import { Link, useParams } from "react-router-dom";
-import { jsx, Grid, Container, Box, Card, IconButton, Text } from "theme-ui";
+import {
+  jsx,
+  Grid,
+  Container,
+  Box,
+  Card,
+  IconButton,
+  Text,
+  Input,
+  Label,
+  Button,
+} from "theme-ui";
 import { downloadMultiple } from "../lib/download-handlers";
 import ArrowBackIcon from "@material-ui/icons/ArrowBack";
+import ArrowForwardIcon from "@material-ui/icons/ArrowForward";
 import { ProjectSummary } from "./ProjectSummary";
 import { DataTable } from "./DataTable";
 import { IconButton as DownloadButton } from "./IconButton";
@@ -14,6 +26,7 @@ import {
   DeviceType,
   MarkerType,
   CompleteProjectType,
+  RecordType,
 } from "../common/interfaces";
 import { RadioTabs } from "./RadioTabs";
 import { LineChart } from "./visualization/LineChart";
@@ -27,6 +40,7 @@ const downloadIcon = "./images/download.svg";
 interface RouteParams {
   id: string;
 }
+
 export const Project: React.FC = () => {
   const { id } = useParams<RouteParams>();
   const selectedProject: ProjectType = useStoreState((state) =>
@@ -42,6 +56,16 @@ export const Project: React.FC = () => {
   );
 
   const [selectedDevice, setSelectedDevice] = useState<DeviceType | undefined>(
+    undefined
+  );
+
+  const MIN_NUMBER_OF_RECORDS_TO_DISPLAY = 100;
+
+  const [numberOfRecordsToDisplay, setNumberOfRecordsToDisplay] = useState<
+    number
+  >(MIN_NUMBER_OF_RECORDS_TO_DISPLAY);
+
+  const [lineChartData, setLineChartData] = useState<RecordType[] | undefined>(
     undefined
   );
 
@@ -89,12 +113,27 @@ export const Project: React.FC = () => {
 
   useEffect(() => {
     if (!completeProjectData) return;
-    setSelectedDevice(
-      completeProjectData.devices.find(
-        (device) => device.id === selectedDeviceId
+    const device = completeProjectData.devices.find(
+      (device) => device.id === selectedDeviceId
+    );
+
+    if (!device) return;
+    setSelectedDevice(device);
+
+    const initialNumberOfRecordsToDisplay =
+      device.records.length < 500 ? device.records.length : 500;
+    setNumberOfRecordsToDisplay(initialNumberOfRecordsToDisplay);
+  }, [selectedDeviceId, completeProjectData]);
+
+  useEffect(() => {
+    if (!selectedDevice) return;
+    setLineChartData(
+      selectedDevice.records.filter(
+        (_record, i) => i < numberOfRecordsToDisplay
       )
     );
-  }, [selectedDeviceId, completeProjectData]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [selectedDevice]);
 
   useEffect(() => {
     if (!completeProjectData) return;
@@ -196,6 +235,17 @@ export const Project: React.FC = () => {
 
   const handleMarkerSelect = (deviceId: number) => {
     setSelectedDeviceId(deviceId);
+  };
+
+  const handleUpdateRecords = (event: React.FormEvent<HTMLDivElement>) => {
+    event.preventDefault();
+
+    if (!selectedDevice) return;
+    setLineChartData(
+      selectedDevice.records.filter(
+        (_record, i) => i < numberOfRecordsToDisplay
+      )
+    );
   };
 
   return (
@@ -313,31 +363,85 @@ export const Project: React.FC = () => {
                           setSelectedDeviceId(selected)
                         }
                       />
-                      <Text>
-                        {selectedDevice.records.length &&
-                        selectedDevice.records[0].hasOwnProperty("recordedAt")
-                          ? new Date(
-                              Math.max(
-                                ...selectedDevice.records.map((e) =>
-                                  Date.parse(e.recordedAt)
+                      <Box sx={{ fontSize: 0 }}>
+                        <Grid
+                          as="dl"
+                          columns={"100px 1fr"}
+                          gap={2}
+                          sx={{
+                            rowGap: 2,
+                            ">dd": {
+                              marginLeft: 0,
+                            },
+                          }}
+                        >
+                          <dt>Letzter Eintrag:</dt>
+                          <dd>
+                            {selectedDevice.records.length &&
+                            selectedDevice.records[0].hasOwnProperty(
+                              "recordedAt"
+                            )
+                              ? new Date(
+                                  Math.max(
+                                    ...selectedDevice.records.map((e) =>
+                                      Date.parse(e.recordedAt)
+                                    )
+                                  )
+                                ).toLocaleDateString()
+                              : ""}
+                          </dd>
+                          <dt>Messwerte:</dt>
+                          <dd>
+                            {selectedDevice && selectedDevice.records.length}
+                          </dd>
+                        </Grid>
+                        {selectedDevice && (
+                          <Grid
+                            as="form"
+                            columns={"100px 1fr auto"}
+                            gap={2}
+                            onSubmit={handleUpdateRecords}
+                          >
+                            <Label htmlFor="records-amount">Angezeigt:</Label>
+                            <Input
+                              type="number"
+                              name="records-amount"
+                              value={numberOfRecordsToDisplay}
+                              min="1"
+                              max={`${selectedDevice.records.length}`}
+                              step="1"
+                              id="records-amount"
+                              color="primary"
+                              sx={{ fontWeight: "bold" }}
+                              onChange={(event) =>
+                                setNumberOfRecordsToDisplay(
+                                  Number(event.target.value)
                                 )
-                              )
-                            ).toLocaleDateString()
-                          : ""}
-                      </Text>
+                              }
+                            />
+                            <Button
+                              variant="text"
+                              type="submit"
+                              sx={{ display: "flex", alignItems: "center" }}
+                            >
+                              <ArrowForwardIcon
+                                fontSize={"small"}
+                                sx={{ color: "primary" }}
+                              />
+                            </Button>
+                          </Grid>
+                        )}
+                      </Box>
                     </Grid>
                   )}
                 <Box id="chart-wrapper" ref={chartWrapper} mt={4}>
-                  {chartWidth &&
-                    chartHeight &&
-                    selectedDevice &&
-                    selectedDevice.records && (
-                      <LineChart
-                        width={chartWidth}
-                        height={chartHeight}
-                        data={createDateValueArray(selectedDevice.records)}
-                      />
-                    )}
+                  {chartWidth && chartHeight && lineChartData && (
+                    <LineChart
+                      width={chartWidth}
+                      height={chartHeight}
+                      data={createDateValueArray(lineChartData)}
+                    />
+                  )}
                 </Box>
               </Card>
               {selectedDevice && selectedDevice.records && (
