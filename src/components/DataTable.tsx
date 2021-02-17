@@ -1,3 +1,4 @@
+/** @jsxRuntime classic */
 /** @jsx jsx */
 import React, { useState, useEffect } from "react";
 import { jsx, Grid, Card, Box, Button } from "theme-ui";
@@ -18,9 +19,10 @@ export const DataTable: React.FC<DataTableType> = ({ data, title }) => {
     undefined
   );
 
-  const [numberOfRecordsToDisplay, setNumberOfRecordsToDisplay] = useState<
-    number
-  >(recordsSegmentSize);
+  const [
+    numberOfRecordsToDisplay,
+    setNumberOfRecordsToDisplay,
+  ] = useState<number>(recordsSegmentSize);
 
   useEffect(() => {
     if (!data) return;
