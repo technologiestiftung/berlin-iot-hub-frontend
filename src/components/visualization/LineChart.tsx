@@ -1,3 +1,4 @@
+/** @jsxRuntime classic */
 /** @jsx jsx */
 import { jsx, useThemeUI } from "theme-ui";
 import { extent, max } from "d3-array";

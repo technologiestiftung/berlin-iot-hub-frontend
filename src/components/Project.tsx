@@ -1,3 +1,4 @@
+/** @jsxRuntime classic */
 /** @jsx jsx */
 import React, { useEffect, useState, useCallback } from "react";
 import { useStoreState } from "../state/hooks";
@@ -61,9 +62,10 @@ export const Project: React.FC = () => {
 
   const MIN_NUMBER_OF_RECORDS_TO_DISPLAY = 100;
 
-  const [numberOfRecordsToDisplay, setNumberOfRecordsToDisplay] = useState<
-    number
-  >(MIN_NUMBER_OF_RECORDS_TO_DISPLAY);
+  const [
+    numberOfRecordsToDisplay,
+    setNumberOfRecordsToDisplay,
+  ] = useState<number>(MIN_NUMBER_OF_RECORDS_TO_DISPLAY);
 
   const [lineChartData, setLineChartData] = useState<RecordType[] | undefined>(
     undefined
