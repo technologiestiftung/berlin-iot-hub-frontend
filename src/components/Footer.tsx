@@ -1,3 +1,4 @@
+/** @jsxRuntime classic */
 /** @jsx jsx */
 import React from "react";
 import { jsx, Link, Flex, Text, Image, Grid } from "theme-ui";

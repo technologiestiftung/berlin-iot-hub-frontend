@@ -1,3 +1,4 @@
+/** @jsxRuntime classic */
 /** @jsx jsx */
 import React, { useState, useEffect } from "react";
 import ReactMapGL, { Marker, WebMercatorViewport } from "react-map-gl";
