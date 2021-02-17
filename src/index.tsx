@@ -2,7 +2,6 @@ import React from "react";
 import ReactDOM from "react-dom";
 import App from "./App";
 import { ThemeProvider } from "theme-ui";
-import "./style/fonts.css";
 import theme from "./style/theme";
 import { StoreProvider } from "easy-peasy";
 import store from "./state/store";
