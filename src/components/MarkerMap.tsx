@@ -108,7 +108,7 @@ export const MarkerMap: React.FC<{
       width={mapWidth}
       height={mapHeight}
       mapStyle="mapbox://styles/mapbox/light-v10"
-      onViewportChange={(nextViewport) => setViewport(nextViewport)}
+      onViewportChange={(nextViewport: any) => setViewport(nextViewport)}
       mapboxApiAccessToken={MAPBOX_TOKEN}
     >
       {!allDevicesHaveSameLocation &&
