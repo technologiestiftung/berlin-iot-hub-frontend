@@ -1,7 +1,7 @@
 /** @jsxRuntime classic */
 /** @jsx jsx */
 import React from "react";
-import { Link } from "react-router-dom";
+import Link from "next/link";
 import { jsx, Flex, Heading, Image } from "theme-ui";
 
 const DatahubLogo = "/images/datahub-logo.svg";
@@ -24,17 +24,19 @@ export const Header: React.FC = () => {
         zIndex: 3,
       }}
     >
-      <Link to="/" sx={{ textDecoration: "none", color: "text" }}>
-        <Flex>
-          <Image
-            src={DatahubLogo}
-            alt={"Logo des Berlin IoT Hub"}
-            sx={{ width: "56px", height: "100%" }}
-          />
-          <Heading ml={3} sx={{ lineHeight: "inherit" }}>
-            Berlin <span sx={{ fontWeight: "normal" }}>IoT Hub</span>
-          </Heading>
-        </Flex>
+      <Link href="/">
+        <a sx={{ textDecoration: "none", color: "text" }}>
+          <Flex>
+            <Image
+              src={DatahubLogo}
+              alt={"Logo des Berlin IoT Hub"}
+              sx={{ width: "56px", height: "100%" }}
+            />
+            <Heading ml={3} sx={{ lineHeight: "inherit" }}>
+              Berlin <span sx={{ fontWeight: "normal" }}>IoT Hub</span>
+            </Heading>
+          </Flex>
+        </a>
       </Link>
     </header>
   );

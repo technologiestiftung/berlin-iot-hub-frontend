@@ -1,7 +1,7 @@
 /** @jsxRuntime classic */
 /** @jsx jsx */
 import React, { useEffect, useState, useRef } from "react";
-import { Link } from "react-router-dom";
+import Link from 'next/link';
 import { jsx, Box, Card, Heading, Text, Grid, Flex } from "theme-ui";
 import { ProjectType, DateValueType, RecordType } from "../common/interfaces";
 import { LinePath } from "./visualization/LinePath";
@@ -87,44 +87,46 @@ export const ProjectPreview: React.FC<ProjectType> = ({
 
   return (
     <Box mt={4}>
-      <Link to={`${id}`} sx={{ textDecoration: "none", color: "text" }}>
-        <Card
-          sx={{
-            transition: "all .2s ease-out",
-            ":hover": {
-              bg: "muted",
-            },
-          }}
-        >
-          <Grid gap={2} columns={[1, 2, 2]}>
-            <Box>
-              <Heading as="h3" variant="h3">
-                {title}
-              </Heading>
-              <Heading as="h4" variant="h5" mt={1}>
-                {city}
-              </Heading>
-              <Text mt={3}>{description}</Text>
-            </Box>
-            <Flex ref={parentRef} mt={[4, 0, 0]} sx={{ alignItems: "center" }}>
-              {dateValueArray && (
-                <svg
-                  viewBox={`0 0 ${svgWrapperWidth} ${svgWrapperHeight}`}
-                  xmlns="http://www.w3.org/2000/svg"
-                  width={svgWrapperWidth}
-                  height={svgWrapperHeight}
-                  sx={{ overflow: "visible" }}
-                >
-                  <LinePath
+      <Link href={`${id}`}>
+        <a sx={{ textDecoration: "none", color: "text" }}>
+          <Card
+            sx={{
+              transition: "all .2s ease-out",
+              ":hover": {
+                bg: "muted",
+              },
+            }}
+          >
+            <Grid gap={2} columns={[1, 2, 2]}>
+              <Box>
+                <Heading as="h3" variant="h3">
+                  {title}
+                </Heading>
+                <Heading as="h4" variant="h5" mt={1}>
+                  {city}
+                </Heading>
+                <Text mt={3}>{description}</Text>
+              </Box>
+              <Flex ref={parentRef} mt={[4, 0, 0]} sx={{ alignItems: "center" }}>
+                {dateValueArray && (
+                  <svg
+                    viewBox={`0 0  `}
+                    xmlns="http://www.w3.org/2000/svg"
                     width={svgWrapperWidth}
                     height={svgWrapperHeight}
-                    data={dateValueArray}
-                  />
-                </svg>
-              )}
-            </Flex>
-          </Grid>
-        </Card>
+                    sx={{ overflow: "visible" }}
+                  >
+                    <LinePath
+                      width={svgWrapperWidth}
+                      height={svgWrapperHeight}
+                      data={dateValueArray}
+                    />
+                  </svg>
+                )}
+              </Flex>
+            </Grid>
+          </Card>
+        </a>
       </Link>
     </Box>
   );

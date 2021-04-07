@@ -3,7 +3,7 @@
 import React, { useEffect, useState, useCallback } from "react";
 import { useStoreState } from "../state/hooks";
 import { getDevices, getRecords, API_VERSION } from "../lib/requests";
-import { Link, useParams } from "react-router-dom";
+import Link from 'next/link'
 import {
   jsx,
   Grid,
@@ -257,19 +257,21 @@ export const Project: React.FC = () => {
         <Container mt={[0, 5, 5]} p={4}>
           <Grid gap={[4, null, 6]} columns={[1, "1fr 2fr"]}>
             <Box>
-              <Link to="/" sx={{ textDecoration: "none", color: "text" }}>
-                <IconButton
-                  aria-label="Zurück zur Übersicht"
-                  bg="background"
-                  sx={{
-                    borderRadius: "50%",
-                    "&:hover": {
-                      cursor: "pointer",
-                    },
-                  }}
-                >
-                  <ArrowBackIcon color="primary" />
-                </IconButton>
+              <Link href="/">
+                <a sx={{ textDecoration: "none", color: "text" }}>
+                  <IconButton
+                    aria-label="Zurück zur Übersicht"
+                    bg="background"
+                    sx={{
+                      borderRadius: "50%",
+                      "&:hover": {
+                        cursor: "pointer",
+                      },
+                    }}
+                  >
+                    <ArrowBackIcon color="primary" />
+                  </IconButton>
+                </a>
               </Link>
               <Box mt={2}>
                 {completeProjectData && (
