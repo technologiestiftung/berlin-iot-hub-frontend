@@ -9,7 +9,7 @@ import { MarkerCircle } from "./MarkerCircle";
 
 import "mapbox-gl/dist/mapbox-gl.css";
 
-const MAPBOX_TOKEN = process.env.REACT_APP_MAPBOX_TOKEN;
+const MAPBOX_TOKEN = process.env.NEXT_PUBLIC_MAPBOX_TOKEN;
 
 type ClickHandlerType = (markerId: number) => void;
 

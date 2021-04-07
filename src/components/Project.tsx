@@ -82,14 +82,14 @@ export const Project: React.FC = () => {
       const {
         data: { devices },
       } = await getDevices(
-        `${process.env.REACT_APP_API_URL}/api/${API_VERSION}/projects/${id}/devices`
+        `${process.env.NEXT_PUBLIC_API_URL}/api/${API_VERSION}/projects/${id}/devices`
       );
       Promise.all(
         devices.map(async (device: DeviceType) => {
           const {
             data: { records },
           } = await getRecords(
-            `${process.env.REACT_APP_API_URL}/api/${API_VERSION}/devices/${device.id}/records`
+            `${process.env.NEXT_PUBLIC_API_URL}/api/${API_VERSION}/devices/${device.id}/records`
           );
           return {
             ...device,

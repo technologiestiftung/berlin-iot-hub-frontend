@@ -30,7 +30,7 @@ export const ProjectPreview: React.FC<ProjectType> = ({
       const {
         data: { devices },
       } = await getDevices(
-        `${process.env.REACT_APP_API_URL}/api/${API_VERSION}/projects/${id}/devices`
+        `${process.env.NEXT_PUBLIC_API_URL}/api/${API_VERSION}/projects/${id}/devices`
       );
 
       if (devices.length < 1) return;
@@ -38,7 +38,7 @@ export const ProjectPreview: React.FC<ProjectType> = ({
       const {
         data: { records },
       } = await getRecords(
-        `${process.env.REACT_APP_API_URL}/api/${API_VERSION}/devices/${devices[0].id}/records`
+        `${process.env.NEXT_PUBLIC_API_URL}/api/${API_VERSION}/devices/${devices[0].id}/records`
       );
       return records;
     };

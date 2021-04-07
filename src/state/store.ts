@@ -17,7 +17,7 @@ const store = createStore<StoreModel>({
       const {
         data: { projects },
       } = await getProjects(
-        `${process.env.REACT_APP_API_URL}/api/${API_VERSION}/projects`
+        `${process.env.NEXT_PUBLIC_API_URL}/api/${API_VERSION}/projects`
       );
       actions.save(projects);
     }),
