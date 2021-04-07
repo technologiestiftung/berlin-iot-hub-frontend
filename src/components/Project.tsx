@@ -4,6 +4,7 @@ import React, { useEffect, useState, useCallback } from "react";
 import { useStoreState } from "../state/hooks";
 import { getDevices, getRecords, API_VERSION } from "../lib/requests";
 import Link from 'next/link'
+import { useRouter } from 'next/router'
 import {
   jsx,
   Grid,
@@ -43,7 +44,8 @@ interface RouteParams {
 }
 
 export const Project: React.FC = () => {
-  const { id } = useParams<RouteParams>();
+  const router = useRouter();
+  const id = router.query.id;
   const selectedProject: ProjectType = useStoreState((state) =>
     state.projects.selected(Number(id))
   );
