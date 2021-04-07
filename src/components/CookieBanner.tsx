@@ -5,8 +5,9 @@ import { jsx, Text, Link, Flex, Box } from "theme-ui";
 import CloseIcon from "@material-ui/icons/Close";
 
 export const CookieBanner: React.FC = () => {
+  const cookie = typeof window !== "undefined" &&  window.document.cookie;
   const [cookieStatus, setCookieStatus] = useState<boolean>(
-    document.cookie
+    cookie && cookie
       .split("; ")
       .find((row) => row.startsWith("disclaimerAccepted")) !== undefined
       ? true
