@@ -1,3 +1,7 @@
+# Note: This repositoty is archived and is no longer maintained.
+
+Original README below:
+
 # Berlin IoT Hub (Frontend)
 
 This repository contains the frontend of the Berlin IoT Hub of Technologiestiftung Berlin. It is built using [Create React App](https://github.com/facebook/create-react-app) (CRA), TypeScript, [visx](https://airbnb.io/visx/), and [a wrapper for Mapbox GL](https://visgl.github.io/react-map-gl/).
