@@ -1,4 +1,4 @@
-# Note: This repositoty is archived and is no longer maintained.
+# Note: This repository is archived and is no longer maintained.
 
 Original README below:
 
