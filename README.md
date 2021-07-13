@@ -52,7 +52,7 @@ New features, fixes, etc. should always be developed on a separate branch:
 
 ## Deployment
 
-The frontend is currently deployed to [netlify](https://www.netlify.com/). Pushing to the `main` branch will automatically trigger a new deploy (this should be avoided, if possible).
+~~The frontend is currently deployed to [netlify](https://www.netlify.com/). Pushing to the `main` branch will automatically trigger a new deploy (this should be avoided, if possible).~~
 
 ---
 
